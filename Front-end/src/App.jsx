@@ -4,6 +4,8 @@ import Layout from "./Layout/Layout";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import RservationDetails from "./Pages/RservationDetails";
+import ReservationList from "./Pages/ReservationList";
 function App() {
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -24,6 +26,11 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />{" "}
             <Route path="/signup" element={<Signup />} />
+            <Route
+              path="/rservationdetails/:id"
+              element={<RservationDetails />}
+            />
+            <Route path="/reservationlist" element={<ReservationList />} />
           </Routes>
         </Layout>
       </BrowserRouter>{" "}

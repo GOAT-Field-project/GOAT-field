@@ -1,0 +1,37 @@
+[
+    {
+        "image": "./Images/me.jpg",
+        "name": "Majd Foudeh",
+        "role": "Scrum master"
+    },
+    {
+        "image": "./Images/me.jpg",
+        "name": "Wesam Alegrreweh",
+        "role": "Product owner"
+    },
+    {
+        "image": "./Images/me.jpg",
+        "name": "Hamzeh Dawahreh",
+        "role": "QA"
+    },
+    {
+        "image": "./Images/me.jpg",
+        "name": "Mais Ghaith",
+        "role": "Team member"
+    },
+    {
+        "image": "./Images/me.jpg",
+        "name": "Mahmoud Hassan",
+        "role": "Team member"
+    },
+    {
+        "image": "./Images/me.jpg",
+        "name": "Mufeed Al nadi",
+        "role": "Team member"
+    },
+    {
+        "image": "./Images/me.jpg",
+        "name": "Amer Al sabeeh",
+        "role": "Team member"
+    }
+]

@@ -1,17 +1,19 @@
 const featuredCityData = [
   {
     id: 1,
-    img: "/hotel-booking-app/images/cities/indiagate.webp",
-    name: "New Delhi",
+
+    img: "https://images.pexels.com/photos/3886260/pexels-photo-3886260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "zarqa russifa, lora",
     countryImg: "/hotel-booking-app/images/flag.png",
-    desc: "Delhi is a city where ancient and modern blend seamlessly together. It is a place that not only 5touches your pulse but even fastens it to a frenetic speed. Home to millions of dreams, the capital of India",
+    desc: "Delhi is a city where ancient and modern blend seamlessly together. It is a place that not only touches your pulse but even fastens it to a frenetic speed. Home to millions of dreams, the capital of India",
     rating: 4,
     hotels: 1745,
   },
   {
     id: 2,
-    img: "/hotel-booking-app/images/cities/jaipur.jpg",
-    name: "Jaipur",
+
+    img: "https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "mondial",
     countryImg: "/hotel-booking-app/images/flag.png",
     desc: "Jaipur is known as much for its fascinating monuments and colorful markets as it is for its gorgeous handloom garments and wonderfully laid-out gardens. It is really not very difficult to fall in love with Jaipur the moment you land here",
     rating: 3,
@@ -19,8 +21,9 @@ const featuredCityData = [
   },
   {
     id: 3,
-    img: "/hotel-booking-app/images/cities/goa.jpg",
-    name: "Goa",
+
+    img: "https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "clasico",
     countryImg: "/hotel-booking-app/images/flag.png",
     desc: "Goa is one of the most visited destinations in India, which is extremely popular for its beaches, rave parties, nightlife, flea markets, Casinos, Lip smacking cuisines, Portuguese style houses and colonial churches",
     rating: 5,
@@ -28,7 +31,8 @@ const featuredCityData = [
   },
   {
     id: 4,
-    img: "/hotel-booking-app/images/cities/kashmir.jpg",
+
+    img: "https://images.pexels.com/photos/2652287/pexels-photo-2652287.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     name: "Kashmir",
     countryImg: "/hotel-booking-app/images/flag.png",
     desc: "Kashmir Valley is one of the top tourist destinations of India. Gulmarg, one of the most popular ski resort destinations in India, is also home to the world's highest green golf course",
@@ -37,7 +41,8 @@ const featuredCityData = [
   },
   {
     id: 5,
-    img: "/hotel-booking-app/images/cities/mumbai1.jpg",
+
+    img: "https://images.pexels.com/photos/1378425/pexels-photo-1378425.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     name: "Mumbai",
     countryImg: "/hotel-booking-app/images/flag.png",
     desc: "Mumbai, previously known as Bombay is one of the most populous and biggest cities of Maharashtra.Also the biggest metropolis of this state, Mumbai is also popular as the entertainment and financial capital",
@@ -46,7 +51,8 @@ const featuredCityData = [
   },
   {
     id: 6,
-    img: "/hotel-booking-app/images/cities/ladakh.jpg",
+
+    img: "https://images.pexels.com/photos/15818644/pexels-photo-15818644/free-photo-of-men-playing-football-indoors.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     name: "Leh Ladakh",
     countryImg: "/hotel-booking-app/images/flag.png",
     desc: "Ladakh is majorly popular amongst the adventurers who feel welcomed by the number of adrenaline rushing activities offered here. The union territory is amongst the top trekking destinations in India",
@@ -250,6 +256,7 @@ const hotelListData = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
+    
     ],
     name: "Hotel Taj Palace New Delhi",
     place: "New Delhi",
@@ -257,6 +264,7 @@ const hotelListData = [
     distance: 6.7,
     address: "Sardar Patel Marg, Chanakyapuri, 110021 New Delhi - India",
     offer: " Free Pack of Water Bottles",
+
     roomDetails: "Luxury Room with Bath Tub",
     bedDetails: "1 king size single bed",
     roomLeft: 5,
@@ -266,6 +274,7 @@ const hotelListData = [
     adult: 2,
     children: 1,
     price: "25",
+
     otherCharges: "3,240",
   },
   {
@@ -279,6 +288,7 @@ const hotelListData = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
+
     ],
     name: "Hotel Hyatt Centric Janakpuri New Delhi",
     place: "New Delhi",
@@ -286,6 +296,7 @@ const hotelListData = [
     distance: 12,
     address: "Janakpuri District Center, Janakpuri, 110058 New Delhi - India",
     offer: "Free Uniform",
+
     roomDetails: "King Room with Bath Tub",
     bedDetails: "1 extra-large double bed",
     roomLeft: 3,
@@ -295,6 +306,7 @@ const hotelListData = [
     adult: 2,
     children: 0,
     price: "30",
+
     otherCharges: "714",
   },
   {
@@ -308,6 +320,7 @@ const hotelListData = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
+
     ],
     name: "Lemon Tree Premier - Delhi Airport",
     place: "New Delhi",
@@ -315,6 +328,7 @@ const hotelListData = [
     distance: 13.6,
     address: "Aerocity Hospitality, IGI Airport, 110037 New Delhi - India",
     offer: " Free Pack of Water Bottles",
+
     roomDetails: "Superior Queen Room",
     bedDetails: "1 double bed",
     roomLeft: 2,
@@ -324,6 +338,7 @@ const hotelListData = [
     adult: 2,
     children: 1,
     price: "20",
+
     otherCharges: "3,972",
   },
   {
@@ -337,13 +352,16 @@ const hotelListData = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
+
     ],
     name: "Hotel City Star Paharganj New Delhi",
     place: "New Delhi",
     location: { lat: 28.6448, lng: 77.2151 },
     distance: 1.3,
     address: "8718 D.B.Gupta Road, Paharganj, 110055 New Delhi - India",
+ 
     offer: " Free Pack of Water Bottles",
+
     roomDetails: "Deluxe Double Room",
     bedDetails: "1 large double bed",
     roomLeft: 3,
@@ -353,6 +371,7 @@ const hotelListData = [
     adult: 2,
     children: 0,
     price: "20",
+
     otherCharges: "585",
   },
   {
@@ -366,6 +385,7 @@ const hotelListData = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
+
     ],
     name: "Radisson Blu Marina New Delhi",
     place: "New Delhi",
@@ -373,6 +393,7 @@ const hotelListData = [
     distance: 0.5,
     address: "G-59, Connaught Place, 110001 New Delhi - India",
     offer: "Free Uniform",
+
     roomDetails: "Superior Double Room",
     bedDetails: "1 large double bed",
     roomLeft: 5,
@@ -382,6 +403,7 @@ const hotelListData = [
     adult: 2,
     children: 0,
     price: "25",
+
     otherCharges: "2,255",
   },
   {
@@ -395,6 +417,7 @@ const hotelListData = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
+
     ],
     name: "Hotel Tripple Tree - Karol Bagh",
     place: "New Delhi",
@@ -402,6 +425,7 @@ const hotelListData = [
     distance: 4,
     address: "7A/73 WEA Channa Market Karol Bagh, 110005 New Delhi - India",
     offer: "Free Uniform",
+
     roomDetails: "Deluxe Double Room",
     bedDetails: "1 large double bed",
     roomLeft: 3,

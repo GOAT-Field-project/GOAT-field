@@ -5,6 +5,8 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import AboutUs from "./Pages/AboutUs";
+import ContactUs from "./Pages/ContactUs";
+import Footer from "./Layout/Footer";
 function App() {
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -27,6 +29,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
 
           </Routes>
         </Layout>

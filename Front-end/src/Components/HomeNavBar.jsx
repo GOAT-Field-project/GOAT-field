@@ -745,9 +745,9 @@ const HomeNavbar = () => {
 
                         <BtnContainer>
                             <HelpOutlineOutlined className="help-icon" />
-                            <Link to="/register">
+                            {/* <Link to="/register">
                                 <Button className="bigBtn">List Your Property</Button>
-                            </Link>
+                            </Link> */}
                             <Link to="/register">
                                 <Button>Register</Button>
                             </Link>
@@ -775,18 +775,17 @@ const HomeNavbar = () => {
 
                     <SecondNavContainer openMenu={openMenu}>
                         <ul>
-                            <Link to="/hotels" className="link">
+                            <Link to="/" className="link">
                                 <li className="active">
-                                    <BedOutlined className="li-icon" />
-                                    Stays
+                                    Home
                                 </li>
                             </Link>
-                            <Link to="/hotels" className="link">
+                            {/* <Link to="/hotels" className="link">
                                 <li>
                                     <ConnectingAirportsOutlined className="li-icon" />
                                     Flights
                                 </li>
-                            </Link>
+                            </Link> */}
                             <Link to="/hotels" className="link">
                                 <li>
                                     <HotelOutlined className="li-icon" />
@@ -878,7 +877,7 @@ const HomeNavbar = () => {
                         <h2> Available until next month 2023</h2>
                         <h1>Save your money <br /> WITH 🐐 FIELD</h1>
                         <Link to="/hotels">
-                            <OfferButton>Explore Offers</OfferButton>
+                            <OfferButton>Explore Reservation</OfferButton>
                         </Link>
                     </OfferContainer>
                 </Wrapper>

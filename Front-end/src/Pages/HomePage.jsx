@@ -32,12 +32,14 @@ const Container = styled.div`
 const Home = () => {
   return (
     <>
+    <div className="bg-white">
       <HomeNavbar />
-      <Container>
+      <Container >
         <Offers />
         <FeaturedCities />
         <CitySlider />
       </Container>
+      </div>
     </>
   );
 };

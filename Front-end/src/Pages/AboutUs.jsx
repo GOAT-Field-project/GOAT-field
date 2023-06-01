@@ -56,8 +56,7 @@ const AboutUs = () => {
             </section >
 
 
-
-            < div className='bg-[#d6dce2]  '>
+            <div className='bg-[#d6dce2]  '>
 
                 <hr className="border-black" />
                 {/* Container for demo purpose */}

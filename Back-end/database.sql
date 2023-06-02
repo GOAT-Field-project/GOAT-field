@@ -11,11 +11,11 @@ CREATE TABLE users (
 
 CREATE TABLE pitch (
   id SERIAL PRIMARY KEY,
-  image_data bytea[],
   name VARCHAR(255),
-  price INT,
+  price NUMERIC,
   size VARCHAR(100),
   details TEXT,
+  images BYTEA[],
   description TEXT,
   location TEXT
 );
@@ -29,3 +29,4 @@ CREATE TABLE payment_info (
     security_code VARCHAR(3) NOT NULL,
     name_on_card VARCHAR(255) NOT NULL
 );
+

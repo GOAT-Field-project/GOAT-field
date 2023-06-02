@@ -1,5 +1,5 @@
+
 import  { useState , useEffect } from 'react';
-import axios from 'axios';
 
 export default function Profileadd() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -14,11 +14,10 @@ export default function Profileadd() {
     setSelectedFiles(Array.from(event.target.files));
   };
 
-
   // Form submit handler
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     // Create FormData object
     const formData = new FormData();
     selectedFiles.forEach((file, index) => {
@@ -28,10 +27,13 @@ export default function Profileadd() {
     formData.append('price', price);
     formData.append('size', size);
     formData.append('details', details);
-  
+
     // Send the form data to the server
-    axios.post('http://localhost:5151/senddata', formData)
-      .then((response) => response.data)
+    fetch('http://localhost:5151/senddata', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
       .then((data) => {
         console.log('Data sent:', data);
         // Do something with the response data
@@ -40,11 +42,14 @@ export default function Profileadd() {
         console.error('Error sending data:', error);
       });
   };
-  
+
+
   const handleDeletePitch = (pitchId) => {
-    axios.delete(`http://localhost:5151/deletepitch/${pitchId}`)
+    fetch(`http://localhost:5151/deletepitch/${pitchId}`, {
+      method: 'DELETE',
+    })
       .then((response) => {
-        if (response.status === 204) {
+        if (response.ok) {
           console.log('Pitch deleted');
           // Perform any additional actions after successful deletion
         } else {
@@ -56,23 +61,23 @@ export default function Profileadd() {
         // Handle the error case
       });
   };
-  
-  useEffect(() => {
-    // Fetch the data from the server
-    axios.get('http://localhost:5151/getdata')
-      .then((response) => response.data)
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setPitches(data);
-        } else {
-          console.error('Invalid data format:', data);
-        }
-      })
-      .catch((error) => {
-        console.error('Error retrieving data:', error);
-      });
-  }, [pitches]);
-  
+
+useEffect(() => {
+  // Fetch the data from the server
+  fetch('http://localhost:5151/getdata')
+    .then((response) => response.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        setPitches(data);
+      } else {
+        console.error('Invalid data format:', data);
+      }
+    })
+    .catch((error) => {
+      console.error('Error retrieving data:', error);
+    });
+}, [pitches]);
+
   return (
     <>
       <section className="max-w-md p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 mt-20">
@@ -137,6 +142,7 @@ export default function Profileadd() {
                 <option value="5-a-side">5-a-side</option>
               </select>
             </div>
+          
 
             <div>
               <label className="text-black dark:text-gray-200" htmlFor="textarea">
@@ -293,3 +299,25 @@ export default function Profileadd() {
     </>
   );
 }
+
+
+
+// <div>
+// <label className="text-black dark:text-gray-200" htmlFor="fieldType">
+//   City:
+// </label>
+// <select
+//   id="fieldType"
+//   className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+//   value={size}
+//   onChange={(event) => setSize(event.target.value)}
+// >
+//   <option value="Amman">Amman</option>
+//   <option value="Zarqa">Zarqa </option>
+//   <option value="Ajloun">Ajloun</option>
+//   <option value="Aqaba">Aqaba</option>
+//   <option value="Jerash">Jerash</option>
+//   <option value="Madaba">Madaba</option>
+//   <option value="Irbid">Irbid</option>
+// </select>
+// </div>

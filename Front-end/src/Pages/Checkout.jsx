@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
 
 const Checkout = () => {
   const [cardNumber, setCardNumber] = useState('');
@@ -57,31 +55,15 @@ const Checkout = () => {
     try {
       const response = await axios.post('http://localhost:5151/pay', payInfo);
       console.log('Payment successful', response.data);
-      Swal.fire({
-        icon: 'success',
-        title: 'Payment successful',
-        showConfirmButton: false,
-        timer: 1500
-      });
-      setCardNumber('');
-      setExpirationDate('');
-      setSecurityCode('');
-      setNameOnCard('');
-      setEmail('');
-
-      window.location = "/";
-
     } catch (error) {
       console.error('Payment failed', error);
     }
   };
 
-
-
   return (
     <div className="relative mx-auto w-full bg-white">
       <div className="grid min-h-screen grid-cols-10">
-        <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24">
+        <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">
             <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
               Secure Checkout
@@ -172,36 +154,80 @@ const Checkout = () => {
                   required
                 />
               </div>
-              <button
-                type="submit"
-                className="mt-6 px-4 py-2 rounded bg-[#54B435] text-white font-medium hover:bg-[#419331] transition"
-              >
-                Pay Now
+              <button type="submit" className="relative px-5 py-2 font-medium text-white group w-full mt-20">
+                <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-green-500 group-hover:bg-green-700 group-hover:skew-x-12"></span>
+                <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
+                <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-green-600 -rotate-12"></span>
+                <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-green-400 -rotate-12"></span>
+                <span className="relative">Pay Now</span>
               </button>
             </form>
           </div>
         </div>
-        <div className="col-span-full bg-[#54B435] py-12 px-4 sm:py-24 sm:px-12 lg:col-span-4">
-          <div className="flex flex-col justify-between h-full">
-            <div className="mb-6">
-              <h2 className="text-2xl font-semibold text-white">Order Summary</h2>
-              <div className="mt-4 bg-white rounded-md p-4">
-                {/* Order summary content */}
-              </div>
-            </div>
-            <div className="text-center">
-              <p className="text-sm text-white">
-                By clicking the "Pay Now" button, you agree to our{' '}
-                <a href="#" className="underline">
-                  Terms of Service
-                </a>{' '}
-                and{' '}
-                <a href="#" className="underline">
-                  Privacy Policy
-                </a>
-                .
+        <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
+          <h2 className="sr-only">Order summary</h2>
+          <div>
+            <img
+              src="https://media.discordapp.net/attachments/1084354501642813450/1114238674373185587/payment.png?width=1193&height=671"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+          <div className="relative">
+            <ul className="space-y-5">
+              <li className="flex justify-between">
+                <div className="inline-flex">
+                  <img
+                    src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                    alt=""
+                    className="max-h-16"
+                  />
+                  <div className="ml-3">
+                    <p className="text-base font-semibold text-white">
+                      Nano Titanium Hair Dryer
+                    </p>
+                    <p className="text-sm font-medium text-white text-opacity-80">
+                      Pdf, doc Kindle
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm font-semibold text-white">$260.00</p>
+              </li>
+
+            </ul>
+            <div className="my-5 h-0.5 w-full bg-white bg-opacity-30" />
+            <div className="space-y-2">
+              <p className="flex justify-between text-lg font-bold text-white">
+                <span>Total price:</span>
+                <span>$510.00</span>
+              </p>
+              <p className="flex justify-between text-sm font-medium text-white">
+                <span>Vat: 10%</span>
+                <span>$55.00</span>
               </p>
             </div>
+          </div>
+          <div className="relative mt-10 text-white">
+            <h3 className="mb-5 text-lg font-bold">Support</h3>
+            <p className="text-sm font-semibold">
+              +01 653 235 211 <span className="font-light">(International)</span>
+            </p>
+            <p className="mt-1 text-sm font-semibold">
+              support@nanohair.com <span className="font-light">(Email)</span>
+            </p>
+            <p className="mt-2 text-xs font-medium">
+              Call us now for payment related issues
+            </p>
+          </div>
+          <div className="relative mt-10 flex">
+            <p className="flex flex-col">
+              <span className="text-sm font-bold text-white">
+                Money Back Guarantee
+              </span>
+              <span className="text-xs font-medium text-white">
+                within 30 days of purchase
+              </span>
+            </p>
           </div>
         </div>
       </div>

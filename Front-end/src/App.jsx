@@ -10,7 +10,7 @@ import ReservationList from "./Pages/ReservationList";
 
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
-import Footer from "./Layout/Footer";
+// import Footer from "./Layout/Footer";
 function App() {
   const ScrollToTop = () => {
     const { pathname } = useLocation();

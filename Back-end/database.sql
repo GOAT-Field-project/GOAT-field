@@ -9,4 +9,15 @@ CREATE TABLE users (
   role VARCHAR(255) 
 );
 
+CREATE TABLE pitch (
+  id SERIAL PRIMARY KEY,
+  image_data bytea[],
+  name VARCHAR(255),
+  price INT,
+  size VARCHAR(100),
+  details TEXT,
+  description TEXT,
+  location TEXT
+);
+
 

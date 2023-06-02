@@ -35,7 +35,7 @@ export default function Signup() {
 
     try {
       // Send the form data to the server
-      const response = await axios.post('http://localhost:3000/authentication/register', formData);
+      const response = await axios.post('http://localhost:5151/authentication/register', formData);
       const { token } = response.data;
 
       // Save the token to local storage

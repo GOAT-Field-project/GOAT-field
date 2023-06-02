@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
+
 const multer = require('multer');
+const bodyParser = require('body-parser');
+
 
 // Multer configuration
 const storage = multer.memoryStorage();
@@ -8,12 +11,21 @@ const upload = multer({ storage: storage });
 
 // Middleware
 
+
+// Middleware
+
 const port = 5151;
 const pool = require('./db');
 
-app.use(express.json());
+app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
+pool.connect().then(() => {
+  app.listen(port, () => {
+    console.log('Server working on port ' + port);
+  });
+});
+
 
 app.post('/pay', async (req, res) => {
   try {
@@ -111,7 +123,6 @@ app.post('/bookings', (req, res) => {
   );
 });
 
-
 app.post('/senddata', upload.array('images', 3), (req, res) => {
   const files = req.files;
   const { name, price, size, details } = req.body;
@@ -138,8 +149,9 @@ app.post('/senddata', upload.array('images', 3), (req, res) => {
     });
 });
 
+
 app.get('/getdata', (req, res) => {
-  const query = 'SELECT * FROM pitch;';
+  const query = 'SELECT * FROM pitch ;';
 
   pool.query(query)
     .then((result) => {
@@ -158,7 +170,7 @@ app.get('/getdata', (req, res) => {
 
 app.delete('/deletepitch/:id', (req, res) => {
   const pitchId = req.params.id;
-  const query = 'DELETE FROM pitch WHERE id = $1;';
+  const query = 'DELETE FROM pitch  WHERE id = $1;';
 
   pool.query(query, [pitchId])
     .then(() => {
@@ -170,9 +182,4 @@ app.delete('/deletepitch/:id', (req, res) => {
       const errorMessage = 'Error deleting pitch';
       res.status(500).json({ error: errorMessage });
     });
-});
-
-
-app.listen(port, () => {
-  console.log('Server has been started on port', port);
 });

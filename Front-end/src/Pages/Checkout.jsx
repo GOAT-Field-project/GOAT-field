@@ -55,7 +55,7 @@ const Checkout = () => {
       email: email,
     };
     try {
-      const response = await axios.post('http://localhost:3000/pay', payInfo);
+      const response = await axios.post('http://localhost:5151/pay', payInfo);
       console.log('Payment successful', response.data);
       Swal.fire({
         icon: 'success',

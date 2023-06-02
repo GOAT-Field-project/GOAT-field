@@ -11,13 +11,13 @@ CREATE TABLE users (
 
 CREATE TABLE pitch (
   id SERIAL PRIMARY KEY,
-  image_data bytea[],
   name VARCHAR(255),
-  price INT,
+  price NUMERIC,
   size VARCHAR(100),
   details TEXT,
+  images BYTEA[],
   description TEXT,
   location TEXT
 );
-
+  
 

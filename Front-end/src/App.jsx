@@ -10,6 +10,7 @@ import ReservationList from "./Pages/ReservationList";
 
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
+
 import Footer from "./Layout/Footer";
 import Checkout from "./Pages/Checkout";
 function App() {

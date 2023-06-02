@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Sidebar from "../Components/Rservation/Sidebar";
 import Map from "../Components/Rservation/Map";
-import HotelDetails from "../Components/Rservation/PitchDetails";
+import PitchDetails from "../Components/Rservation/PitchDetails";
 import HotelFeature from "../Components/Rservation/PitchFeatures";
 const Container = styled.div`
   /* border: 3px solid red; */
@@ -69,16 +69,14 @@ const Hotel = () => {
     <Container>
       <MainContainer>
         <Wrapper>
-          <SideContainer>
-            <div id="sticky-container">
-              <div id="hide-search-box">
-                <Sidebar />
-              </div>
-              {/* <Map /> */}
-            </div>
-          </SideContainer>
+          {/* <SideContainer> */}
+          {/* <div id="sticky-container"> */}
+          {/* <div id="hide-search-box">{ <Sidebar /> }</div> */}
+          {/* <Map /> */}
+          {/* </div> */}
+          {/* </SideContainer> */}
           <HotelContainer>
-            <HotelDetails />
+            <PitchDetails />
           </HotelContainer>
         </Wrapper>
         <HotelFeature />

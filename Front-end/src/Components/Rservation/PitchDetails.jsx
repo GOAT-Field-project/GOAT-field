@@ -369,7 +369,7 @@ const HotelDetails = () => {
       <DetailsContainer>
         <BoxBtnContainer>
           <BoxesContainer>
-            <Box1>Hotel</Box1>
+            <Box1>Pitch</Box1>
             <Box2>
               {(hotelRating === 1 && <Star className="star-icon" />) ||
                 (hotelRating === 2 && (

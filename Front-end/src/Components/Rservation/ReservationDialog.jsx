@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -6,9 +6,103 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import DatePicker from "react-datepicker";
+import axios from "axios";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function ReservationDialog() {
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [formData, setFormData] = useState({
+    date: null,
+    time: "",
+    name: "",
+    phone: "",
+  });
   const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    if (formData.date) {
+      // Fetch available times for the selected date from the backend
+      fetchAvailableTimes(formData.date);
+    }
+  }, [formData.date]);
+
+  const fetchAvailableTimes = (selectedDate) => {
+    axios
+      .get(`http://localhost:3000/getbookings/${selectedDate}`)
+      .then((response) => {
+        const allBookings = response.data;
+
+        const allTimes = ["12-14", "14-16", "16-18", "18-20", "20-22", "22-24"];
+
+        const filteredTimes = allTimes.filter(
+          (time) => !allBookings.some((obj) => obj.time === time)
+        );
+        console.log(filteredTimes);
+
+        setAvailableTimes(filteredTimes);
+      })
+      .catch((error) => {
+        console.log("Error fetching available times:", error);
+      });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("http://localhost:3000/bookings", formData);
+      console.log("Form data submitted successfully!");
+      handleClose();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.error("Error submitting form data:", error.response.data);
+        setErrorMessage("The selected date and time are already booked.");
+      } else {
+        console.error("Error submitting form data:", error);
+      }
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrorMessage("");
+  };
+
+  const handleDateChange = (date) => {
+    setFormData({ ...formData, date: date });
+    setErrorMessage("");
+    fetchAvailableTimes(date);
+  };
+
+  const renderTimeSlots = () => {
+    return (
+      <select
+        name="time"
+        value={formData.time}
+        onChange={handleChange}
+        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+      >
+        {availableTimes.map((timeSlot) => {
+          const isReserved = !availableTimes.includes(timeSlot);
+          const readOnly = isReserved && formData.time !== timeSlot;
+
+          return (
+            <option
+              key={timeSlot}
+              value={timeSlot}
+              disabled={readOnly}
+              className={readOnly ? "text-gray-400" : ""}
+            >
+              {timeSlot}
+            </option>
+          );
+        })}
+      </select>
+    );
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,113 +120,77 @@ export default function ReservationDialog() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Book now</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
+          <DialogContentText className="text-3xl text-center mb-6">
+            Football Pitch Reservation
           </DialogContentText>
-          <div class="flex items-center justify-center p-12">
-            <div class="mx-auto w-full max-w-[550px]">
-              <form action="https://formbold.com/s/FORM_ID" method="POST">
-                <div class="-mx-3 flex flex-wrap">
-                  <div class="w-full px-3 sm:w-1/2"></div>
-                  <div class="w-full px-3 sm:w-1/2"></div>
-                </div>
-                <div class="mb-5">
-                  <label
-                    for="guest"
-                    class="mb-3 block text-base font-medium text-[#07074D]"
-                  >
-                    How many players are you bringing?
-                  </label>
-                  <input
-                    type="number"
-                    name="guest"
-                    id="guest"
-                    placeholder="5"
-                    min="0"
-                    class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  />
-                </div>
-
-                <div class="-mx-3 flex flex-wrap">
-                  <div class="w-full px-3 sm:w-1/2">
-                    <div class="mb-5">
-                      <label
-                        for="date"
-                        class="mb-3 block text-base font-medium text-[#07074D]"
-                      >
-                        Date
-                      </label>
-                      <input
-                        type="date"
-                        name="date"
-                        id="date"
-                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      />
-                    </div>
-                  </div>
-                  <div class="w-full px-3 sm:w-1/2">
-                    <div class="mb-5">
-                      <label
-                        for="time"
-                        class="mb-3 block text-base font-medium text-[#07074D]"
-                      >
-                        Time
-                      </label>
-                      <input
-                        type="time"
-                        name="time"
-                        id="time"
-                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-5">
-                  <label class="mb-3 block text-base font-medium text-[#07074D]">
-                    Are you coming to the event?
-                  </label>
-                  <div class="flex items-center space-x-6">
-                    <div class="flex items-center">
-                      <input
-                        type="radio"
-                        name="radio1"
-                        id="radioButton1"
-                        class="h-5 w-5"
-                      />
-                      <label
-                        for="radioButton1"
-                        class="pl-3 text-base font-medium text-[#07074D]"
-                      >
-                        Yes
-                      </label>
-                    </div>
-                    <div class="flex items-center">
-                      <input
-                        type="radio"
-                        name="radio1"
-                        id="radioButton2"
-                        class="h-5 w-5"
-                      />
-                      <label
-                        for="radioButton2"
-                        class="pl-3 text-base font-medium text-[#07074D]"
-                      >
-                        No
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <button class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
-                    Submit
-                  </button>
-                </div>
-              </form>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block mb-2 font-bold" htmlFor="date">
+                Date:
+              </label>
+              <DatePicker
+                selected={formData.date}
+                onChange={handleDateChange}
+                dateFormat="dd-MM-yyyy"
+                placeholderText="Select date"
+                required
+              />
             </div>
-          </div>
+            <div className="mb-4">
+              <label className="block mb-2 font-bold" htmlFor="time">
+                Time:
+              </label>
+              {renderTimeSlots()}
+            </div>
+            <div className="mb-4">
+              <label className="block mb-2 font-bold" htmlFor="name">
+                Name:
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                type="text"
+                id="name"
+                name="name"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-2 font-bold" htmlFor="phone">
+                Phone:
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                className="mr-2 leading-tight"
+                type="checkbox"
+                id="terms"
+                name="terms"
+                required
+              />
+              <label className="text-sm" htmlFor="terms">
+                I agree to the terms and conditions
+              </label>
+            </div>
+            <div>
+              <input
+                className="px-4 py-2 bg-green-500 text-white rounded-md cursor-pointer"
+                type="submit"
+                value="Book Now"
+              />
+            </div>
+            {errorMessage && (
+              <small className="mt-2 text-red-600">{errorMessage}</small>
+            )}
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
@@ -141,3 +199,17 @@ export default function ReservationDialog() {
     </div>
   );
 }
+
+// {
+//   "data": [
+//     {
+//       "id": 110,
+//       "details": {
+//         "date": "2023-05-28T21:00:00.000Z",
+//         "time": "14-16"
+//       },
+//       "name": "hamza dawahreh",
+//       "phone": "0787137598"
+//     }
+//   ]
+// }

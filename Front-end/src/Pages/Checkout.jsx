@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const Checkout = () => {
   const [cardNumber, setCardNumber] = useState('');
@@ -55,10 +57,26 @@ const Checkout = () => {
     try {
       const response = await axios.post('http://localhost:5151/pay', payInfo);
       console.log('Payment successful', response.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Payment successful',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setCardNumber('');
+      setExpirationDate('');
+      setSecurityCode('');
+      setNameOnCard('');
+      setEmail('');
+
+      window.location = "/";
+
     } catch (error) {
       console.error('Payment failed', error);
     }
   };
+
+
 
   return (
     <div className="relative mx-auto w-full bg-white">

@@ -56,7 +56,6 @@ export default function ReservationDialog() {
     navigate(`/checkout/${formDataParam}`);
   };
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -76,7 +75,11 @@ export default function ReservationDialog() {
         value={formData.time}
         onChange={handleChange}
         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+        required
       >
+        <option value="" selected>
+          Please Select Time
+        </option>
         {availableTimes.map((timeSlot) => {
           const isReserved = !availableTimes.includes(timeSlot);
           const readOnly = isReserved && formData.time !== timeSlot;

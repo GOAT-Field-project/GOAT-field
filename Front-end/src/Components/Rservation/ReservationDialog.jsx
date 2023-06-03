@@ -100,7 +100,8 @@ export default function ReservationDialog() {
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    const token = localStorage.getItem("token");
+    !token ? navigate("/login/") : setOpen(true);
   };
 
   const handleClose = () => {

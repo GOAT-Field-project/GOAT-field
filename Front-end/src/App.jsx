@@ -4,7 +4,7 @@ import Layout from "./Layout/Layout";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-
+import RequiredAuth from "./customHooks/RequiredAuth";
 import RservationDetails from "./Pages/RservationDetails";
 import ReservationList from "./Pages/ReservationList";
 
@@ -44,7 +44,9 @@ function App() {
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/Checkout/:formData" element={<Checkout />} />
-            <Route path="/providerprofile" element={<Providerprofile />} />
+            <Route element={<RequiredAuth />}>
+              <Route path="/providerprofile" element={<Providerprofile />} />
+            </Route>
           </Routes>
         </Layout>
       </BrowserRouter>{" "}

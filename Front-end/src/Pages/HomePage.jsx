@@ -15,6 +15,7 @@ import Offers from "../components/Offers";
 import FeaturedCities from "../components/FeaturedCities";
 import HomeNavbar from "../Components/HomeNavBar";
 import CitySlider from "../Components/CitySlider";
+import Navbar from "../Layout/Navbar";
 
 const Container = styled.div`
   /* border: 1px solid blue; */

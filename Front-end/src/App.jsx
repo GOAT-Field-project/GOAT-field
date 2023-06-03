@@ -14,6 +14,7 @@ import ContactUs from "./Pages/ContactUs";
 import Footer from "./Layout/Footer";
 import Checkout from "./Pages/Checkout";
 import Providerprofile from "./Pages/Providerprofile";
+import Navbar from "./Layout/Navbar";
 function App() {
   const ScrollToTop = () => {
     const { pathname } = useLocation();

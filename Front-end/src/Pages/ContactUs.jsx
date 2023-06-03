@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 // import emailjs from '@emailjs/browser';
 import emailjs from 'emailjs-com';
+import Navbar from '../Layout/Navbar';
 
 const ContactUs = () => {
     const form = useRef();
@@ -17,6 +18,7 @@ const ContactUs = () => {
     };
     return (
         <>
+        <Navbar/>
             <section className="">
 
                 {/* Jumbotron */}

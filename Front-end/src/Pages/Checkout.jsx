@@ -1,3 +1,7 @@
+
+
+import Navbar from '../Layout/Navbar';
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -109,6 +113,7 @@ const Checkout = () => {
 
   return (
     <div className="relative mx-auto w-full bg-white">
+      <Navbar/>
       <div className="grid min-h-screen grid-cols-10">
         <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">

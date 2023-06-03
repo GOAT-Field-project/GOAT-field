@@ -90,19 +90,14 @@ const Checkout = () => {
       };
       console.log("Config:", config);
 
-      await axios.post(
-        "http://localhost:5151/bookings",
-        parsedFormData,
-        config
-      );
+      await axios.post("http://localhost:5151/bookings", formData, config);
       console.log("Form data submitted successfully!");
-      handleClose();
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("Error submitting form data:", error.response.data);
         setErrorMessage("The selected date and time are already booked.");
       } else {
-        console.log("Error submitting form data:", error);
+        console.error("Error submitting form data:", error);
       }
     }
   };

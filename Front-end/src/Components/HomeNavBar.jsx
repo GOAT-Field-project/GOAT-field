@@ -26,6 +26,8 @@ import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+
+
 const Container = styled.div`
   /* border: 3px solid green; */
   margin-bottom: 80px;
@@ -128,6 +130,7 @@ const BtnContainer = styled.div`
     margin-right: 20px;
     cursor: pointer;
   }
+
 `;
 
 const Button = styled.button`
@@ -663,6 +666,7 @@ const Quantity = styled.span`
   }
 `;
 
+
 const SearchBtnContainer = styled(LocationContainer)`
   border-left: none;
   display: flex;
@@ -698,33 +702,33 @@ const SearchBtnContainer = styled(LocationContainer)`
 
 const HomeNavbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
-  const [openOptions, setOpenOptions] = useState(false);
-  const [options, setOptions] = useState({
-    adult: 2,
-    children: 1,
-    room: 1,
-  });
 
-  const handleCount = (name, operation) => {
-    // console.log(options["room"], name, options[name]); // Accessing room key's value by Square Bracket method from "options" Object. We are using options[name] because here name variable is String that is "room". We can't use it like options.name bcoz it means options."room" which is undefined.
+  const [stadiumName, setStadiumName] = useState(
+    sessionStorage.getItem("stadiumName") || ""
+  );
+  const [city, setCity] = useState(sessionStorage.getItem("city") || "");
 
-    setOptions((prev) => {
-      return {
-        ...prev,
-        [name]: operation === "inc" ? options[name] + 1 : options[name] - 1,
-      };
-    });
+  const handleStadiumNameChange = (event) => {
+    const value = event.target.value;
+    sessionStorage.setItem("stadiumName", value);
+    setStadiumName(value);
   };
   const token = localStorage.getItem("token");
   console.log(token);
+
+  const handleCityChange = (event) => {
+    const value = event.target.value;
+    sessionStorage.setItem("city", value);
+    setCity(value);
+  };
+
+  const handleSearch = () => {
+    const storedStadiumName = sessionStorage.getItem("stadiumName");
+    const storedCity = sessionStorage.getItem("city");
+    console.log("Stadium Name:", storedStadiumName);
+    console.log("City:", storedCity);
+  };
+
 
   return (
     <Container>
@@ -795,12 +799,7 @@ const HomeNavbar = () => {
                                     Flights
                                 </li>
                             </Link> */}
-              <Link to="/hotels" className="link">
-                <li>
-                  <HotelOutlined className="li-icon" />
-                  Hotels
-                </li>
-              </Link>
+
               <Link to="/reservationlist" className="link">
                 <li>
                   <DirectionsCarOutlined className="li-icon" />
@@ -899,109 +898,28 @@ const HomeNavbar = () => {
             <input
               type="text"
               name="place"
-              placeholder="Where are you going ?"
+              placeholder="Stadium name"
+              value={stadiumName}
+              onChange={handleStadiumNameChange}
             />
           </LocationContainer>
-          <DateContainer onClick={() => setOpenOptions(false)}>
-            <CalendarMonthOutlined className="search-icon" />
-            <span
-              className="calendar-span"
-              onClick={() => setOpenDate(!openDate)}
-            >
-              {`${format(date[0].startDate, "dd/MM/yyyy")}   to   ${format(
-                date[0].endDate,
-                "dd/MM/yyyy"
-              )}`}
-            </span>
-            {openDate && (
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => setDate([item.selection])}
-                moveRangeOnFirstSelection={false}
-                ranges={date}
-                className="date-range"
-              />
-            )}
-          </DateContainer>
-          {/* <PersonContainer onClick={() => setOpenDate(false)}>
-              <PersonOutlineOutlined className="search-icon" />
-  
-              <span
-                className="person-span"
-                onClick={() => setOpenOptions(!openOptions)}
-              >
-                {`${options.adult} ${options.adult <= 1 ? "Adult" : "Adults"} - ${options.children
-                  } ${options.children <= 1 ? "Child" : "Children"} - ${options.room
-                  } ${options.room <= 1 ? "Room" : "Rooms"}`}
-              </span>
-              {openOptions && (
-                <PersonQuantityContainer>
-                  <QuantityItem>
-                    <span>Adult</span>
-                    <QuantityBtnContainer>
-                      <CounterBtn
-                        type="button"
-                        disabled={options.adult <= 1}
-                        onClick={() => handleCount("adult", "dec")}
-                      >
-                        -
-                      </CounterBtn>
-                      <Quantity>{options.adult}</Quantity>
-                      <CounterBtn
-                        type="button"
-                        onClick={() => handleCount("adult", "inc")}
-                      >
-                        +
-                      </CounterBtn>
-                    </QuantityBtnContainer>
-                  </QuantityItem>
-  
-                  <QuantityItem>
-                    <span>Children</span>
-                    <QuantityBtnContainer>
-                      <CounterBtn
-                        type="button"
-                        disabled={options.children <= 0}
-                        onClick={() => handleCount("children", "dec")}
-                      >
-                        -
-                      </CounterBtn>
-                      <Quantity>{options.children}</Quantity>
-                      <CounterBtn
-                        type="button"
-                        onClick={() => handleCount("children", "inc")}
-                      >
-                        +
-                      </CounterBtn>
-                    </QuantityBtnContainer>
-                  </QuantityItem>
-  
-                  <QuantityItem>
-                    <span>Room</span>
-                    <QuantityBtnContainer>
-                      <CounterBtn
-                        type="button"
-                        disabled={options.room <= 1}
-                        onClick={() => handleCount("room", "dec")}
-                      >
-                        -
-                      </CounterBtn>
-                      <Quantity>{options.room}</Quantity>
-                      <CounterBtn
-                        type="button"
-                        onClick={() => handleCount("room", "inc")}
-                      >
-                        +
-                      </CounterBtn>
-                    </QuantityBtnContainer>
-                  </QuantityItem>
-                </PersonQuantityContainer>
-              )}
-            </PersonContainer> */}
-
+          <LocationContainer>
+            <LocationOnOutlined className="search-icon" />
+            <select name="place" value={city} onChange={handleCityChange}>
+              <option value="">Select City</option>
+              <option value="Amman">Amman</option>
+              <option value="Zarqa">Zarqa</option>
+              <option value="Irbid">Irbid</option>
+              <option value="Aqaba">Aqaba</option>
+              <option value="Jerash">Jerash</option>
+              <option value="Madaba">Madaba</option>
+            </select>
+          </LocationContainer>
           <SearchBtnContainer>
-            <Link to="/hotels" className="search-btn-link">
-              <button type="button">Search</button>
+            <Link to="/reservationlist" className="search-btn-link">
+              <button type="button" onClick={handleSearch}>
+                Search
+              </button>
             </Link>
           </SearchBtnContainer>
         </SearchContainer>

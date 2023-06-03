@@ -4,11 +4,11 @@ import {
   NavigateNextOutlined,
   Star,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { hotelListData } from "../../dummyData";
-
+import Fuse from "fuse.js";
 const Container = styled.div`
   /* border: 1px solid red; */
   margin: 10px;
@@ -218,36 +218,6 @@ const RightContainer = styled.div`
   }
 `;
 
-const RatingContainer = styled.div`
-  /* border: 1px solid black; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  h3 {
-    font-weight: 400;
-    @media screen and (max-width: 346px) {
-      font-size: 14px;
-      font-weight: 500;
-    }
-  }
-
-  span {
-    font-size: 13px;
-  }
-`;
-
-const StarIconContainer = styled.div`
-  .star-icon {
-    font-size: 22px;
-    color: #fdbd0c;
-    @media screen and (max-width: 346px) {
-      font-size: 16px;
-    }
-  }
-`;
-
 const PriceContainer = styled.div`
   /* border: 1px solid black; */
   display: flex;
@@ -311,22 +281,136 @@ const Button = styled.button`
 `;
 
 const SearchedHotelsList = () => {
-  const [openList, setOpenList] = useState(false);
-  const [sortBy, setSortBy] = useState("Our top picks");
+   const [openList, setOpenList] = useState(false);
+   const [sortBy, setSortBy] = useState("Fliter");
+   const [pitches, setPitches] = useState([]);
+   const [filteredPitches, setFilteredPitches] = useState([]);
+  const [searchName, setSearchName] = useState(
+    sessionStorage.getItem("stadiumName") || ""
+  );
+  const [priceRange, setPriceRange] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(
+    sessionStorage.getItem("city") || ""
+  );
+  console.log(searchName);
+  console.log(priceRange);
+  console.log(selectedLocation);
+  console.log(filteredPitches);
 
-  // console.log(sortBy);
+   useEffect(() => {
+     // Fetch the data from the server
+     fetch("http://localhost:5151/getdata")
+       .then((response) => response.json())
+       .then((data) => {
+         if (Array.isArray(data)) {
+           setPitches(data);
+           setFilteredPitches(data);
+         } else {
+           console.error("Invalid data format:", data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error retrieving data:", error);
+        });
+         sessionStorage.clear();
+      }, []);
+      
+      //  const handleSortByAndOpenList = (e) => {
+      //    const selectedSortBy = e.target.value;
+      //    setSortBy(selectedSortBy);
+      //    setOpenList(false);
+      
+      //    // Apply sorting logic based on the selected option
+      //    const sortedPitches = [...filteredPitches];
+      //    if (selectedSortBy === "Our top picks") {
+      //         //add
+      //    } else if (selectedSortBy === "Lowest price") {
+      //      sortedPitches.sort((a, b) => a.price - b.price);
+      //    } else if (selectedSortBy === "Highest price") {
+      //      sortedPitches.sort((a, b) => b.price - a.price);
+      //    }
+      
+      //    setFilteredPitches(sortedPitches);
+      //  };
 
-  const handleSortByAndOpenList = (e) => {
-    setSortBy(e.target.value);
-    setOpenList(false);
-  };
+
+useEffect(() => {
+  filterPitches();
+}, [searchName, priceRange, selectedLocation]);
+
+const filterPitches = () => {
+  let filtered = pitches;
+
+  if (searchName) {
+    filtered = filtered.filter((pitch) =>
+      pitch.name.toLowerCase().includes(searchName.toLowerCase())
+    );
+  }
+
+  if (priceRange) {
+    const [min, max] = priceRange.split("-");
+    filtered = filtered.filter(
+      (pitch) => pitch.price >= parseInt(min) && pitch.price <= parseInt(max)
+    );
+  }
+
+  if (selectedLocation) {
+    filtered = filtered.filter((pitch) => pitch.location === selectedLocation);
+  }
+
+  setFilteredPitches(filtered);
+};
+
+// const handleSearch = () => {
+//   filterPitches();
+// };
+
 
   return (
     <Container>
-      <h2>
-        {hotelListData[0].place}: {hotelListData.length} Properties Found
-      </h2>
-      <FilterContainer>
+      <div className="flex items-center justify-center mt-8">
+        <input
+          type="text"
+          name="place"
+          placeholder="Search"
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <select
+          value={priceRange}
+          onChange={(e) => setPriceRange(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select Price Range</option>
+          <option value="0-50">$0 - $50</option>
+          <option value="50-100">$50 - $100</option>
+          <option value="100-200">$100 - $200</option>
+          <option value="200-300">$200 - $300</option>
+  
+        </select>
+        <select
+          value={selectedLocation}
+          onChange={(e) => setSelectedLocation(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select City</option>
+          <option value="Amman">Amman</option>
+          <option value="Zarqa">Zarqa</option>
+          <option value="Irbid">Irbid</option>
+          <option value="Aqaba">Aqaba</option>
+          <option value="Jerash">Jerash</option>
+          <option value="Madaba">Madaba</option>
+        </select>
+        {/* <button
+          onClick={handleSearch}
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+        >
+          Search
+        </button> */}
+      </div>
+      <h2>{filteredPitches.length} Properties Found</h2>
+      {/* <FilterContainer>
         <FilterButton onClick={() => setOpenList(!openList)}>
           Sort by: {sortBy}
           <IconContainer>
@@ -348,113 +432,48 @@ const SearchedHotelsList = () => {
               <li>
                 <option onClick={handleSortByAndOpenList}>Highest price</option>
               </li>
-
-              <li>
-                <option onClick={handleSortByAndOpenList}>Top reviewed</option>
-              </li>
-
-              <li>
-                <option onClick={handleSortByAndOpenList}>
-                  Stars (highest first)
-                </option>
-              </li>
-
-              <li>
-                <option onClick={handleSortByAndOpenList}>
-                  Stars (lowest first)
-                </option>
-              </li>
-
-              <li>
-                <option onClick={handleSortByAndOpenList}>
-                  Star rating and price
-                </option>
-              </li>
-
-              <li>
-                <option onClick={handleSortByAndOpenList}>
-                  Distance from city centre
-                </option>
-              </li>
             </ul>
           </OptionsListContainer>
-        )}
-      </FilterContainer>
-      {hotelListData.map((hotel) => (
-        <HotelList key={hotel.id}>
+        )} 
+      </FilterContainer> */}
+      {filteredPitches.map((index) => (
+        <HotelList key={index.id}>
           <LeftContainer>
             <ImgContainer>
-              <Link to={`/rservationdetails/${hotel.id}`}>
-                <img src={hotel.img[0]} alt="hotel" />
+              <Link to={`/rservationdetails/${index.id}`}>
+                <img
+                  className="w-full rounded-xl"
+                  src={`data:image/jpeg;base64,${index.images[0]}`}
+                  alt={`Field`}
+                />
               </Link>
             </ImgContainer>
             <InfoContainer>
               <Details>
-                <h2>{hotel.name}</h2>
-                <span>{hotel.distance} km from city centre</span>
+                <h2>{index.name}</h2>
+                <span>{index.location} city </span>
               </Details>
-              <OfferInfo>{hotel.offer}</OfferInfo>
+              <OfferInfo>ADD ANYTIHNG</OfferInfo>
               <Facilities>
-                <h5>{hotel.roomDetails}</h5>
-                <span>{hotel.bedDetails}</span>
+                <h5>{index.details}</h5>
+
                 <h5 className="green">FREE cancellation | No prepayment</h5>
                 <span>
                   You can cancel later, so lock in this great price today.
                 </span>
-                <h5 className="red">
-                  Only {hotel.roomLeft} reservations left.
-                </h5>
               </Facilities>
             </InfoContainer>
           </LeftContainer>
           <RightContainer>
-            <RatingContainer>
-              <h3>Review Rating</h3>
-              <StarIconContainer>
-                {(hotel.rating === 1 && <Star className="star-icon" />) ||
-                  (hotel.rating === 2 && (
-                    <>
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                    </>
-                  )) ||
-                  (hotel.rating === 3 && (
-                    <>
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                    </>
-                  )) ||
-                  (hotel.rating === 4 && (
-                    <>
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                    </>
-                  )) ||
-                  (hotel.rating === 5 && (
-                    <>
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                      <Star className="star-icon" />
-                    </>
-                  ))}
-              </StarIconContainer>
-              <span>{hotel.reviews} reviews</span>
-            </RatingContainer>
             <PriceContainer>
               <Price>
                 <span>
-                  {hotel.night} Night, {hotel.adult} Adults,
-                  {hotel.children > 0 && ` ${hotel.children} Children`}
+                  <span>{index.size}</span>
                 </span>
-                <h2> {hotel.price} JD</h2>
+                <h2> {index.price} JD</h2>
               </Price>
               <Button>
-                <Link to={"/rservationdetails/" + hotel.id} className="link">
+                <Link to={"/rservationdetails/" + index.id} className="link">
                   See More
                   <NavigateNextOutlined />
                 </Link>

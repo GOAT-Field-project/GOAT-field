@@ -83,7 +83,7 @@ app.get("/getbookings/:selectedDate", (req, res) => {
 
 app.post("/senddata", upload.array("images", 3), (req, res) => {
   const files = req.files;
-  const { name, price, size, details } = req.body;
+  const { name, price, size, details, description, location } = req.body;
 
   if (!files || files.length === 0) {
     return res.status(400).send("No images provided");
@@ -92,9 +92,9 @@ app.post("/senddata", upload.array("images", 3), (req, res) => {
   const imageDatas = files.map((file) => file.buffer);
 
   // Insert data into the database
-  const query =
-    "INSERT INTO pitch (name, price, size, details, images) VALUES ($1, $2, $3, $4, $5) RETURNING *;";
-  const values = [name, price, size, details, imageDatas];
+  const query = 'INSERT INTO pitch (name, price, size, details, images, description, location) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;';
+  const values = [name, price, size, details, imageDatas, description, location];
+
 
   pool
     .query(query, values)
@@ -112,8 +112,11 @@ app.post("/senddata", upload.array("images", 3), (req, res) => {
 app.get("/getdata", (req, res) => {
   const query = "SELECT * FROM pitch;";
 
-  pool
-    .query(query)
+app.get('/getdata', (req, res) => {
+  const query = 'SELECT * FROM pitch;';
+
+  pool.query(query)
+
     .then((result) => {
       const pitches = result.rows.map((pitch) => {
         const base64ImageDatas = pitch.images.map((imageData) =>
@@ -132,7 +135,8 @@ app.get("/getdata", (req, res) => {
 
 app.delete("/deletepitch/:id", (req, res) => {
   const pitchId = req.params.id;
-  const query = "DELETE FROM pitch WHERE id = $1;";
+  const query = 'DELETE FROM pitch WHERE id = $1;';
+
 
   pool
     .query(query, [pitchId])
@@ -146,6 +150,7 @@ app.delete("/deletepitch/:id", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
+
 app.use(authorization);
 app.post("/bookings", (req, res) => {
   const { date, time, name, phone } = req.body;

@@ -20,6 +20,15 @@ CREATE TABLE pitch (
   location TEXT
 );
 
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  date VARCHAR,
+  time VARCHAR,
+  name VARCHAR,
+  phone VARCHAR,
+  user_id UUID REFERENCES users(user_id)
+);
+
 -- ! This is from Mais, for payment info
 CREATE TABLE payment_info (
     id SERIAL PRIMARY KEY,

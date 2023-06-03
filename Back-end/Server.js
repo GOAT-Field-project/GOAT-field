@@ -71,48 +71,66 @@ app.get('/getbookings/:selectedDate', (req, res) => {
   );
 });
 
-app.post('/bookings', (req, res) => {
+app.post("/bookings", (req, res) => {
   const { date, time, name, phone } = req.body;
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Extract the JWT token from the authorization header
 
-  // Check if the desired date and time slot is available
-  pool.query(
-    'SELECT * FROM bookings WHERE date = $1 AND time = $2',
-    [date, time],
-    (error, result) => {
-      if (error) {
-        console.error('Error executing query:', error);
-        res.status(500).send('Internal Server Error');
-      } else {
-        const existingBooking = result.rows[0];
-        console.log(existingBooking);
-        // If a booking already exists for the same date and time, send an error response
-        if (existingBooking) {
-          res
-            .status(400)
-            .send('The selected date and time are already booked.', existingBooking);
+  if (!token) {
+    return res.status(401).json({ message: "Missing token" });
+  }
+
+  try {
+    const decodedToken = jwt.verify(token, process.env.jwtSecret); // Verify the JWT token
+    const userId = decodedToken.user; // Extract the user ID from the token payload
+
+    // Check if the desired date and time slot is available
+    pool.query(
+      "SELECT * FROM bookings WHERE date = $1 AND time = $2",
+      [date, time],
+      (error, result) => {
+        if (error) {
+          console.error("Error executing query:", error);
+          res.status(500).send("Internal Server Error");
         } else {
-          // Insert the new booking into the table
-          const query =
-            'INSERT INTO bookings (date, time, name, phone) VALUES ($1, $2, $3, $4)';
-          pool.query(
-            query,
-            [date, time, name, phone || null],
-            (error, result) => {
-              if (error) {
-                console.error('Error inserting data into the bookings table:', error);
-                res
-                  .status(500)
-                  .send('Error inserting data into the bookings table');
-              } else {
-                console.log('Form data inserted successfully!');
-                res.sendStatus(200);
+          const existingBooking = result.rows[0];
+          console.log(existingBooking);
+          // If a booking already exists for the same date and time, send an error response
+          if (existingBooking) {
+            res.status(400).json({
+              message: "The selected date and time are already booked.",
+              existingBooking: existingBooking,
+            });
+          } else {
+            // Insert the new booking into the table, associating it with the user ID
+            const query =
+              "INSERT INTO bookings (date, time, name, phone, user_id) VALUES ($1, $2, $3, $4, $5)";
+            pool.query(
+              query,
+              [date, time, name, phone || null, userId],
+              (error, result) => {
+                if (error) {
+                  console.error(
+                    "Error inserting data into the bookings table:",
+                    error
+                  );
+                  res
+                    .status(500)
+                    .send("Error inserting data into the bookings table");
+                } else {
+                  console.log("Form data inserted successfully!");
+                  res.sendStatus(200);
+                }
               }
-            }
-          );
+            );
+          }
         }
       }
-    }
-  );
+    );
+  } catch (error) {
+    console.error("Error verifying token:", error); // Log the token verification error
+    return res.status(401).json({ message: "Invalid token" });
+  }
 });
 
 app.post('/senddata', upload.array('images', 3), (req, res) => {

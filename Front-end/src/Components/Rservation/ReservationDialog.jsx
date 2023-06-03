@@ -51,22 +51,30 @@ export default function ReservationDialog() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formDataParam = encodeURIComponent(JSON.stringify(formData));
-    navigate(`/checkout/${formDataParam}`);
-    // try {
-    //   await axios.post("http://localhost:5151/bookings", formData);
-    //   console.log("Form data submitted successfully!");
-    //   handleClose();
-    // } catch (error) {
-    //   if (error.response && error.response.status === 400) {
-    //     console.error("Error submitting form data:", error.response.data);
-    //     setErrorMessage("The selected date and time are already booked.");
-    //   } else {
-    //     console.error("Error submitting form data:", error);
-    //   }
-    // }
-  };
+   e.preventDefault();
+
+   try {
+     const token = localStorage.getItem("token");
+     console.log("Token:", token); // Retrieve the JWT token from localStorage
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log("Config:", config);
+
+     await axios.post("http://localhost:5151/bookings", formData, config);
+     console.log("Form data submitted successfully!");
+     handleClose();
+   } catch (error) {
+     if (error.response && error.response.status === 400) {
+       console.error("Error submitting form data:", error.response.data);
+       setErrorMessage("The selected date and time are already booked.");
+     } else {
+       console.error("Error submitting form data:", error);
+     }
+   }
+ };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -40,15 +40,12 @@ function App() {
               element={<RservationDetails />}
             />
             <Route path="/reservationlist" element={<ReservationList />} />
-
             <Route path="/signup" element={<Signup />} />
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/ContactUs" element={<ContactUs />} />
-            <Route path="/Checkout" element={<Checkout />} />
-            <Route path="/providerprofile" element={<Providerprofile/>}/>
+            <Route path="/Checkout/:formData" element={<Checkout />} />
+            <Route path="/providerprofile" element={<Providerprofile />} />
           </Routes>
-
-
         </Layout>
       </BrowserRouter>{" "}
     </>

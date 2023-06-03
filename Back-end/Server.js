@@ -3,39 +3,39 @@ const app = express();
 
 const multer = require('multer');
 const bodyParser = require('body-parser');
-
+const bcrypt = require("bcrypt");
 
 // Multer configuration
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Middleware
-
-
-// Middleware
+app.use(bodyParser.json());
+const cors = require('cors');
+app.use(cors());
 
 const port = 5151;
 const pool = require('./db');
 
-app.use(bodyParser.json());
-const cors = require('cors');
-app.use(cors());
 pool.connect().then(() => {
   app.listen(port, () => {
     console.log('Server working on port ' + port);
   });
 });
 
-
 app.post('/pay', async (req, res) => {
   try {
     const { email, card_number, expiration_date, security_code, name_on_card } = req.body;
 
-    const addPayInfo = await pool.query(
-      'INSERT INTO payment_info (email, card_number, expiration_date, security_code, name_on_card) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [email, card_number, expiration_date, security_code, name_on_card]
-    );
+    // Hash the payment information
+    const saltRounds = 10;
+    const hashedCardNumber = await bcrypt.hash(card_number, saltRounds);
+    const hashedSecurityCode = await bcrypt.hash(security_code, saltRounds);
 
+    const addPayInfo = await pool.query(
+      'INSERT INTO payment (email, card_number, expiration_date, security_code, name_on_card) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [email, hashedCardNumber, expiration_date, hashedSecurityCode, name_on_card]
+    );
     res.json(addPayInfo.rows);
   } catch (err) {
     console.error(err.message);
@@ -44,9 +44,7 @@ app.post('/pay', async (req, res) => {
 });
 
 // Routes
-
 app.use('/authentication', require('./routes/jwtAuth'));
-
 app.use('/ser', require('./routes/serviceProvider'));
 
 app.get('/getbookings/:selectedDate', (req, res) => {
@@ -91,10 +89,7 @@ app.post('/bookings', (req, res) => {
         if (existingBooking) {
           res
             .status(400)
-            .send(
-              'The selected date and time are already booked.',
-              existingBooking
-            );
+            .send('The selected date and time are already booked.', existingBooking);
         } else {
           // Insert the new booking into the table
           const query =
@@ -104,10 +99,7 @@ app.post('/bookings', (req, res) => {
             [date, time, name, phone || null],
             (error, result) => {
               if (error) {
-                console.error(
-                  'Error inserting data into the bookings table:',
-                  error
-                );
+                console.error('Error inserting data into the bookings table:', error);
                 res
                   .status(500)
                   .send('Error inserting data into the bookings table');
@@ -149,9 +141,8 @@ app.post('/senddata', upload.array('images', 3), (req, res) => {
     });
 });
 
-
 app.get('/getdata', (req, res) => {
-  const query = 'SELECT * FROM pitch ;';
+  const query = 'SELECT * FROM pitch;';
 
   pool.query(query)
     .then((result) => {
@@ -170,7 +161,7 @@ app.get('/getdata', (req, res) => {
 
 app.delete('/deletepitch/:id', (req, res) => {
   const pitchId = req.params.id;
-  const query = 'DELETE FROM pitch  WHERE id = $1;';
+  const query = 'DELETE FROM pitch WHERE id = $1;';
 
   pool.query(query, [pitchId])
     .then(() => {

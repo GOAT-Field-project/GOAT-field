@@ -1,27 +1,52 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+
+
 import Navbar from '../Layout/Navbar';
 
-const Checkout = () => {
-  const [cardNumber, setCardNumber] = useState('');
-  const [expirationDate, setExpirationDate] = useState('');
-  const [securityCode, setSecurityCode] = useState('');
-  const [nameOnCard, setNameOnCard] = useState('');
-  const [email, setEmail] = useState('');
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
+const Checkout = () => {
+  const [cardNumber, setCardNumber] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
+  const [nameOnCard, setNameOnCard] = useState("");
+  const [email, setEmail] = useState("");
+  const { formData } = useParams();
+  const [selectedPitch, setSelectedPitch] = useState(null); // State to hold the selected pitch
+
+  // Parse the formData parameter back into an object
+  const parsedFormData = JSON.parse(decodeURIComponent(formData));
+  console.log(parsedFormData.name);
+  useEffect(() => {
+    // Fetch the data from the server
+    axios
+      .get("http://localhost:5151/getdata")
+      .then((response) => {
+        const data = response.data;
+        if (Array.isArray(data)) {
+          setSelectedPitch(data[0]); // Set the first pitch as the selected pitch
+        } else {
+          console.error("Invalid data format:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving data:", error);
+      });
+  }, []);
   const handleExpirationChange = (e) => {
     const value = e.target.value;
     if (value.length <= 7) {
       if (
         value.length === 2 &&
         expirationDate.length === 1 &&
-        !value.includes('/')
+        !value.includes("/")
       ) {
-        setExpirationDate(value + '/');
+        setExpirationDate(value + "/");
       } else if (
         value.length === 2 &&
         expirationDate.length === 3 &&
-        value.endsWith('/')
+        value.endsWith("/")
       ) {
         setExpirationDate(value.slice(0, 1));
       } else {
@@ -32,8 +57,8 @@ const Checkout = () => {
 
   const handleCardNumberChange = (e) => {
     const value = e.target.value;
-    const formattedValue = value.replace(/[^\d]/g, '').slice(0, 16);
-    const spacedValue = formattedValue.replace(/(\d{4})/g, '$1 ').trim();
+    const formattedValue = value.replace(/[^\d]/g, "").slice(0, 16);
+    const spacedValue = formattedValue.replace(/(\d{4})/g, "$1 ").trim();
     setCardNumber(spacedValue);
   };
 
@@ -47,17 +72,29 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payInfo = {
-      card_number: cardNumber.replace(/\s/g, ''), // Remove whitespace from cardNumber
+      card_number: cardNumber.replace(/\s/g, ""), // Remove whitespace from cardNumber
       expiration_date: expirationDate,
       security_code: securityCode,
       name_on_card: nameOnCard,
       email: email,
     };
     try {
-      const response = await axios.post('http://localhost:5151/pay', payInfo);
-      console.log('Payment successful', response.data);
+      const response = await axios.post("http://localhost:5151/pay", payInfo);
+      console.log("Payment successful", response.data);
     } catch (error) {
-      console.error('Payment failed', error);
+      console.error("Payment failed", error);
+    }
+    try {
+      await axios.post("http://localhost:5151/bookings", parsedFormData);
+      console.log("Form data submitted successfully!");
+      handleClose();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.error("Error submitting form data:", error.response.data);
+        setErrorMessage("The selected date and time are already booked.");
+      } else {
+        console.error("Error submitting form data:", error);
+      }
     }
   };
 
@@ -77,7 +114,10 @@ const Checkout = () => {
               className="mt-10 flex flex-col space-y-4"
             >
               <div>
-                <label htmlFor="email" className="text-xs font-semibold text-gray-500">
+                <label
+                  htmlFor="email"
+                  className="text-xs font-semibold text-gray-500"
+                >
                   Email
                 </label>
                 <input
@@ -92,7 +132,10 @@ const Checkout = () => {
                 />
               </div>
               <div className="relative">
-                <label htmlFor="card-number" className="text-xs font-semibold text-gray-500">
+                <label
+                  htmlFor="card-number"
+                  className="text-xs font-semibold text-gray-500"
+                >
                   Card number
                 </label>
                 <input
@@ -109,7 +152,10 @@ const Checkout = () => {
               </div>
               <div className="grid grid-cols-6 gap-2">
                 <div className="col-span-3">
-                  <label htmlFor="expiration-date" className="text-xs font-semibold text-gray-500">
+                  <label
+                    htmlFor="expiration-date"
+                    className="text-xs font-semibold text-gray-500"
+                  >
                     Expiration date
                   </label>
                   <input
@@ -125,7 +171,10 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-span-3">
-                  <label htmlFor="security-code" className="text-xs font-semibold text-gray-500">
+                  <label
+                    htmlFor="security-code"
+                    className="text-xs font-semibold text-gray-500"
+                  >
                     Security code
                   </label>
                   <input
@@ -142,7 +191,10 @@ const Checkout = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="name-on-card" className="text-xs font-semibold text-gray-500">
+                <label
+                  htmlFor="name-on-card"
+                  className="text-xs font-semibold text-gray-500"
+                >
                   Name on card
                 </label>
                 <input
@@ -156,7 +208,10 @@ const Checkout = () => {
                   required
                 />
               </div>
-              <button type="submit" className="relative px-5 py-2 font-medium text-white group w-full mt-20">
+              <button
+                type="submit"
+                className="relative px-5 py-2 font-medium text-white group w-full mt-20"
+              >
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-green-500 group-hover:bg-green-700 group-hover:skew-x-12"></span>
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
                 <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-green-600 -rotate-12"></span>
@@ -177,26 +232,42 @@ const Checkout = () => {
           </div>
           <div className="relative">
             <ul className="space-y-5">
-              <li className="flex justify-between">
-                <div className="inline-flex">
-                  <img
-                    src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                    alt=""
-                    className="max-h-16"
-                  />
-                  <div className="ml-3">
-                    <p className="text-base font-semibold text-white">
-                      Nano Titanium Hair Dryer
-                    </p>
-                    <p className="text-sm font-medium text-white text-opacity-80">
-                      Pdf, doc Kindle
-                    </p>
-                  </div>
-                </div>
-                <p className="text-sm font-semibold text-white">$260.00</p>
-              </li>
+              {selectedPitch && (
+                <li className="flex justify-between">
+                  <div className="inline-flex">
+                    {
+                      <img
+                        // src={`data:image/jpeg;base64,${pitch.images[0]}`}
 
+                        src={`data:image/jpeg;base64,${selectedPitch.images}`}
+                        alt=""
+                        className="max-h-16"
+                      />
+                    }
+                    <div className="ml-3">
+                      <p className="text-base font-semibold text-white">
+                        {selectedPitch.name}
+                      </p>
+                      <p className="text-sm font-medium text-white text-opacity-80">
+                        {selectedPitch.details}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-sm font-semibold text-white">
+                    ${selectedPitch.price}
+                  </p>
+                </li>
+              )}
             </ul>
+            <br />
+            <div>Name: </div>
+            <div>{parsedFormData.name}</div>
+            <div>Date: </div>
+            <div>{parsedFormData.date}</div>
+            <div>Time: </div>
+            <div>{parsedFormData.time}</div>
+            <div>Contact no: </div>
+            <div>{parsedFormData.phone}</div>
             <div className="my-5 h-0.5 w-full bg-white bg-opacity-30" />
             <div className="space-y-2">
               <p className="flex justify-between text-lg font-bold text-white">
@@ -212,7 +283,8 @@ const Checkout = () => {
           <div className="relative mt-10 text-white">
             <h3 className="mb-5 text-lg font-bold">Support</h3>
             <p className="text-sm font-semibold">
-              +01 653 235 211 <span className="font-light">(International)</span>
+              +01 653 235 211{" "}
+              <span className="font-light">(International)</span>
             </p>
             <p className="mt-1 text-sm font-semibold">
               support@nanohair.com <span className="font-light">(Email)</span>

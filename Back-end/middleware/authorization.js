@@ -5,18 +5,18 @@ require("dotenv").config();
 
 module.exports = function (req, res, next) {
   // Get token from header
-  const token = req.header("Authorization");
-
-  // Check if no token
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Extract the JWT token from the authorization header
   if (!token) {
-    return res.status(403).json({ msg: "Authorization denied" });
+    return res.status(401).json({ message: "Missing token" });
   }
 
   // Verify token
   try {
-    const verified = jwt.verify(token, process.env.jwtSecret);
+    const decodedToken = jwt.verify(token, process.env.jwtSecret); // Verify the JWT token
+    const userId = decodedToken.user; // Extract the user ID from the token payload
+    req.user_id = userId; // Assign the userId to req.userId
 
-    req.user = verified.user;
     next();
   } catch (err) {
     res.status(401).json({ msg: "Token is not valid" });

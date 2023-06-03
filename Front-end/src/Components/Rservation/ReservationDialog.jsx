@@ -56,7 +56,6 @@ export default function ReservationDialog() {
     navigate(`/checkout/${formDataParam}`);
   };
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -78,8 +77,8 @@ export default function ReservationDialog() {
         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
         required
       >
-        <option value="" disabled selected>
-          Please select a Time
+        <option value="" selected>
+          Please Select time
         </option>
         {availableTimes.map((timeSlot) => {
           const isReserved = !availableTimes.includes(timeSlot);
@@ -91,7 +90,9 @@ export default function ReservationDialog() {
               value={timeSlot}
               disabled={readOnly}
               className={readOnly ? "text-gray-400" : ""}
-            ></option>
+            >
+              {timeSlot}
+            </option>
           );
         })}
       </select>

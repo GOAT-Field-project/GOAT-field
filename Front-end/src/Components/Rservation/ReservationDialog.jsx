@@ -54,18 +54,6 @@ export default function ReservationDialog() {
     e.preventDefault();
     const formDataParam = encodeURIComponent(JSON.stringify(formData));
     navigate(`/checkout/${formDataParam}`);
-    // try {
-    //   await axios.post("http://localhost:5151/bookings", formData);
-    //   console.log("Form data submitted successfully!");
-    //   handleClose();
-    // } catch (error) {
-    //   if (error.response && error.response.status === 400) {
-    //     console.error("Error submitting form data:", error.response.data);
-    //     setErrorMessage("The selected date and time are already booked.");
-    //   } else {
-    //     console.error("Error submitting form data:", error);
-    //   }
-    // }
   };
 
   const handleChange = (e) => {

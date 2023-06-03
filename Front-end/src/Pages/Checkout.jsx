@@ -81,7 +81,20 @@ const Checkout = () => {
       console.error("Payment failed", error);
     }
     try {
-      await axios.post("http://localhost:5151/bookings", parsedFormData);
+      const token = localStorage.getItem("token");
+      console.log("Token:", token); // Retrieve the JWT token from localStorage
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      console.log("Config:", config);
+
+      await axios.post(
+        "http://localhost:5151/bookings",
+        parsedFormData,
+        config
+      );
       console.log("Form data submitted successfully!");
       handleClose();
     } catch (error) {
@@ -89,7 +102,7 @@ const Checkout = () => {
         console.error("Error submitting form data:", error.response.data);
         setErrorMessage("The selected date and time are already booked.");
       } else {
-        console.error("Error submitting form data:", error);
+        console.log("Error submitting form data:", error);
       }
     }
   };
@@ -255,14 +268,23 @@ const Checkout = () => {
               )}
             </ul>
             <br />
-            <div>Name: </div>
-            <div>{parsedFormData.name}</div>
-            <div>Date: </div>
-            <div>{parsedFormData.date}</div>
-            <div>Time: </div>
-            <div>{parsedFormData.time}</div>
-            <div>Contact no: </div>
-            <div>{parsedFormData.phone}</div>
+            <div className="flex gap-10">
+              <div>Name: </div>
+              <div>{parsedFormData.name}</div>
+            </div>
+            <div className="flex gap-10">
+              <div>Date: </div>
+              <div>{parsedFormData.date}</div>
+            </div>
+            <div className="flex gap-10">
+              <div>Time: </div>
+              <div>{parsedFormData.time}</div>
+            </div>
+            <div className="flex gap-10">
+              <div>Contact no: </div>
+              <div>{parsedFormData.phone}</div>
+            </div>
+
             <div className="my-5 h-0.5 w-full bg-white bg-opacity-30" />
             <div className="space-y-2">
               <p className="flex justify-between text-lg font-bold text-white">

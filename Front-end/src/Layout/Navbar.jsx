@@ -359,7 +359,7 @@ const Navbar = () => {
               {/* <Link to="/register">
                                 <Button className="bigBtn">List Your Property</Button>
                             </Link> */}
-              <Link to="/register">
+              <Link to="/signup">
                 <Button>Register</Button>
               </Link>
               <Link to="/login">

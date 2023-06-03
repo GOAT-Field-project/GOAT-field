@@ -2,6 +2,7 @@ import styled from "styled-components";
 // import Map from "../components/Map";
 import SearchedHotelsList from "../Components/Rservation/SearchedHotelsList";
 import HomeNavbar from "../Components/HomeNavBar";
+import Navbar from "../Layout/Navbar";
 // import Sidebar from "../Components/Rservation/Sidebar";
 
 const Container = styled.div`
@@ -62,23 +63,23 @@ const HotelListContainer = styled.main`
 const HotelList = () => {
   return (
     <>
-      <HomeNavbar />
-      <Container>
-        <MainContainer>
-          <Wrapper>
-            <SideContainer>
-              <div id="sticky-container">
-                {/* <Sidebar /> */}
+    <Navbar/>
+    <Container>
+      <MainContainer>
+        <Wrapper>
+          <SideContainer>
+            <div id="sticky-container">
+              {/* <Sidebar /> */}
 
-                {/* <Map /> */}
-              </div>
-            </SideContainer>
-            <HotelListContainer>
-              <SearchedHotelsList />
-            </HotelListContainer>
-          </Wrapper>
-        </MainContainer>
-      </Container>
+              {/* <Map /> */}
+            </div>
+          </SideContainer>
+          <HotelListContainer>
+            <SearchedHotelsList />
+          </HotelListContainer>
+        </Wrapper>
+      </MainContainer>
+    </Container>
     </>
   );
 };

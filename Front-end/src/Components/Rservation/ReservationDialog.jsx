@@ -117,7 +117,7 @@ export default function ReservationDialog() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" className="btn bg-[#54B435] text-[#54B435]" onClick={handleClickOpen}>
         Book Now
       </Button>
       <Dialog open={open} onClose={handleClose}>

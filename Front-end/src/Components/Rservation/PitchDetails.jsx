@@ -334,7 +334,7 @@ const Slides = styled.div`
   }
 `;
 
-const HotelDetails = () => {
+const   HotelDetails = () => {
   const [openSlider, setOpenSlider] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
 

@@ -78,7 +78,7 @@ export default function ReservationDialog() {
         required
       >
         <option value="" selected>
-          Please Select time
+          Please Select Time
         </option>
         {availableTimes.map((timeSlot) => {
           const isReserved = !availableTimes.includes(timeSlot);

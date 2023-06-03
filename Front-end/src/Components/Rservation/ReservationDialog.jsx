@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -11,6 +12,7 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function ReservationDialog() {
+  const navigate = useNavigate();
   const [availableTimes, setAvailableTimes] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -30,7 +32,7 @@ export default function ReservationDialog() {
 
   const fetchAvailableTimes = (selectedDate) => {
     axios
-      .get(`http://localhost:3000/getbookings/${selectedDate}`)
+      .get(`http://localhost:5151/getbookings/${selectedDate}`)
       .then((response) => {
         const allBookings = response.data;
 
@@ -50,19 +52,8 @@ export default function ReservationDialog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      await axios.post("http://localhost:3000/bookings", formData);
-      console.log("Form data submitted successfully!");
-      handleClose();
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        console.error("Error submitting form data:", error.response.data);
-        setErrorMessage("The selected date and time are already booked.");
-      } else {
-        console.error("Error submitting form data:", error);
-      }
-    }
+    const formDataParam = encodeURIComponent(JSON.stringify(formData));
+    navigate(`/checkout/${formDataParam}`);
   };
 
   const handleChange = (e) => {
@@ -84,7 +75,11 @@ export default function ReservationDialog() {
         value={formData.time}
         onChange={handleChange}
         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+        required
       >
+        <option value="" selected>
+          Please Select Time
+        </option>
         {availableTimes.map((timeSlot) => {
           const isReserved = !availableTimes.includes(timeSlot);
           const readOnly = isReserved && formData.time !== timeSlot;

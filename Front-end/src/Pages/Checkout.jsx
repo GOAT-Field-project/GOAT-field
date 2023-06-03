@@ -1,26 +1,48 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const Checkout = () => {
-  const [cardNumber, setCardNumber] = useState('');
-  const [expirationDate, setExpirationDate] = useState('');
-  const [securityCode, setSecurityCode] = useState('');
-  const [nameOnCard, setNameOnCard] = useState('');
-  const [email, setEmail] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
+  const [nameOnCard, setNameOnCard] = useState("");
+  const [email, setEmail] = useState("");
+  const { formData } = useParams();
+  const [selectedPitch, setSelectedPitch] = useState(null); // State to hold the selected pitch
 
+  // Parse the formData parameter back into an object
+  const parsedFormData = JSON.parse(decodeURIComponent(formData));
+  console.log(parsedFormData.name);
+  useEffect(() => {
+    // Fetch the data from the server
+    axios
+      .get("http://localhost:5151/getdata")
+      .then((response) => {
+        const data = response.data;
+        if (Array.isArray(data)) {
+          setSelectedPitch(data[0]); // Set the first pitch as the selected pitch
+        } else {
+          console.error("Invalid data format:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving data:", error);
+      });
+  }, []);
   const handleExpirationChange = (e) => {
     const value = e.target.value;
     if (value.length <= 7) {
       if (
         value.length === 2 &&
         expirationDate.length === 1 &&
-        !value.includes('/')
+        !value.includes("/")
       ) {
-        setExpirationDate(value + '/');
+        setExpirationDate(value + "/");
       } else if (
         value.length === 2 &&
         expirationDate.length === 3 &&
-        value.endsWith('/')
+        value.endsWith("/")
       ) {
         setExpirationDate(value.slice(0, 1));
       } else {
@@ -31,8 +53,8 @@ const Checkout = () => {
 
   const handleCardNumberChange = (e) => {
     const value = e.target.value;
-    const formattedValue = value.replace(/[^\d]/g, '').slice(0, 16);
-    const spacedValue = formattedValue.replace(/(\d{4})/g, '$1 ').trim();
+    const formattedValue = value.replace(/[^\d]/g, "").slice(0, 16);
+    const spacedValue = formattedValue.replace(/(\d{4})/g, "$1 ").trim();
     setCardNumber(spacedValue);
   };
 
@@ -46,24 +68,49 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payInfo = {
-      card_number: cardNumber.replace(/\s/g, ''), // Remove whitespace from cardNumber
+      card_number: cardNumber.replace(/\s/g, ""), // Remove whitespace from cardNumber
       expiration_date: expirationDate,
       security_code: securityCode,
       name_on_card: nameOnCard,
       email: email,
     };
     try {
-      const response = await axios.post('http://localhost:5151/pay', payInfo);
-      console.log('Payment successful', response.data);
+      const response = await axios.post("http://localhost:5151/pay", payInfo);
+      console.log("Payment successful", response.data);
     } catch (error) {
-      console.error('Payment failed', error);
+      console.error("Payment failed", error);
+    }
+    try {
+      const token = localStorage.getItem("token");
+      console.log("Token:", token); // Retrieve the JWT token from localStorage
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      console.log("Config:", config);
+
+      await axios.post(
+        "http://localhost:5151/bookings",
+        parsedFormData,
+        config
+      );
+      console.log("Form data submitted successfully!");
+      handleClose();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.error("Error submitting form data:", error.response.data);
+        setErrorMessage("The selected date and time are already booked.");
+      } else {
+        console.log("Error submitting form data:", error);
+      }
     }
   };
 
   return (
     <div className="relative mx-auto w-full bg-white">
       <div className="grid min-h-screen grid-cols-10">
-        <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24">
+        <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">
             <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
               Secure Checkout
@@ -75,7 +122,10 @@ const Checkout = () => {
               className="mt-10 flex flex-col space-y-4"
             >
               <div>
-                <label htmlFor="email" className="text-xs font-semibold text-gray-500">
+                <label
+                  htmlFor="email"
+                  className="text-xs font-semibold text-gray-500"
+                >
                   Email
                 </label>
                 <input
@@ -90,7 +140,10 @@ const Checkout = () => {
                 />
               </div>
               <div className="relative">
-                <label htmlFor="card-number" className="text-xs font-semibold text-gray-500">
+                <label
+                  htmlFor="card-number"
+                  className="text-xs font-semibold text-gray-500"
+                >
                   Card number
                 </label>
                 <input
@@ -107,7 +160,10 @@ const Checkout = () => {
               </div>
               <div className="grid grid-cols-6 gap-2">
                 <div className="col-span-3">
-                  <label htmlFor="expiration-date" className="text-xs font-semibold text-gray-500">
+                  <label
+                    htmlFor="expiration-date"
+                    className="text-xs font-semibold text-gray-500"
+                  >
                     Expiration date
                   </label>
                   <input
@@ -123,7 +179,10 @@ const Checkout = () => {
                   />
                 </div>
                 <div className="col-span-3">
-                  <label htmlFor="security-code" className="text-xs font-semibold text-gray-500">
+                  <label
+                    htmlFor="security-code"
+                    className="text-xs font-semibold text-gray-500"
+                  >
                     Security code
                   </label>
                   <input
@@ -140,7 +199,10 @@ const Checkout = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="name-on-card" className="text-xs font-semibold text-gray-500">
+                <label
+                  htmlFor="name-on-card"
+                  className="text-xs font-semibold text-gray-500"
+                >
                   Name on card
                 </label>
                 <input
@@ -156,34 +218,107 @@ const Checkout = () => {
               </div>
               <button
                 type="submit"
-                className="mt-6 px-4 py-2 rounded bg-[#54B435] text-white font-medium hover:bg-[#419331] transition"
+                className="relative px-5 py-2 font-medium text-white group w-full mt-20"
               >
-                Pay Now
+                <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-green-500 group-hover:bg-green-700 group-hover:skew-x-12"></span>
+                <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
+                <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-green-600 -rotate-12"></span>
+                <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-green-400 -rotate-12"></span>
+                <span className="relative">Pay Now</span>
               </button>
             </form>
           </div>
         </div>
-        <div className="col-span-full bg-[#54B435] py-12 px-4 sm:py-24 sm:px-12 lg:col-span-4">
-          <div className="flex flex-col justify-between h-full">
-            <div className="mb-6">
-              <h2 className="text-2xl font-semibold text-white">Order Summary</h2>
-              <div className="mt-4 bg-white rounded-md p-4">
-                {/* Order summary content */}
-              </div>
+        <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
+          <h2 className="sr-only">Order summary</h2>
+          <div>
+            <img
+              src="https://media.discordapp.net/attachments/1084354501642813450/1114238674373185587/payment.png?width=1193&height=671"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+          <div className="relative">
+            <ul className="space-y-5">
+              {selectedPitch && (
+                <li className="flex justify-between">
+                  <div className="inline-flex">
+                    {
+                      <img
+                        // src={`data:image/jpeg;base64,${pitch.images[0]}`}
+
+                        src={`data:image/jpeg;base64,${selectedPitch.images}`}
+                        alt=""
+                        className="max-h-16"
+                      />
+                    }
+                    <div className="ml-3">
+                      <p className="text-base font-semibold text-white">
+                        {selectedPitch.name}
+                      </p>
+                      <p className="text-sm font-medium text-white text-opacity-80">
+                        {selectedPitch.details}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-sm font-semibold text-white">
+                    ${selectedPitch.price}
+                  </p>
+                </li>
+              )}
+            </ul>
+            <br />
+            <div className="flex gap-10">
+              <div>Name: </div>
+              <div>{parsedFormData.name}</div>
             </div>
-            <div className="text-center">
-              <p className="text-sm text-white">
-                By clicking the "Pay Now" button, you agree to our{' '}
-                <a href="#" className="underline">
-                  Terms of Service
-                </a>{' '}
-                and{' '}
-                <a href="#" className="underline">
-                  Privacy Policy
-                </a>
-                .
+            <div className="flex gap-10">
+              <div>Date: </div>
+              <div>{parsedFormData.date}</div>
+            </div>
+            <div className="flex gap-10">
+              <div>Time: </div>
+              <div>{parsedFormData.time}</div>
+            </div>
+            <div className="flex gap-10">
+              <div>Contact no: </div>
+              <div>{parsedFormData.phone}</div>
+            </div>
+
+            <div className="my-5 h-0.5 w-full bg-white bg-opacity-30" />
+            <div className="space-y-2">
+              <p className="flex justify-between text-lg font-bold text-white">
+                <span>Total price:</span>
+                <span>$510.00</span>
+              </p>
+              <p className="flex justify-between text-sm font-medium text-white">
+                <span>Vat: 10%</span>
+                <span>$55.00</span>
               </p>
             </div>
+          </div>
+          <div className="relative mt-10 text-white">
+            <h3 className="mb-5 text-lg font-bold">Support</h3>
+            <p className="text-sm font-semibold">
+              +01 653 235 211{" "}
+              <span className="font-light">(International)</span>
+            </p>
+            <p className="mt-1 text-sm font-semibold">
+              support@nanohair.com <span className="font-light">(Email)</span>
+            </p>
+            <p className="mt-2 text-xs font-medium">
+              Call us now for payment related issues
+            </p>
+          </div>
+          <div className="relative mt-10 flex">
+            <p className="flex flex-col">
+              <span className="text-sm font-bold text-white">
+                Money Back Guarantee
+              </span>
+              <span className="text-xs font-medium text-white">
+                within 30 days of purchase
+              </span>
+            </p>
           </div>
         </div>
       </div>

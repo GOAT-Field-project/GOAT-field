@@ -2,13 +2,28 @@
 import  { useState , useEffect } from 'react';
 
 export default function Profileadd() {
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+const toggleModal = () => {
+  setIsModalOpen(!isModalOpen);
+};
+
+const hideModal = () => {
+  setIsModalOpen(false);
+};
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [size, setSize] = useState('');
   const [details, setDetails] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
   const [pitches, setPitches] = useState([]);
 
+  
   // File change handler
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
@@ -27,6 +42,8 @@ export default function Profileadd() {
     formData.append('price', price);
     formData.append('size', size);
     formData.append('details', details);
+    formData.append('description', description);
+    formData.append('location', location);
 
     // Send the form data to the server
     fetch('http://localhost:5151/senddata', {
@@ -80,6 +97,8 @@ useEffect(() => {
 
   return (
     <>
+   
+
       <section className="max-w-md p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 mt-20">
         <h1 className="text-xl font-bold text-black capitalize dark:text-white">
           Add pitch
@@ -116,7 +135,7 @@ useEffect(() => {
 
             <div>
               <label className="text-black dark:text-gray-200" htmlFor="emailAddress">
-                Price:
+              Price booking per two hours :
               </label>
               <input
                 id="emailAddress"
@@ -137,13 +156,33 @@ useEffect(() => {
                 value={size}
                 onChange={(event) => setSize(event.target.value)}
               >
+              <option value="">Select Size</option>
                 <option value="11-a-side">11-a-side</option>
                 <option value="7-a-side">7-a-side</option>
                 <option value="5-a-side">5-a-side</option>
               </select>
             </div>
           
-
+            <div>
+            <label className="text-black dark:text-gray-200" htmlFor="citySelect">
+              City:
+            </label>
+            <select
+              id="citySelect"
+              className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              value={location}
+              onChange={(event) => setLocation(event.target.value)}
+              
+            >
+              <option value="">Select City</option>
+              <option value="Amman">Amman</option>
+              <option value="Zarqa">Zarqa</option>
+              <option value="Irbid">Irbid</option>
+              <option value="Aqaba">Aqaba</option>
+              <option value="Jerash">Jerash</option>
+              <option value="Madaba">Madaba</option>
+            </select>
+          </div>
             <div>
               <label className="text-black dark:text-gray-200" htmlFor="textarea">
                 Details:
@@ -155,6 +194,17 @@ useEffect(() => {
                 onChange={(event) => setDetails(event.target.value)}
               ></textarea>
             </div>
+            <div>
+            <label className="text-black dark:text-gray-200" htmlFor="textarea">
+              Description:
+            </label>
+            <textarea
+              id="textarea"
+              className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            ></textarea>
+          </div>
           </div>
           <div className="flex justify-end mt-6">
             <button
@@ -252,37 +302,95 @@ useEffect(() => {
                   />
                 </svg>
               </button>
-          
-              <button
-                className="flex items-center justify-center p-2.5 bg-red-600 rounded-xl hover:rounded-3xl hover:bg-red-700 transition-all duration-300 text-white"
-                onClick={() => handleDeletePitch(pitch.id)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 6L5 6 21 6"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 6L6 21a1 1 0 001 1h10a1 1 0 001-1L18 6M10 11v6M14 11v6"
-                  />
-                </svg>
-              </button>
-            </div>
-          
-          
 
-         
+              
+              <>
+              <button
+                onClick={toggleModal}
+                data-modal-target="popup-modal"
+                data-modal-toggle="popup-modal"
+                className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"
+              >
+                Delete
+              </button>
+        
+              {isModalOpen && (
+                <div
+                  id="popup-modal"
+                  tabIndex={-1}
+                  className="fixed top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+                >
+                  <div className="relative w-full max-w-md max-h-full">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                      <button
+                        onClick={hideModal}
+                        type="button"
+                        className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                        data-modal-hide="popup-modal"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span className="sr-only">Close modal</span>
+                      </button>
+                      <div className="p-6 text-center">
+                        <svg
+                          aria-hidden="true"
+                          className="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                          Are you sure you want to delete this product?
+                        </h3>
+                        <button
+                        onClick={() => {
+                          handleDeletePitch(pitch.id)
+                          hideModal();
+                        }}
+                        data-modal-hide="popup-modal"
+                        type="button"
+                        className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                      >
+                        Yes, Im sure
+                      </button>
+                        <button
+                          onClick={hideModal}
+                          data-modal-hide="popup-modal"
+                          type="button"
+                          className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                        >
+                          No, cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+
+            </div>
+        
             </div>
           </div>
         ))}
@@ -302,22 +410,5 @@ useEffect(() => {
 
 
 
-// <div>
-// <label className="text-black dark:text-gray-200" htmlFor="fieldType">
-//   City:
-// </label>
-// <select
-//   id="fieldType"
-//   className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-//   value={size}
-//   onChange={(event) => setSize(event.target.value)}
-// >
-//   <option value="Amman">Amman</option>
-//   <option value="Zarqa">Zarqa </option>
-//   <option value="Ajloun">Ajloun</option>
-//   <option value="Aqaba">Aqaba</option>
-//   <option value="Jerash">Jerash</option>
-//   <option value="Madaba">Madaba</option>
-//   <option value="Irbid">Irbid</option>
-// </select>
-// </div>
+
+

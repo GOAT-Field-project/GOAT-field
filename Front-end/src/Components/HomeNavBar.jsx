@@ -1,22 +1,22 @@
 import hero from '../../public/videos/goathero3.mp4';
 import {
-    AirportShuttleOutlined,
-    AttractionsOutlined,
-    BedOutlined,
-    CalendarMonthOutlined,
-    ConnectingAirportsOutlined,
-    CurrencyExchangeOutlined,
-    DirectionsCarOutlined,
-    HelpOutlineOutlined,
-    HotelOutlined,
-    HowToRegOutlined,
-    LocationOnOutlined,
-    LoginOutlined,
-    LogoutOutlined,
-    NightShelterOutlined,
-    PersonOutlineOutlined,
-    SearchOutlined,
-    TranslateOutlined,
+  AirportShuttleOutlined,
+  AttractionsOutlined,
+  BedOutlined,
+  CalendarMonthOutlined,
+  ConnectingAirportsOutlined,
+  CurrencyExchangeOutlined,
+  DirectionsCarOutlined,
+  HelpOutlineOutlined,
+  HotelOutlined,
+  HowToRegOutlined,
+  LocationOnOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  NightShelterOutlined,
+  PersonOutlineOutlined,
+  SearchOutlined,
+  TranslateOutlined,
 } from "@mui/icons-material";
 import styled from "styled-components";
 import { DateRange } from "react-date-range";
@@ -697,222 +697,222 @@ const SearchBtnContainer = styled(LocationContainer)`
   `;
 
 const HomeNavbar = () => {
-    const [openMenu, setOpenMenu] = useState(false);
-    const [openDate, setOpenDate] = useState(false);
-    const [date, setDate] = useState([
-        {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: "selection",
-        },
-    ]);
-    const [openOptions, setOpenOptions] = useState(false);
-    const [options, setOptions] = useState({
-        adult: 2,
-        children: 1,
-        room: 1,
+  const [openMenu, setOpenMenu] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const [openOptions, setOpenOptions] = useState(false);
+  const [options, setOptions] = useState({
+    adult: 2,
+    children: 1,
+    room: 1,
+  });
+
+  const handleCount = (name, operation) => {
+    // console.log(options["room"], name, options[name]); // Accessing room key's value by Square Bracket method from "options" Object. We are using options[name] because here name variable is String that is "room". We can't use it like options.name bcoz it means options."room" which is undefined.
+
+    setOptions((prev) => {
+      return {
+        ...prev,
+        [name]: operation === "inc" ? options[name] + 1 : options[name] - 1,
+      };
     });
+  };
 
-    const handleCount = (name, operation) => {
-        // console.log(options["room"], name, options[name]); // Accessing room key's value by Square Bracket method from "options" Object. We are using options[name] because here name variable is String that is "room". We can't use it like options.name bcoz it means options."room" which is undefined.
+  return (
+    <Container>
+      <TopContainer>
+        <VideoContainer
+          poster="/hotel-booking-app/images/vidposter.png"
+          autoPlay
+          muted
+          loop
 
-        setOptions((prev) => {
-            return {
-                ...prev,
-                [name]: operation === "inc" ? options[name] + 1 : options[name] - 1,
-            };
-        });
-    };
+          playsInline
+        >
+          <source src={hero} type="video/mp4" width="100%" height="90%" />
+        </VideoContainer>
+        <Wrapper>
+          <NavContainer>
+            <LogoContainer>
+              <span>GOAT FIELD</span>
+            </LogoContainer>
 
-    return (
-        <Container>
-            <TopContainer>
-                <VideoContainer
-                    poster="/hotel-booking-app/images/vidposter.png"
-                    autoPlay
-                    muted
-                    loop
-
-                    playsInline
-                >
-                    <source src={hero} type="video/mp4" width="100%" height="90%" />
-                </VideoContainer>
-                <Wrapper>
-                    <NavContainer>
-                        <LogoContainer>
-                            <span>GOAT FIELD</span>
-                        </LogoContainer>
-
-                        <BtnContainer>
-                            <HelpOutlineOutlined className="help-icon" />
-                            {/* <Link to="/register">
+            <BtnContainer>
+              <HelpOutlineOutlined className="help-icon" />
+              {/* <Link to="/register">
                                 <Button className="bigBtn">List Your Property</Button>
                             </Link> */}
-                            <Link to="/register">
-                                <Button>Register</Button>
-                            </Link>
-                            <Link to="/login">
-                                <Button>Login</Button>
-                            </Link>
-                        </BtnContainer>
+              <Link to="/register">
+                <Button>Register</Button>
+              </Link>
+              <Link to="/login">
+                <Button>Login</Button>
+              </Link>
+            </BtnContainer>
 
-                        {/* For Mobile Start */}
+            {/* For Mobile Start */}
 
-                        <ImgAndHamburgerContainer>
-                            <img src="/hotel-booking-app/images/boydp.jpg" alt="" />
-                            <div
-                                className={`hamburger ${openMenu && "close-hamburger"}`}
-                                onClick={() => setOpenMenu(!openMenu)}
-                            >
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </ImgAndHamburgerContainer>
+            <ImgAndHamburgerContainer>
+              <img src="/hotel-booking-app/images/boydp.jpg" alt="" />
+              <div
+                className={`hamburger ${openMenu && "close-hamburger"}`}
+                onClick={() => setOpenMenu(!openMenu)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </ImgAndHamburgerContainer>
 
-                        {/* For Mobile End*/}
-                    </NavContainer>
+            {/* For Mobile End*/}
+          </NavContainer>
 
-                    <SecondNavContainer openMenu={openMenu}>
-                        <ul>
-                            <Link to="/" className="link">
-                                <li className="active">
-                                    Home
-                                </li>
-                            </Link>
-                            {/* <Link to="/hotels" className="link">
+          <SecondNavContainer openMenu={openMenu}>
+            <ul>
+              <Link to="/" className="link">
+                <li className="active">
+                  Home
+                </li>
+              </Link>
+              {/* <Link to="/hotels" className="link">
                                 <li>
                                     <ConnectingAirportsOutlined className="li-icon" />
                                     Flights
                                 </li>
                             </Link> */}
-                            <Link to="/hotels" className="link">
-                                <li>
-                                    <HotelOutlined className="li-icon" />
-                                    Hotels
-                                </li>
-                            </Link>
-                            <Link to="/hotel/5" className="link">
-                                <li>
-                                    <DirectionsCarOutlined className="li-icon" />
-                                    Reservation
-                                </li>
-                            </Link>
-                            <Link to="/hotels" className="link">
-                                <li>
-                                    <AttractionsOutlined className="li-icon" />
-                                    About us
-                                </li>
-                            </Link>
-                            <Link to="/hotel/4" className="link">
-                                <li>
-                                    <AirportShuttleOutlined className="li-icon" />
-                                    Contact us
-                                </li>
-                            </Link>
-                        </ul>
+              <Link to="/hotels" className="link">
+                <li>
+                  <HotelOutlined className="li-icon" />
+                  Hotels
+                </li>
+              </Link>
+              <Link to="/reservationlist" className="link">
+                <li>
+                  <DirectionsCarOutlined className="li-icon" />
+                  Reservation
+                </li>
+              </Link>
+              <Link to="/contactus" className="link">
+                <li>
+                  <AttractionsOutlined className="li-icon" />
+                  About us
+                </li>
+              </Link>
+              <Link to="/aboutus" className="link">
+                <li>
+                  <AirportShuttleOutlined className="li-icon" />
+                  Contact us
+                </li>
+              </Link>
+            </ul>
 
-                        {/* For Mobile Start */}
+            {/* For Mobile Start */}
 
-                        <h3>Hello, Satya Thakur</h3>
+            <h3>Hello, Satya Thakur</h3>
 
-                        <ul className="hidden-ul">
-                            <Link to="/hotels" className="link">
-                                <li>
-                                    <SearchOutlined className="li-icon" />
-                                    Search Hotels
-                                </li>
-                            </Link>
-                            <Link to="/register" className="link">
-                                <li className="active">
-                                    <NightShelterOutlined className="li-icon" />
-                                    List Your Property
-                                </li>
-                            </Link>
-                            <Link to="/hotel/3" className="link">
-                                <li>
-                                    <CurrencyExchangeOutlined className="li-icon" />
-                                    Currency Exchange
-                                </li>
-                            </Link>
-                            <Link to="/hotels" className="link">
-                                <li>
-                                    <TranslateOutlined className="li-icon" />
-                                    Language
-                                </li>
-                            </Link>
-                            <Link to="/hotel/5" className="link">
-                                <li>
-                                    <HelpOutlineOutlined className="li-icon" />
-                                    Help
-                                </li>
-                            </Link>
-                        </ul>
+            <ul className="hidden-ul">
+              <Link to="/hotels" className="link">
+                <li>
+                  <SearchOutlined className="li-icon" />
+                  Search Hotels
+                </li>
+              </Link>
+              <Link to="/register" className="link">
+                <li className="active">
+                  <NightShelterOutlined className="li-icon" />
+                  List Your Property
+                </li>
+              </Link>
+              <Link to="/hotel/3" className="link">
+                <li>
+                  <CurrencyExchangeOutlined className="li-icon" />
+                  Currency Exchange
+                </li>
+              </Link>
+              <Link to="/hotels" className="link">
+                <li>
+                  <TranslateOutlined className="li-icon" />
+                  Language
+                </li>
+              </Link>
+              <Link to="/hotel/5" className="link">
+                <li>
+                  <HelpOutlineOutlined className="li-icon" />
+                  Help
+                </li>
+              </Link>
+            </ul>
 
-                        <ul className="hidden-ul">
-                            <Link to="/register" className="link">
-                                <li>
-                                    <HowToRegOutlined className="li-icon" />
-                                    Register
-                                </li>
-                            </Link>
-                            <Link to="/login" className="link">
-                                <li>
-                                    <LoginOutlined className="li-icon" />
-                                    Login
-                                </li>
-                            </Link>
-                            <Link to="/hotel/4" className="link">
-                                <li>
-                                    <LogoutOutlined className="li-icon" />
-                                    Logout
-                                </li>
-                            </Link>
-                        </ul>
+            <ul className="hidden-ul">
+              <Link to="/register" className="link">
+                <li>
+                  <HowToRegOutlined className="li-icon" />
+                  Register
+                </li>
+              </Link>
+              <Link to="/login" className="link">
+                <li>
+                  <LoginOutlined className="li-icon" />
+                  Login
+                </li>
+              </Link>
+              <Link to="/hotel/4" className="link">
+                <li>
+                  <LogoutOutlined className="li-icon" />
+                  Logout
+                </li>
+              </Link>
+            </ul>
 
-                        {/* For Mobile End */}
-                    </SecondNavContainer>
+            {/* For Mobile End */}
+          </SecondNavContainer>
 
-                    <OfferContainer>
-                        <h2> Available until next month 2023</h2>
-                        <h1>Save your money <br /> WITH 🐐 FIELD</h1>
-                        <Link to="/hotels">
-                            <OfferButton>Explore Reservation</OfferButton>
-                        </Link>
-                    </OfferContainer>
-                </Wrapper>
+          <OfferContainer>
+            <h2> Available until next month 2023</h2>
+            <h1>Save your money <br /> WITH 🐐 FIELD</h1>
+            <Link to="/hotels">
+              <OfferButton>Explore Reservation</OfferButton>
+            </Link>
+          </OfferContainer>
+        </Wrapper>
 
-                <SearchContainer>
-                    <LocationContainer>
-                        <LocationOnOutlined className="search-icon" />
-                        <input
-                            type="text"
-                            name="place"
-                            placeholder="Where are you going ?"
-                        />
-                    </LocationContainer>
-                    <DateContainer onClick={() => setOpenOptions(false)}>
-                        <CalendarMonthOutlined className="search-icon" />
-                        <span
-                            className="calendar-span"
-                            onClick={() => setOpenDate(!openDate)}
-                        >
-                            {`${format(date[0].startDate, "dd/MM/yyyy")}   to   ${format(
-                                date[0].endDate,
-                                "dd/MM/yyyy"
-                            )}`}
-                        </span>
-                        {openDate && (
-                            <DateRange
-                                editableDateInputs={true}
-                                onChange={(item) => setDate([item.selection])}
-                                moveRangeOnFirstSelection={false}
-                                ranges={date}
-                                className="date-range"
-                            />
-                        )}
-                    </DateContainer>
-                    {/* <PersonContainer onClick={() => setOpenDate(false)}>
+        <SearchContainer>
+          <LocationContainer>
+            <LocationOnOutlined className="search-icon" />
+            <input
+              type="text"
+              name="place"
+              placeholder="Where are you going ?"
+            />
+          </LocationContainer>
+          <DateContainer onClick={() => setOpenOptions(false)}>
+            <CalendarMonthOutlined className="search-icon" />
+            <span
+              className="calendar-span"
+              onClick={() => setOpenDate(!openDate)}
+            >
+              {`${format(date[0].startDate, "dd/MM/yyyy")}   to   ${format(
+                date[0].endDate,
+                "dd/MM/yyyy"
+              )}`}
+            </span>
+            {openDate && (
+              <DateRange
+                editableDateInputs={true}
+                onChange={(item) => setDate([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={date}
+                className="date-range"
+              />
+            )}
+          </DateContainer>
+          {/* <PersonContainer onClick={() => setOpenDate(false)}>
               <PersonOutlineOutlined className="search-icon" />
   
               <span
@@ -988,15 +988,15 @@ const HomeNavbar = () => {
               )}
             </PersonContainer> */}
 
-                    <SearchBtnContainer>
-                        <Link to="/hotels" className="search-btn-link">
-                            <button type="button">Search</button>
-                        </Link>
-                    </SearchBtnContainer>
-                </SearchContainer>
-            </TopContainer>
-        </Container>
-    );
+          <SearchBtnContainer>
+            <Link to="/hotels" className="search-btn-link">
+              <button type="button">Search</button>
+            </Link>
+          </SearchBtnContainer>
+        </SearchContainer>
+      </TopContainer>
+    </Container>
+  );
 };
 
 export default HomeNavbar;

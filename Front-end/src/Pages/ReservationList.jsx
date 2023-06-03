@@ -62,23 +62,23 @@ const HotelListContainer = styled.main`
 const HotelList = () => {
   return (
     <>
-    <HomeNavbar/>
-    <Container>
-      <MainContainer>
-        <Wrapper>
-          <SideContainer>
-            <div id="sticky-container">
-              {/* <Sidebar /> */}
+      <HomeNavbar />
+      <Container>
+        <MainContainer>
+          <Wrapper>
+            <SideContainer>
+              <div id="sticky-container">
+                {/* <Sidebar /> */}
 
-              {/* <Map /> */}
-            </div>
-          </SideContainer>
-          <HotelListContainer>
-            <SearchedHotelsList />
-          </HotelListContainer>
-        </Wrapper>
-      </MainContainer>
-    </Container>
+                {/* <Map /> */}
+              </div>
+            </SideContainer>
+            <HotelListContainer>
+              <SearchedHotelsList />
+            </HotelListContainer>
+          </Wrapper>
+        </MainContainer>
+      </Container>
     </>
   );
 };

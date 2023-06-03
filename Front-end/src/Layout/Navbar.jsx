@@ -1,87 +1,494 @@
-export default function Navbar() {
+import hero from '../../public/videos/goathero3.mp4';
+import {
+  AirportShuttleOutlined,
+  AttractionsOutlined,
+  CurrencyExchangeOutlined,
+  DirectionsCarOutlined,
+  HelpOutlineOutlined,
+  HotelOutlined,
+  HowToRegOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  NightShelterOutlined,
+  SearchOutlined,
+  TranslateOutlined,
+} from "@mui/icons-material";
+import styled from "styled-components";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+
+
+const Wrapper = styled.header`
+    /* border: 1px solid blue; */
+    /* background-image: linear-gradient(90deg, #1958b2, #003580); */
+    color: white;
+    padding: 0px 150px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  
+    @media screen and (max-width: 1200px) {
+      padding: 0px 30px;
+    }
+  
+    @media screen and (max-width: 950px) {
+      padding: 0px 15px;
+    }
+  `;
+
+const NavContainer = styled.nav`
+    /* border: 1px solid yellow; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  `;
+
+const LogoContainer = styled.div`
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    flex: 1;
+  
+    span {
+      /* border: 1px solid black; */
+      width: 250px;
+      font-size: 30px;
+      font-weight: 600;
+  
+      @media screen and (max-width: 950px) {
+        width: 145px;
+        font-size: 25px;
+      }
+    }
+  `;
+
+const BtnContainer = styled.div`
+    /* border: 1px solid black; */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  
+    @media screen and (max-width: 675px) {
+      display: none;
+    }
+  
+    span {
+      font-size: 17px;
+      margin: 0px 20px;
+      cursor: pointer;
+    }
+  
+    img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+  
+    .help-icon {
+      font-size: 28px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+  `;
+
+const Button = styled.button`
+    border: 1px solid white;
+    background-color: white;
+    width: 80px;
+    padding: 9px 10px;
+    margin-right: 10px;
+    color: #54B435;
+    border-radius:5px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+  
+    @media screen and (max-width: 950px) {
+      padding: 7px;
+      margin-right: 7px;
+      font-size: 13px;
+      width: 70px;
+    }
+  
+    &:hover {
+      color: white;
+      background-color: transparent;
+    }
+  
+    &.bigBtn {
+      background-color: transparent;
+      color: white;
+      width: 150px;
+  
+      @media screen and (max-width: 950px) {
+        width: 125px;
+      }
+  
+      &:hover {
+        background-color: #00000061;
+      }
+    }
+  `;
+
+// ----------------Mobile Hamburger Icon Style--------------------
+
+const ImgAndHamburgerContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  
+    @media screen and (min-width: 675px) {
+      display: none;
+    }
+  
+    img {
+      background-color: whitesmoke;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      object-fit: cover;
+    }
+  
+    .hamburger {
+      /* border: 1px solid red; */
+      width: 32px;
+      height: 27px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      cursor: pointer;
+  
+      span {
+        background-color: white;
+        width: 100%;
+        height: 4px;
+        transform-origin: left;
+        transition: all 0.2s ease;
+      }
+    }
+  
+    .close-hamburger {
+      span {
+        &:first-of-type {
+          transform: rotate(45deg);
+        }
+  
+        &:nth-of-type(2) {
+          opacity: 0;
+        }
+  
+        &:last-of-type {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+  `;
+
+// ----------------End of Hamburger Style---------------------
+
+const SecondNavContainer = styled.nav`
+    /* border: 1px solid yellow; */
+    display: flex;
+    align-items: center;
+    height: 77px;
+  
+    @media screen and (max-width: 950px) {
+      height: 50px;
+    }
+  
+    /* For Mobile Phone etc */
+    @media screen and (max-width: 675px) {
+      background-color: #00224f;
+      flex-direction: column;
+      align-items: flex-start;
+      position: fixed;
+      top: 60px;
+      right: 0px;
+      width: 100vw;
+      height: calc(100vh - 60px);
+      overflow-y: scroll;
+      padding: 10px 30px;
+      transform: translateX(${({ openMenu }) => (openMenu ? 0 : 100)}vw);
+      transition: all 0.2s ease-out;
+    }
+  
+    h3 {
+      padding: 15px 5px;
+      border-bottom: 1px solid #4f5874;
+      width: 100%;
+      display: none;
+      @media screen and (max-width: 675px) {
+        display: block;
+      }
+    }
+  
+    ul {
+      /* border: 1px solid red; */
+      display: flex;
+      align-items: center;
+      list-style: none;
+  
+      &.hidden-ul {
+        display: none;
+        @media screen and (max-width: 675px) {
+          display: flex;
+        }
+      }
+  
+      /* For Mobile Phone etc*/
+      @media screen and (max-width: 675px) {
+        flex-direction: column;
+        align-items: flex-start;
+        order: 2;
+        width: 100%;
+        border-bottom: 1px solid #4f5874;
+        padding: 5px 0px;
+  
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+  
+      .link {
+        text-decoration: none;
+        color: white;
+  
+        /* For Mobile Phone etc*/
+        @media screen and (max-width: 675px) {
+          margin: 5px 0px;
+        }
+      }
+  
+      li {
+        border: 1px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        padding: 10px 14px;
+        font-size: 18px;
+        cursor: pointer;
+  
+        @media screen and (max-width: 1025px) {
+          margin-right: 5px;
+          padding: 6px 12px;
+          font-size: 15px;
+        }
+  
+        @media screen and (max-width: 950px) {
+          margin-right: 3px;
+          padding: 2px 7px;
+          font-size: 14px;
+        }
+  
+        /* For Mobile Phone etc*/
+        @media screen and (max-width: 675px) {
+          border: none;
+          background-color: transparent;
+        }
+  
+        &:hover {
+          border: 1px solid white;
+          border-radius: 30px;
+  
+          /* For Mobile Phone */
+          @media screen and (max-width: 675px) {
+            border: none;
+            border-radius: 0px;
+          }
+        }
+  
+        &.active {
+          border: 1px solid white;
+          border-radius: 30px;
+  
+          /* For Mobile Phone */
+          @media screen and (max-width: 675px) {
+            border: none;
+            border-radius: 0px;
+          }
+        }
+  
+        .li-icon {
+          margin-right: 8px;
+  
+          /* For Mobile Phone */
+          @media screen and (max-width: 675px) {
+            margin-right: 12px;
+            /* color: #2874f0; */
+          }
+        }
+      }
+    }
+  `;
+
+
+
+
+
+const Navbar = () => {
+  const [openMenu, setOpenMenu] = useState(false);
+  const [options, setOptions] = useState({
+    adult: 2,
+    children: 1,
+    room: 1,
+  });
+
+
+
   return (
-    <>
-      <nav class="bg-white border-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="https://flowbite.com/" class="flex items-center">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              class="h-8 mr-3"
-              alt="Flowbite Logo"
-            />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
-            </span>
-          </a>
-          <button
-            data-collapse-toggle="navbar-default"
-            type="button"
-            class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Open main menu</span>
-            <svg
-              class="w-6 h-6"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-          <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                  aria-current="page"
-                >
+    
+
+        <Wrapper className='bg-[#161616]'>
+          <NavContainer>
+            <LogoContainer>
+              <span>🐐GOAT FIELD</span>
+            </LogoContainer>
+
+            <BtnContainer>
+              <HelpOutlineOutlined className="help-icon" />
+              {/* <Link to="/register">
+                                <Button className="bigBtn">List Your Property</Button>
+                            </Link> */}
+              <Link to="/register">
+                <Button>Register</Button>
+              </Link>
+              <Link to="/login">
+                <Button>Login</Button>
+              </Link>
+            </BtnContainer>
+
+            {/* For Mobile Start */}
+
+            <ImgAndHamburgerContainer>
+              <img src="/hotel-booking-app/images/boydp.jpg" alt="" />
+              <div
+                className={`hamburger ${openMenu && "close-hamburger"}`}
+                onClick={() => setOpenMenu(!openMenu)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </ImgAndHamburgerContainer>
+
+            {/* For Mobile End*/}
+          </NavContainer>
+
+          <SecondNavContainer openMenu={openMenu}>
+            <ul>
+              <Link to="/" className="link">
+                <li className="active">
                   Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Services
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Contact
-                </a>
-              </li>
+                </li>
+              </Link>
+              {/* <Link to="/hotels" className="link">
+                                <li>
+                                    <ConnectingAirportsOutlined className="li-icon" />
+                                    Flights
+                                </li>
+                            </Link> */}
+              {/* <Link to="/hotels" className="link">
+                <li>
+                  <HotelOutlined className="li-icon" />
+                  Hotels
+                </li>
+              </Link> */}
+              <Link to="/reservationlist" className="link">
+                <li>
+                  <DirectionsCarOutlined className="li-icon" />
+                  Reservation
+                </li>
+              </Link>
+              <Link to="/AboutUs" className="link">
+                <li>
+                  <AttractionsOutlined className="li-icon" />
+                  About us
+                </li>
+              </Link>
+              <Link to="/contactus" className="link">
+                <li>
+                  <AirportShuttleOutlined className="li-icon" />
+                  Contact us
+                </li>
+              </Link>
             </ul>
-          </div>
-        </div>
-      </nav>
-    </>
+
+            {/* For Mobile Start */}
+
+            <h3>Hello, Satya Thakur</h3>
+
+            <ul className="hidden-ul">
+              <Link to="/hotels" className="link">
+                <li>
+                  <SearchOutlined className="li-icon" />
+                  Search Hotels
+                </li>
+              </Link>
+              <Link to="/register" className="link">
+                <li className="active">
+                  <NightShelterOutlined className="li-icon" />
+                  List Your Property
+                </li>
+              </Link>
+              <Link to="/hotel/3" className="link">
+                <li>
+                  <CurrencyExchangeOutlined className="li-icon" />
+                  Currency Exchange
+                </li>
+              </Link>
+              <Link to="/hotels" className="link">
+                <li>
+                  <TranslateOutlined className="li-icon" />
+                  Language
+                </li>
+              </Link>
+              <Link to="/hotel/5" className="link">
+                <li>
+                  <HelpOutlineOutlined className="li-icon" />
+                  Help
+                </li>
+              </Link>
+            </ul>
+
+            <ul className="hidden-ul">
+              <Link to="/register" className="link">
+                <li>
+                  <HowToRegOutlined className="li-icon" />
+                  Register
+                </li>
+              </Link>
+              <Link to="/login" className="link">
+                <li>
+                  <LoginOutlined className="li-icon" />
+                  Login
+                </li>
+              </Link>
+              <Link to="/hotel/4" className="link">
+                <li>
+                  <LogoutOutlined className="li-icon" />
+                  Logout
+                </li>
+              </Link>
+            </ul>
+
+            {/* For Mobile End */}
+          </SecondNavContainer>
+
+
+        </Wrapper>
+
+
   );
-}
+};
+
+export default Navbar;

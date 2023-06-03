@@ -75,7 +75,11 @@ export default function ReservationDialog() {
         value={formData.time}
         onChange={handleChange}
         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+        required
       >
+        <option value="" disabled selected>
+          Please select a Time
+        </option>
         {availableTimes.map((timeSlot) => {
           const isReserved = !availableTimes.includes(timeSlot);
           const readOnly = isReserved && formData.time !== timeSlot;
@@ -86,9 +90,7 @@ export default function ReservationDialog() {
               value={timeSlot}
               disabled={readOnly}
               className={readOnly ? "text-gray-400" : ""}
-            >
-              {timeSlot}
-            </option>
+            ></option>
           );
         })}
       </select>

@@ -130,6 +130,7 @@ const BtnContainer = styled.div`
     margin-right: 20px;
     cursor: pointer;
   }
+
 `;
 
 const Button = styled.button`
@@ -486,7 +487,7 @@ const LocationContainer = styled.div`
   background-color: white;
   border: 2px solid #000000;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: 0px 0px 0px 0px;
+  border-radius: 10px 0px 0px 10px;
   display: flex;
   flex: 1;
   justify-content: center;
@@ -515,6 +516,156 @@ const LocationContainer = styled.div`
     }
   }
 `;
+
+const DateContainer = styled(LocationContainer)`
+  position: relative;
+  border-left: none;
+  border-radius: 0px;
+
+  .calendar-span {
+    /* border: 1px solid black; */
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    @media screen and (max-width: 950px) {
+      font-size: 12px;
+    }
+  }
+
+  .date-range {
+    box-shadow: 0px 0px 3px -2px black;
+    border: 1px solid #cbcbcb;
+    border-radius: 3px;
+    position: absolute;
+    top: 60px;
+    left: -5px;
+    z-index: 12;
+
+    @media screen and (max-width: 950px) {
+      top: 50px;
+      left: -3px;
+    }
+  }
+`;
+
+// const PersonContainer = styled(LocationContainer)`
+//   position: relative;
+//   border-left: none;
+//   border-radius: 0px;
+
+//   .person-span {
+//     /* border: 1px solid black; */
+//     font-size: 14px;
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     align-items: center;
+//     cursor: pointer;
+
+//     @media screen and (max-width: 950px) {
+//       font-size: 12px;
+//     }
+//   }
+// `;
+
+const PersonQuantityContainer = styled.div`
+  box-shadow: 0px 0px 3px -2px black;
+  border: 1px solid #cbcbcb;
+  border-radius: 3px;
+  position: absolute;
+  top: 60px;
+  left: -2px;
+  z-index: 13;
+  background-color: white;
+  padding: 10px 5px;
+
+  @media screen and (max-width: 950px) {
+    top: 50px;
+    padding: 5px;
+  }
+`;
+
+const QuantityItem = styled.div`
+  width: 280px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media screen and (max-width: 950px) {
+    width: 215px;
+    font-size: 13px;
+  }
+`;
+
+const QuantityBtnContainer = styled.div`
+  /* border: 1px solid black; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const CounterBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  width: 40px;
+  font-size: 20px;
+  border-radius: 20px;
+  background-color: #3d91ff;
+  color: white;
+  border: 1px solid #347ede;
+  cursor: pointer;
+
+  @media screen and (max-width: 950px) {
+    height: 21px;
+    width: 35px;
+    font-size: 17px;
+  }
+
+  &:disabled {
+    cursor: default;
+
+    &:hover {
+      background-color: #3d91ff;
+      color: white;
+    }
+  }
+
+  &:hover {
+    background-color: white;
+    color: #3d91ff;
+  }
+`;
+
+const Quantity = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  width: 45px;
+  font-size: 20px;
+  font-weight: 600;
+  border: 1px solid #3d91ff;
+  border-radius: 50%;
+  margin: 0px 10px;
+  background-color: white;
+  color: #3d91ff;
+  cursor: default;
+
+  @media screen and (max-width: 950px) {
+    height: 35px;
+    width: 35px;
+    font-size: 18px;
+  }
+`;
+
 
 const SearchBtnContainer = styled(LocationContainer)`
   border-left: none;
@@ -562,6 +713,8 @@ const HomeNavbar = () => {
     sessionStorage.setItem("stadiumName", value);
     setStadiumName(value);
   };
+  const token = localStorage.getItem("token");
+  console.log(token);
 
   const handleCityChange = (event) => {
     const value = event.target.value;
@@ -596,19 +749,29 @@ const HomeNavbar = () => {
             </LogoContainer>
 
             <BtnContainer>
-              <HelpOutlineOutlined className="help-icon" />
-              {/* <Link to="/register">
-                                <Button className="bigBtn">List Your Property</Button>
-                            </Link> */}
-              <Link to="/signup">
-                <Button>Register</Button>
-              </Link>
-              <Link to="/login">
-                <Button>Login</Button>
-              </Link>
-            </BtnContainer>
+              {!token ? (
+                <Link to="/signup">
+                  <Button>Register</Button>
+                </Link>
+              ) : (
+                <div className=" m-8">Hello</div>
+              )}
 
-            {/* For Mobile Start */}
+              {token == null ? (
+                <Link to="/login">
+                  <Button>Login</Button>
+                </Link>
+              ) : (
+                <Button
+                  onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                >
+                  Logout
+                </Button>
+              )}
+            </BtnContainer>
 
             <ImgAndHamburgerContainer>
               <img src="/hotel-booking-app/images/boydp.jpg" alt="" />

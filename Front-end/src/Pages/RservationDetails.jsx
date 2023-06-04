@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 
 const Hotel = () => {
   const [pitches, setPitches] = useState([]);
-
   useEffect(() => {
     // Fetch the data from the server
     fetch("http://localhost:5151/getdatas")
@@ -20,7 +19,7 @@ const Hotel = () => {
       .catch((error) => {
         console.error("Error retrieving data:", error);
       });
-  }, [pitches]);
+  }, []);
   // fix later
   const url = window.location.href;
   const id = parseInt(url.split("/").pop(), 10);
@@ -197,7 +196,7 @@ const Hotel = () => {
                         {pitch.size}
                       </span>
                     </div>
-                    <ReservationDialog />
+                    <ReservationDialog id={id} />
                   </fieldset>
                 </form>
               </div>

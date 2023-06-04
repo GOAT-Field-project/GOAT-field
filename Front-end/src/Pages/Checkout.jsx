@@ -12,10 +12,27 @@ const Checkout = () => {
   const [email, setEmail] = useState("");
   const { formData } = useParams();
   const [selectedPitch, setSelectedPitch] = useState(null); // State to hold the selected pitch
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // This line is necessary for some browsers
+      return "Data may be lost. Are you sure you want to leave?";
+    };
 
+    const handlePopState = () => {
+      return "Data may be lost. Are you sure you want to go back?";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
   // Parse the formData parameter back into an object
   const parsedFormData = JSON.parse(decodeURIComponent(formData));
-  console.log(parsedFormData.name);
   useEffect(() => {
     // Fetch the data from the server
     axios

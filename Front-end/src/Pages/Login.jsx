@@ -1,13 +1,13 @@
 import Hero from "../assets/Images/background.png";
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,10 +30,10 @@ export default function Login() {
 
       // Save the token to local storage
       console.log("Data sent successfully");
+      navigate("/");
     } catch (error) {
       console.log("Error:", error.message);
     }
-
     setEmail("");
     setPassword("");
   };

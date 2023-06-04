@@ -18,6 +18,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const Wrapper = styled.header`
   /* border: 1px solid blue; */
@@ -331,7 +332,27 @@ const SecondNavContainer = styled.nav`
 
 const Navbar = () => {
   const token = localStorage.getItem("token");
-  console.log(token);
+  let username = "";
+  let role = "";
+
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      username = decodedToken.username;
+      role = decodedToken.role;
+      // Use the extracted username and role variables as needed
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      // Handle the error (e.g., show an error message, redirect the user, etc.)
+    }
+  } else {
+    console.error("No token found in localStorage");
+    // Handle the case where there is no token (e.g., show an error message, redirect the user, etc.)
+  }
+
+  // Use the username and role variables outside the if statement
+  console.log("Username:", username);
+  console.log("Role:", role);
 
   const [openMenu, setOpenMenu] = useState(false);
   const [options, setOptions] = useState({
@@ -348,17 +369,21 @@ const Navbar = () => {
         </LogoContainer>
 
         <BtnContainer>
-          <HelpOutlineOutlined className="help-icon" />
           {/* <Link to="/register">
                                 <Button className="bigBtn">List Your Property</Button>
                             </Link> */}
-          {!token ? (
-            <Link to="/signup">
-              <Button>Register</Button>
+          {token && role == "serviceProvider" ? (
+            <Link to="/providerprofile">
+              <p className="mr-8">{username}</p>
             </Link>
           ) : (
-            <div className=" m-8">Hello</div>
+            token && (
+              <Link to="/userprofile" className=" m-8 ">
+                {username}
+              </Link>
+            )
           )}
+
           {token == null ? (
             <Link to="/login">
               <Button>Login</Button>
@@ -431,7 +456,7 @@ const Navbar = () => {
 
         {/* For Mobile Start */}
 
-        <h3>Hello, Satya Thakur</h3>
+        <h3>Hello, {(token && username) || ""}</h3>
 
         <ul className="hidden-ul">
           <Link to="/hotels" className="link">

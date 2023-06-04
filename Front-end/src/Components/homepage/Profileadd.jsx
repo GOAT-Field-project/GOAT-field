@@ -15,6 +15,9 @@ const toggleModal = () => {
 const hideModal = () => {
   setIsModalOpen(false);
 };
+const [pischanged, setPisChanged] = useState(false);
+
+
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [name, setName] = useState('');
@@ -57,6 +60,8 @@ const hideModal = () => {
     axios.post('http://localhost:5151/senddata', formData, config)
       .then((response) => {
         console.log('Data sent:', response.data);
+        setPisChanged(!pischanged);
+
         // Do something with the response data
       })
       .catch((error) => {
@@ -72,6 +77,8 @@ const hideModal = () => {
         if (response.ok) {
           console.log('Pitch deleted');
           // Perform any additional actions after successful deletion
+          setPisChanged(!pischanged);
+
         } else {
           throw new Error('Error deleting pitch');
         }
@@ -97,6 +104,7 @@ const hideModal = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           setPitches(data);
+          
         } else {
           console.error('Invalid data format:', data);
         }
@@ -104,7 +112,7 @@ const hideModal = () => {
       .catch((error) => {
         console.error('Error retrieving data:', error);
       });
-  }, []);
+  }, [pischanged]);
 
 
 

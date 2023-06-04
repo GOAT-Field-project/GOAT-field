@@ -1,3 +1,7 @@
+
+
+import Navbar from '../Layout/Navbar';
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -90,25 +94,21 @@ const Checkout = () => {
       };
       console.log("Config:", config);
 
-      await axios.post(
-        "http://localhost:5151/bookings",
-        parsedFormData,
-        config
-      );
+      await axios.post("http://localhost:5151/bookings", formData, config);
       console.log("Form data submitted successfully!");
-      handleClose();
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("Error submitting form data:", error.response.data);
         setErrorMessage("The selected date and time are already booked.");
       } else {
-        console.log("Error submitting form data:", error);
+        console.error("Error submitting form data:", error);
       }
     }
   };
 
   return (
     <div className="relative mx-auto w-full bg-white">
+      <Navbar/>
       <div className="grid min-h-screen grid-cols-10">
         <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">

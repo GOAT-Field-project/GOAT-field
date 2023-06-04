@@ -1,10 +1,12 @@
 import React from 'react'
 import Us from '../AboutUs.json'
+import Navbar from '../Layout/Navbar';
 const AboutUs = () => {
     const backgroundImage = `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1026%26quot%3b)' fill='none'%3e%3cpath d='M 0%2c183 C 144%2c227.8 432%2c425.6 720%2c407 C 1008%2c388.4 1296%2c153.4 1440%2c90L1440 560L0 560z' fill='rgba(214%2c 220%2c 226%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1026'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e")`;
 
     return (
         <div className='bg-[#d6dce2] '>
+            <Navbar/>
             <section className="flex items-center py-10 bg-stone-100 xl:h-screen font-poppins dark:bg-white-300" style={{ backgroundImage: backgroundImage, backgroundSize: "cover" }}
             >
                 <div className="justify-center flex-1 max-w-6xl py-4 mx-auto lg:py-6 md:px-6">

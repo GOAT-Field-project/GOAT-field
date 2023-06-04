@@ -100,7 +100,8 @@ export default function ReservationDialog() {
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    const token = localStorage.getItem("token");
+    !token ? navigate("/login/") : setOpen(true);
   };
 
   const handleClose = () => {
@@ -109,7 +110,7 @@ export default function ReservationDialog() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" className="btn bg-[#54B435] text-[#54B435]" onClick={handleClickOpen}>
         Book Now
       </Button>
       <Dialog open={open} onClose={handleClose}>

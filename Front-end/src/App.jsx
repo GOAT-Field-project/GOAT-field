@@ -4,7 +4,7 @@ import Layout from "./Layout/Layout";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-
+import RequiredAuth from "./customHooks/RequiredAuth";
 import RservationDetails from "./Pages/RservationDetails";
 import ReservationList from "./Pages/ReservationList";
 
@@ -14,6 +14,7 @@ import ContactUs from "./Pages/ContactUs";
 import Footer from "./Layout/Footer";
 import Checkout from "./Pages/Checkout";
 import Providerprofile from "./Pages/Providerprofile";
+import Navbar from "./Layout/Navbar";
 function App() {
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -43,7 +44,9 @@ function App() {
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/Checkout/:formData" element={<Checkout />} />
-            <Route path="/providerprofile" element={<Providerprofile />} />
+            <Route element={<RequiredAuth />}>
+              <Route path="/providerprofile" element={<Providerprofile />} />
+            </Route>
           </Routes>
         </Layout>
       </BrowserRouter>{" "}

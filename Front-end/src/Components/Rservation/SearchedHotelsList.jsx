@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { hotelListData } from "../../dummyData";
-import Fuse from "fuse.js";
+// import Fuse from "fuse.js";
 const Container = styled.div`
   /* border: 1px solid red; */
   margin: 10px;
@@ -281,10 +281,10 @@ const Button = styled.button`
 `;
 
 const SearchedHotelsList = () => {
-   const [openList, setOpenList] = useState(false);
-   const [sortBy, setSortBy] = useState("Fliter");
-   const [pitches, setPitches] = useState([]);
-   const [filteredPitches, setFilteredPitches] = useState([]);
+  const [openList, setOpenList] = useState(false);
+  const [sortBy, setSortBy] = useState("Fliter");
+  const [pitches, setPitches] = useState([]);
+  const [filteredPitches, setFilteredPitches] = useState([]);
   const [searchName, setSearchName] = useState(
     sessionStorage.getItem("stadiumName") || ""
   );
@@ -297,73 +297,73 @@ const SearchedHotelsList = () => {
   console.log(selectedLocation);
   console.log(filteredPitches);
 
-   useEffect(() => {
-     // Fetch the data from the server
-     fetch("http://localhost:5151/getdata")
-       .then((response) => response.json())
-       .then((data) => {
-         if (Array.isArray(data)) {
-           setPitches(data);
-           setFilteredPitches(data);
-         } else {
-           console.error("Invalid data format:", data);
-          }
-        })
-        .catch((error) => {
-          console.error("Error retrieving data:", error);
-        });
-         sessionStorage.clear();
-      }, []);
-      
-      //  const handleSortByAndOpenList = (e) => {
-      //    const selectedSortBy = e.target.value;
-      //    setSortBy(selectedSortBy);
-      //    setOpenList(false);
-      
-      //    // Apply sorting logic based on the selected option
-      //    const sortedPitches = [...filteredPitches];
-      //    if (selectedSortBy === "Our top picks") {
-      //         //add
-      //    } else if (selectedSortBy === "Lowest price") {
-      //      sortedPitches.sort((a, b) => a.price - b.price);
-      //    } else if (selectedSortBy === "Highest price") {
-      //      sortedPitches.sort((a, b) => b.price - a.price);
-      //    }
-      
-      //    setFilteredPitches(sortedPitches);
-      //  };
+  useEffect(() => {
+    // Fetch the data from the server
+    fetch("http://localhost:5151/getdata")
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setPitches(data);
+          setFilteredPitches(data);
+        } else {
+          console.error("Invalid data format:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving data:", error);
+      });
+    sessionStorage.clear();
+  }, []);
+
+  //  const handleSortByAndOpenList = (e) => {
+  //    const selectedSortBy = e.target.value;
+  //    setSortBy(selectedSortBy);
+  //    setOpenList(false);
+
+  //    // Apply sorting logic based on the selected option
+  //    const sortedPitches = [...filteredPitches];
+  //    if (selectedSortBy === "Our top picks") {
+  //         //add
+  //    } else if (selectedSortBy === "Lowest price") {
+  //      sortedPitches.sort((a, b) => a.price - b.price);
+  //    } else if (selectedSortBy === "Highest price") {
+  //      sortedPitches.sort((a, b) => b.price - a.price);
+  //    }
+
+  //    setFilteredPitches(sortedPitches);
+  //  };
 
 
-useEffect(() => {
-  filterPitches();
-}, [searchName, priceRange, selectedLocation]);
+  useEffect(() => {
+    filterPitches();
+  }, [searchName, priceRange, selectedLocation]);
 
-const filterPitches = () => {
-  let filtered = pitches;
+  const filterPitches = () => {
+    let filtered = pitches;
 
-  if (searchName) {
-    filtered = filtered.filter((pitch) =>
-      pitch.name.toLowerCase().includes(searchName.toLowerCase())
-    );
-  }
+    if (searchName) {
+      filtered = filtered.filter((pitch) =>
+        pitch.name.toLowerCase().includes(searchName.toLowerCase())
+      );
+    }
 
-  if (priceRange) {
-    const [min, max] = priceRange.split("-");
-    filtered = filtered.filter(
-      (pitch) => pitch.price >= parseInt(min) && pitch.price <= parseInt(max)
-    );
-  }
+    if (priceRange) {
+      const [min, max] = priceRange.split("-");
+      filtered = filtered.filter(
+        (pitch) => pitch.price >= parseInt(min) && pitch.price <= parseInt(max)
+      );
+    }
 
-  if (selectedLocation) {
-    filtered = filtered.filter((pitch) => pitch.location === selectedLocation);
-  }
+    if (selectedLocation) {
+      filtered = filtered.filter((pitch) => pitch.location === selectedLocation);
+    }
 
-  setFilteredPitches(filtered);
-};
+    setFilteredPitches(filtered);
+  };
 
-// const handleSearch = () => {
-//   filterPitches();
-// };
+  // const handleSearch = () => {
+  //   filterPitches();
+  // };
 
 
   return (
@@ -387,7 +387,7 @@ const filterPitches = () => {
           <option value="50-100">$50 - $100</option>
           <option value="100-200">$100 - $200</option>
           <option value="200-300">$200 - $300</option>
-  
+
         </select>
         <select
           value={selectedLocation}

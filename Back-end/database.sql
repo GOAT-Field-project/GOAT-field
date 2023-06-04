@@ -4,7 +4,9 @@ CREATE TABLE users (
   user_name VARCHAR(255) NOT NULL, 
   user_email VARCHAR(255) NOT NULL,
   user_password VARCHAR(255) NOT NULL,
-  role VARCHAR(255) 
+  role VARCHAR(255),
+  deleted boolean DEFAULT false
+
 );
 
 CREATE TABLE pitch (
@@ -16,7 +18,9 @@ CREATE TABLE pitch (
   images BYTEA[],
   description TEXT,
   location TEXT,
-  provider_id VARCHAR(255)
+  provider_id VARCHAR(255),
+  deleted boolean DEFAULT false
+
 
 );
 
@@ -26,7 +30,8 @@ CREATE TABLE bookings (
   time VARCHAR,
   name VARCHAR,
   phone VARCHAR,
-  user_id UUID REFERENCES users(user_id)
+  user_id UUID REFERENCES users(user_id),
+  deleted boolean DEFAULT false
 );
 
 -- ! This is from Mais, for payment info
@@ -39,12 +44,4 @@ CREATE TABLE payment (
     name_on_card VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE payment (
-    user_id UUID REFERENCES users(user_id),
-    email VARCHAR(255) NOT NULL,
-    card_number VARCHAR(255) NOT NULL,
-    expiration_date VARCHAR(7) NOT NULL,
-    security_code VARCHAR(255) NOT NULL,
-    name_on_card VARCHAR(255) NOT NULL
-);
 

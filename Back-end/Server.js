@@ -146,6 +146,9 @@ app.get("/getdata", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
+
+
+
 app.get("/getdatas", (req, res) => {
   const query = "SELECT * FROM pitch;";
 
@@ -166,6 +169,11 @@ app.get("/getdatas", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
+
+
+
+
+
 
 app.delete("/deletepitch/:id", (req, res) => {
   const pitchId = req.params.id;

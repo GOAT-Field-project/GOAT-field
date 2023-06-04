@@ -299,7 +299,7 @@ const SearchedHotelsList = () => {
 
   useEffect(() => {
     // Fetch the data from the server
-    fetch("http://localhost:5151/getdata")
+    fetch("http://localhost:5151/getdatas")
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -333,7 +333,6 @@ const SearchedHotelsList = () => {
   //    setFilteredPitches(sortedPitches);
   //  };
 
-
   useEffect(() => {
     filterPitches();
   }, [searchName, priceRange, selectedLocation]);
@@ -355,7 +354,9 @@ const SearchedHotelsList = () => {
     }
 
     if (selectedLocation) {
-      filtered = filtered.filter((pitch) => pitch.location === selectedLocation);
+      filtered = filtered.filter(
+        (pitch) => pitch.location === selectedLocation
+      );
     }
 
     setFilteredPitches(filtered);
@@ -364,7 +365,6 @@ const SearchedHotelsList = () => {
   // const handleSearch = () => {
   //   filterPitches();
   // };
-
 
   return (
     <Container>
@@ -387,7 +387,6 @@ const SearchedHotelsList = () => {
           <option value="50-100">$50 - $100</option>
           <option value="100-200">$100 - $200</option>
           <option value="200-300">$200 - $300</option>
-
         </select>
         <select
           value={selectedLocation}

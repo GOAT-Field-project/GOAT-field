@@ -26,8 +26,6 @@ import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-
-
 const Container = styled.div`
   /* border: 3px solid green; */
   margin-bottom: 80px;
@@ -130,7 +128,6 @@ const BtnContainer = styled.div`
     margin-right: 20px;
     cursor: pointer;
   }
-
 `;
 
 const Button = styled.button`
@@ -666,7 +663,6 @@ const Quantity = styled.span`
   }
 `;
 
-
 const SearchBtnContainer = styled(LocationContainer)`
   border-left: none;
   display: flex;
@@ -728,7 +724,6 @@ const HomeNavbar = () => {
     console.log("Stadium Name:", storedStadiumName);
     console.log("City:", storedCity);
   };
-
 
   return (
     <Container>

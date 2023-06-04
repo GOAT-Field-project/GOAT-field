@@ -15,7 +15,9 @@ CREATE TABLE pitch (
   details TEXT,
   images BYTEA[],
   description TEXT,
-  location TEXT
+  location TEXT,
+  provider_id VARCHAR(255)
+
 );
 
 CREATE TABLE bookings (
@@ -36,3 +38,13 @@ CREATE TABLE payment (
     security_code VARCHAR(255) NOT NULL,
     name_on_card VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE payment (
+    user_id UUID REFERENCES users(user_id),
+    email VARCHAR(255) NOT NULL,
+    card_number VARCHAR(255) NOT NULL,
+    expiration_date VARCHAR(7) NOT NULL,
+    security_code VARCHAR(255) NOT NULL,
+    name_on_card VARCHAR(255) NOT NULL
+);
+

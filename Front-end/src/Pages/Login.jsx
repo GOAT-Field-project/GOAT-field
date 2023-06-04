@@ -25,6 +25,7 @@ export default function Login() {
       const { token } = response.data;
 
       // Save the token to local storage
+
       localStorage.setItem("token", token);
 
       // Save the token to local storage

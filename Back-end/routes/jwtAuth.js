@@ -1,14 +1,16 @@
 const router = require("express").Router();
 const pool = require("../db");
 const bcrypt = require("bcrypt");
-const jwtGenerator = require("../utils/jwtGenerator");
+const {jwtGenerator} = require("../utils/jwtGenerator");
 const validInfo = require("../middleware/UservalidInfo");
 const authorization = require("../middleware/authorization");
-
 // Register route
+
+
+
 router.post("/register", validInfo, async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const  { name, email, password, role } = req.body;
 
     const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
@@ -25,7 +27,9 @@ router.post("/register", validInfo, async (req, res) => {
       [name, email, hashedPassword, role]
     );
 
-    const token = jwtGenerator(newUser.rows[0].user_id);
+   
+
+    const token = jwtGenerator(newUser.rows[0]);
 
     res.json({ token });
   } catch (err) {
@@ -55,9 +59,12 @@ router.post("/login", validInfo, async (req, res) => {
 
     if (!validPassword) {
       return res.status(401).json("Email or password is incorrect");
-    }
+    } 
 
-    const token = jwtGenerator(user.rows[0].user_id);
+   const user_info = user.rows[0];
+  
+
+    const token = jwtGenerator(user_info);
     return res.json({ token }); // Use "return" to terminate the function after sending the response
   } catch (err) {
     console.error(err.message);
@@ -76,6 +83,25 @@ router.get("/is-verify", authorization, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     return res.status(500).send("Server Error");
+  }
+});
+
+
+router.put("/profile", authorization, async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const userId = req.user.id; // Access the user ID from the authorization middleware
+
+    // Update the user profile in the database
+    const updatedUser = await pool.query(
+      "UPDATE users SET user_name = $1, user_email = $2 WHERE user_id = $3 RETURNING *",
+      [username, email, userId]
+    );
+
+    res.json(updatedUser.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
 

@@ -17,6 +17,7 @@ app.use(cors());
 
 const port = 5151;
 const pool = require("./db");
+const  {getItem}  = require("./utils/jwtGenerator");
 
 pool.connect().then(() => {
   app.listen(port, () => {
@@ -81,8 +82,14 @@ app.get("/getbookings/:selectedDate", (req, res) => {
   );
 });
 
+
+
 app.post("/senddata", upload.array("images", 3), (req, res) => {
   const files = req.files;
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+const userId = getItem(token).user_id;
+
   const { name, price, size, details, description, location } = req.body;
 
   if (!files || files.length === 0) {
@@ -92,8 +99,8 @@ app.post("/senddata", upload.array("images", 3), (req, res) => {
   const imageDatas = files.map((file) => file.buffer);
 
   // Insert data into the database
-  const query = 'INSERT INTO pitch (name, price, size, details, images, description, location) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;';
-  const values = [name, price, size, details, imageDatas, description, location];
+  const query = 'INSERT INTO pitch (name, price, size, details, images, description, location,provider_id) VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING *;';
+  const values = [name, price, size, details, imageDatas, description, location,userId];
 
 
   pool
@@ -109,13 +116,14 @@ app.post("/senddata", upload.array("images", 3), (req, res) => {
     });
 });
 
-app.get("/getdata", (req, res) => {
-  const query = "SELECT * FROM pitch;";
 
 app.get('/getdata', (req, res) => {
-  const query = 'SELECT * FROM pitch;';
+  const user_id = req['query'].user_id;
+ 
 
-  pool.query(query)
+  const query = 'SELECT * FROM pitch where provider_id = $1 ' ;
+  const value =[user_id]
+  pool.query(query,value)
 
     .then((result) => {
       const pitches = result.rows.map((pitch) => {
@@ -205,3 +213,12 @@ app.post("/bookings", (req, res) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 });
+
+
+
+
+
+
+
+
+

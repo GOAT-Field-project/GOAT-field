@@ -1,5 +1,12 @@
+import jwtDecode from 'jwt-decode';
 
 export default function Profilesettings() {
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const { username, email} = decodedToken; // Extract the relevant data from the decoded token
+
+  console.log(decodedToken);
+
   return (
 <>
 <>
@@ -15,6 +22,7 @@ export default function Profilesettings() {
         </label>
         <input
           id="username"
+          defaultValue={username}
           type="text"
           className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
         />
@@ -25,6 +33,7 @@ export default function Profilesettings() {
         </label>
         <input
           id="emailAddress"
+          defaultValue={email}
           type="email"
           className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
         />
@@ -35,28 +44,20 @@ export default function Profilesettings() {
         </label>
         <input
           id="password"
+          defaultValue="********"
           type="password"
           className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
         />
       </div>
-      <div>
-        <label className="text-black dark:text-gray-200" htmlFor="passwordConfirmation">
-          Password Confirmation :
-        </label>
-        <input
-          id="passwordConfirmation"
-          type="password"
-          className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-        />
-      </div>
+
 
       <div>
         <label className="text-black dark:text-gray-200" htmlFor="passwordConfirmation">
           City :
         </label>
         <select className="block w-full px-4 py-2 mt-2 text-black bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-          <option>Amman</option>
           <option>Zarqa</option>
+          <option>Amman</option>
           <option>Irbid</option>
           <option>Aqaba</option>
         </select>

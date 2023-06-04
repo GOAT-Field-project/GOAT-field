@@ -14,6 +14,7 @@ import ContactUs from "./Pages/ContactUs";
 import Footer from "./Layout/Footer";
 import Checkout from "./Pages/Checkout";
 import Providerprofile from "./Pages/Providerprofile";
+import Userprofile from "./Pages/Userprofile";
 import Navbar from "./Layout/Navbar";
 function App() {
   const ScrollToTop = () => {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/Checkout/:formData" element={<Checkout />} />
             <Route element={<RequiredAuth />}>
               <Route path="/providerprofile" element={<Providerprofile />} />
+              <Route path="/userprofile" element={<Userprofile />} />
             </Route>
           </Routes>
         </Layout>

@@ -1,21 +1,17 @@
-
 import Navbar from "../Layout/Navbar";
 import ReservationDialog from "../Components/Rservation/ReservationDialog";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-
 const Hotel = () => {
-  
   const [pitches, setPitches] = useState([]);
 
   useEffect(() => {
     // Fetch the data from the server
-    fetch("http://localhost:5151/getdata")
+    fetch("http://localhost:5151/getdatas")
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          
           setPitches(data);
         } else {
           console.error("Invalid data format:", data);
@@ -24,11 +20,11 @@ const Hotel = () => {
       .catch((error) => {
         console.error("Error retrieving data:", error);
       });
-  }, [pitches]);  
-      // fix later
-      const url = window.location.href;
-      const id = parseInt(url.split("/").pop(), 10);
-      const pitch = pitches.find((pitch) => pitch.id === id);
+  }, [pitches]);
+  // fix later
+  const url = window.location.href;
+  const id = parseInt(url.split("/").pop(), 10);
+  const pitch = pitches.find((pitch) => pitch.id === id);
 
   return (
     <>
@@ -120,9 +116,8 @@ const Hotel = () => {
                     <h1 className="text-xl font-bold text-black sm:text-2xl">
                       {pitch.name}
                     </h1>
-
+                    ax
                     <p className="text-sm">{pitch.details}</p>
-
                     <div className="-ms-0.5 flex">
                       <svg
                         className="h-5 w-5 text-yellow-400"

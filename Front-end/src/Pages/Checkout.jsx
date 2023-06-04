@@ -1,6 +1,4 @@
-
-
-import Navbar from '../Layout/Navbar';
+import Navbar from "../Layout/Navbar";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -92,9 +90,12 @@ const Checkout = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      console.log("Config:", config);
 
-      await axios.post("http://localhost:5151/bookings", formData, config);
+      await axios.post(
+        "http://localhost:5151/bookings",
+        parsedFormData,
+        config
+      );
       console.log("Form data submitted successfully!");
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -108,7 +109,7 @@ const Checkout = () => {
 
   return (
     <div className="relative mx-auto w-full bg-white">
-      <Navbar/>
+      <Navbar />
       <div className="grid min-h-screen grid-cols-10">
         <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">

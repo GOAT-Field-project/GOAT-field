@@ -17,15 +17,24 @@ export default function Login() {
     };
 
     try {
-      await axios.post('http://localhost:5151/authentication/login', formData);
+      const response = await axios.post(
+        "http://localhost:5151/authentication/login",
+        formData
+      );
+      const { token } = response.data;
+
       // Save the token to local storage
-      console.log('Data sent successfully');
+
+      localStorage.setItem("token", token);
+
+      // Save the token to local storage
+      console.log("Data sent successfully");
     } catch (error) {
-      console.log('Error:', error.message);
+      console.log("Error:", error.message);
     }
 
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   };
 
   const validateForm = (values) => {

@@ -1,5 +1,7 @@
 
 import  { useState , useEffect } from 'react';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 export default function Profileadd() {
 
@@ -44,22 +46,23 @@ const hideModal = () => {
     formData.append('details', details);
     formData.append('description', description);
     formData.append('location', location);
-
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
     // Send the form data to the server
-    fetch('http://localhost:5151/senddata', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Data sent:', data);
+    axios.post('http://localhost:5151/senddata', formData, config)
+      .then((response) => {
+        console.log('Data sent:', response.data);
         // Do something with the response data
       })
       .catch((error) => {
         console.error('Error sending data:', error);
       });
   };
-
 
   const handleDeletePitch = (pitchId) => {
     fetch(`http://localhost:5151/deletepitch/${pitchId}`, {
@@ -79,21 +82,32 @@ const hideModal = () => {
       });
   };
 
-useEffect(() => {
-  // Fetch the data from the server
-  fetch('http://localhost:5151/getdata')
-    .then((response) => response.json())
-    .then((data) => {
-      if (Array.isArray(data)) {
-        setPitches(data);
-      } else {
-        console.error('Invalid data format:', data);
+
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+
+  useEffect(() => {
+    // Fetch the data from the server
+    axios.get('http://localhost:5151/getdata', {
+      params: {
+        user_id: decodedToken.user_id
       }
     })
-    .catch((error) => {
-      console.error('Error retrieving data:', error);
-    });
-}, [pitches]);
+      .then((response) => response.data)
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setPitches(data);
+        } else {
+          console.error('Invalid data format:', data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error retrieving data:', error);
+      });
+  }, []);
+
+
+
 
   return (
     <>

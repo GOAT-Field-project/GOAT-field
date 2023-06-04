@@ -1,284 +1,8 @@
-import {
-  ExpandLessOutlined,
-  ExpandMoreOutlined,
-  NavigateNextOutlined,
-  Star,
-} from "@mui/icons-material";
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { hotelListData } from "../../dummyData";
-// import Fuse from "fuse.js";
-const Container = styled.div`
-  /* border: 1px solid red; */
-  margin: 10px;
 
-  @media screen and (max-width: 925px) {
-    margin: 0px;
-  }
-`;
 
-const FilterContainer = styled.div`
-  /* border: 1px solid red; */
-  position: relative;
-`;
-
-const FilterButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: 1px solid #0083cc;
-  color: #0083cc;
-  border-radius: 20px;
-  padding: 5px 15px;
-  font-size: 15px;
-  font-weight: 500;
-  margin-top: 10px;
-  cursor: pointer;
-
-  &:active {
-    box-shadow: 0 2px #666;
-    transform: translateY(1px);
-  }
-`;
-
-const IconContainer = styled.div`
-  /* border: 1px solid black; */
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0px 0px 4px;
-
-  .expand-icon {
-    /* border: 1px solid black; */
-    font-size: 16px;
-    margin-top: -10px;
-  }
-`;
-
-const OptionsListContainer = styled.div`
-  box-shadow: 0px 0px 3px -2px black;
-  border: 1px solid #cbcbcb;
-  border-radius: 3px;
-  background-color: white;
-  padding: 10px 0px;
-  position: absolute;
-  top: 43px;
-  left: 0px;
-  z-index: 1;
-
-  ul {
-    /* border: 1px solid black; */
-    list-style-type: none;
-
-    li {
-      /* border: 1px solid black; */
-
-      option {
-        /* border: 1px solid black; */
-        font-size: 15px;
-        color: #4c4747;
-        padding: 10px 25px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #efefef;
-        }
-      }
-    }
-  }
-`;
-
-const HotelList = styled.div`
-  border: 1px solid #c3e5fd;
-  background-color: #ebf3ff;
-  display: flex;
-  justify-content: space-between;
-  padding: 13px;
-  margin: 15px 0px;
-  border-radius: 3px;
-
-  @media screen and (max-width: 925px) {
-    margin: 15px 0px 0px;
-  }
-
-  @media screen and (max-width: 675px) {
-    flex-direction: column;
-    position: relative;
-  }
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-
-  @media screen and (max-width: 675px) {
-    flex-direction: column;
-  }
-`;
-
-const ImgContainer = styled.div`
-  /* border: 3px solid red; */
-  width: 250px;
-  height: 250px;
-  border-radius: 3px;
-  overflow: hidden;
-
-  @media screen and (max-width: 675px) {
-    width: 100%;
-  }
-
-  @media screen and (max-width: 426px) {
-    height: 200px;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const InfoContainer = styled.div`
-  /* border: 1px solid black; */
-  padding: 0px 13px;
-
-  @media screen and (max-width: 675px) {
-    padding: 5px 0px;
-    text-align: center;
-  }
-`;
-
-const Details = styled.div`
-  h2 {
-    font-size: 20px;
-    color: #0e71c2;
-  }
-  span {
-    font-size: 13px;
-    color: #262626;
-  }
-`;
-
-const OfferInfo = styled.div`
-  border-radius: 10px 0px 10px 0px;
-  background-color: #008009;
-  color: white;
-  font-size: 12.5px;
-  padding: 6px;
-  width: 125px;
-  text-align: center;
-  margin: 20px 0px;
-
-  @media screen and (max-width: 675px) {
-    margin: 5px auto;
-  }
-`;
-
-const Facilities = styled.div`
-  border-left: 1px solid #a19bae;
-  padding-left: 7px;
-
-  @media screen and (max-width: 675px) {
-    border: none;
-    padding: 0px;
-  }
-
-  h5 {
-    font-size: 13px;
-    margin: 7px 0px;
-
-    @media screen and (max-width: 675px) {
-      margin: 3px 0px;
-    }
-
-    &.green {
-      color: green;
-    }
-
-    &.red {
-      color: #d33b1f;
-    }
-  }
-
-  span {
-    font-size: 13px;
-  }
-`;
-
-const RightContainer = styled.div`
-  /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  @media screen and (max-width: 675px) {
-    flex-direction: row;
-    margin-bottom: 42px;
-  }
-`;
-
-const PriceContainer = styled.div`
-  /* border: 1px solid black; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Price = styled.div`
-  /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  h2 {
-    @media screen and (max-width: 675px) {
-      order: -1;
-    }
-
-    @media screen and (max-width: 346px) {
-      font-size: 20px;
-    }
-  }
-
-  span {
-    font-size: 13px;
-    text-align: center;
-    margin: 3px 0px;
-  }
-`;
-
-const Button = styled.button`
-  margin-top: 8px;
-  width: 130px;
-  border: none;
-  border-radius: 3px;
-  background-color: #0071c2;
-
-  @media screen and (max-width: 675px) {
-    position: absolute;
-    bottom: 13px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &:hover {
-    background-color: #055f9f;
-  }
-
-  .link {
-    /* border: 1px solid red; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    padding: 5px 0px 5px 8px;
-  }
-`;
 
 const SearchedHotelsList = () => {
   const [openList, setOpenList] = useState(false);
@@ -367,8 +91,8 @@ const SearchedHotelsList = () => {
   // };
 
   return (
-    <Container>
-      <div className="flex items-center justify-center mt-8">
+    <>
+      <div className="flex items-center flex-wrap justify-center mt-8">
         <input
           type="text"
           name="place"
@@ -408,7 +132,9 @@ const SearchedHotelsList = () => {
           Search
         </button> */}
       </div>
-      <h2>{filteredPitches.length} Properties Found</h2>
+      <div className="ms-[16vw]">
+        <h2>{filteredPitches.length} Properties Found</h2>
+      </div>
       {/* <FilterContainer>
         <FilterButton onClick={() => setOpenList(!openList)}>
           Sort by: {sortBy}
@@ -435,53 +161,59 @@ const SearchedHotelsList = () => {
           </OptionsListContainer>
         )} 
       </FilterContainer> */}
-      {filteredPitches.map((index) => (
-        <HotelList key={index.id}>
-          <LeftContainer>
-            <ImgContainer>
-              <Link to={`/rservationdetails/${index.id}`}>
-                <img
-                  className="w-full rounded-xl"
-                  src={`data:image/jpeg;base64,${index.images[0]}`}
-                  alt={`Field`}
-                />
-              </Link>
-            </ImgContainer>
-            <InfoContainer>
-              <Details>
-                <h2>{index.name}</h2>
-                <span>{index.location} city </span>
-              </Details>
-              <OfferInfo>ADD ANYTIHNG</OfferInfo>
-              <Facilities>
-                <h5>{index.details}</h5>
 
-                <h5 className="green">FREE cancellation | No prepayment</h5>
-                <span>
-                  You can cancel later, so lock in this great price today.
-                </span>
-              </Facilities>
-            </InfoContainer>
-          </LeftContainer>
-          <RightContainer>
-            <PriceContainer>
-              <Price>
-                <span>
-                  <span>{index.size}</span>
-                </span>
-                <h2> {index.price} JD</h2>
-              </Price>
-              <Button>
-                <Link to={"/rservationdetails/" + index.id} className="link">
-                  See More
-                  <NavigateNextOutlined />
+
+      {filteredPitches.map((data) => (
+        <section className="w-full" key={data.id}>
+          <div className="m-4 mx-auto max-w-screen-lg rounded-md border border-gray-100 text-gray-600 shadow-md">
+            <div className="relative flex h-full flex-col text-gray-600 md:flex-row">
+              <div className=" flex flex-col justify-center ms-10 relative p-8 md:w-4/6">
+                <div className="flex flex-col md:flex-row">
+                  <h2 className="mb-2 text-2xl font-black">{data.name}</h2>
+                </div>
+                <h3>City: {data.location}</h3>
+                <h3>Pitch Size: {data.size}</h3>
+                <p className="mt-3 font-bold">Description:</p>
+                <p className=" font-sans text-base tracking-normal">
+                  {data.description}
+                </p>
+                <div className="flex flex-col md:flex-row md:items-end">
+                  <p className="mt-6 text-4xl font-black">
+                    {data.price} JD
+                  </p>
+                  {/* <span className="ml-2 text-xs uppercase">258 Sales</span> */}
+                </div>
+
+                <div className="mt-8 flex flex-col sm:flex-row">
+                  <button className="mr-2 mb-4 flex cursor-pointer items-center justify-center rounded-md bg-emerald-400 py-2 px-8 text-center text-white transition duration-150 ease-in-out hover:translate-y-1 hover:bg-emerald-500">
+
+                    <Link to={"/rservationdetails/" + data.id}>
+                      See More
+                    </Link>
+                  </button>
+
+                </div>
+              </div>
+              <div className="mx-auto  md:w-2/3  w-full flex items-center px-2 pt-1 md:p-6">
+                <Link to={`/rservationdetails/${data.id}`}>
+
+                  <img
+                    className="block h-auto max-w-1/2 rounded-md shadow-lg"
+                    src={`data:image/jpeg;base64,${data.images[0]}`}
+                    alt="Shop image"
+                  />
                 </Link>
-              </Button>
-            </PriceContainer>
-          </RightContainer>
-        </HotelList>
-      ))}
-    </Container>
+              </div>
+            </div>
+          </div>
+        </section>
+      ))
+
+      }
+
+
+
+    </>
   );
 };
 

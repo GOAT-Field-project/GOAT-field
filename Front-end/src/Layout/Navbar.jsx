@@ -58,7 +58,7 @@ const LogoContainer = styled.div`
     font-weight: 600;
 
     @media screen and (max-width: 950px) {
-      width: 145px;
+      width: 200px;
       font-size: 25px;
     }
   }

@@ -59,7 +59,7 @@ const LogoContainer = styled.div`
     font-weight: 600;
 
     @media screen and (max-width: 950px) {
-      width: 200px;
+      width: 145px;
       font-size: 25px;
     }
   }
@@ -206,7 +206,8 @@ const SecondNavContainer = styled.nav`
 
   /* For Mobile Phone etc */
   @media screen and (max-width: 675px) {
-    background-color: #00224f;
+    background-color: #186f67;
+    z-index: 100000;
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
@@ -334,7 +335,6 @@ const Navbar = () => {
   const token = localStorage.getItem("token");
   let username = "";
   let role = "";
-
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
@@ -353,6 +353,7 @@ const Navbar = () => {
   // Use the username and role variables outside the if statement
   console.log("Username:", username);
   console.log("Role:", role);
+  // Use the extracted username and role variables as needed
 
   const [openMenu, setOpenMenu] = useState(false);
   const [options, setOptions] = useState({
@@ -369,19 +370,14 @@ const Navbar = () => {
         </LogoContainer>
 
         <BtnContainer>
-          {/* <Link to="/register">
-                                <Button className="bigBtn">List Your Property</Button>
-                            </Link> */}
           {token && role == "serviceProvider" ? (
             <Link to="/providerprofile">
               <p className="mr-8">{username}</p>
             </Link>
           ) : (
-            token && (
-              <Link to="/userprofile" className=" m-8 ">
-                {username}
-              </Link>
-            )
+            <Link to="/userprofile" className=" m-8 ">
+              {username}
+            </Link>
           )}
 
           {token == null ? (
@@ -419,96 +415,87 @@ const Navbar = () => {
 
       <SecondNavContainer openMenu={openMenu}>
         <ul>
-          <Link to="/" className="link">
+          <Link to="/" className="link flex items-center">
             <li className="active">Home</li>
           </Link>
-          {/* <Link to="/hotels" className="link">
-                                <li>
-                                    <ConnectingAirportsOutlined className="li-icon" />
-                                    Flights
-                                </li>
-                            </Link> */}
-          {/* <Link to="/hotels" className="link">
+          <Link to="/reservationlist" className="link flex items-center ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#fff"
+              className="bi bi-plus-circle-fill w-5 h-5"
+              viewBox="0 0 16 16"
+            >
+              {" "}
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />{" "}
+            </svg>
+
+            <li>Reservation</li>
+          </Link>
+          <Link to="/aboutus" className="link flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#fff"
+              className="bi bi-people-fill w-5 h-5"
+              viewBox="0 0 16 16"
+            >
+              {" "}
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />{" "}
+              <path d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />{" "}
+              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />{" "}
+            </svg>
+            <li>About us</li>
+          </Link>
+          <Link to="/contactus" className="link flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="#fff"
+              className="w-5 h-5"
+            >
+              {" "}
+              <g>
+                {" "}
+                <path fill="none" d="M0 0h24v24H0z  w-5 h-5" />{" "}
+                <path d="M22 20.007a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V19h18V7.3l-8 7.2-10-9V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v16.007zM4.434 5L12 11.81 19.566 5H4.434zM0 15h8v2H0v-2zm0-5h5v2H0v-2z" />{" "}
+              </g>{" "}
+            </svg>
+
+            <li className="ml-2">Contact us</li>
+          </Link>
+          {/* <Link to="/hotel/5" className="link flex items-center">
                 <li>
-                  <HotelOutlined className="li-icon" />
-                  Hotels
+                  <HelpOutlineOutlined className="li-icon" />
+                  Help
                 </li>
               </Link> */}
-          <Link to="/reservationlist" className="link">
-            <li>
-              <DirectionsCarOutlined className="li-icon" />
-              Reservation
-            </li>
-          </Link>
-          <Link to="/AboutUs" className="link">
-            <li>
-              <AttractionsOutlined className="li-icon" />
-              About us
-            </li>
-          </Link>
-          <Link to="/contactus" className="link">
-            <li>
-              <AirportShuttleOutlined className="li-icon" />
-              Contact us
-            </li>
-          </Link>
         </ul>
-
-        {/* For Mobile Start */}
-
-        <h3>Hello, {(token && username) || ""}</h3>
-
         <ul className="hidden-ul">
-          <Link to="/hotels" className="link">
-            <li>
-              <SearchOutlined className="li-icon" />
-              Search Hotels
-            </li>
-          </Link>
-          <Link to="/register" className="link">
-            <li className="active">
-              <NightShelterOutlined className="li-icon" />
-              List Your Property
-            </li>
-          </Link>
-          <Link to="/hotel/3" className="link">
-            <li>
-              <CurrencyExchangeOutlined className="li-icon" />
-              Currency Exchange
-            </li>
-          </Link>
-          <Link to="/hotels" className="link">
-            <li>
-              <TranslateOutlined className="li-icon" />
-              Language
-            </li>
-          </Link>
-          <Link to="/hotel/5" className="link">
-            <li>
-              <HelpOutlineOutlined className="li-icon" />
-              Help
-            </li>
-          </Link>
-        </ul>
-
-        <ul className="hidden-ul">
-          <Link to="/register" className="link">
-            <li>
-              <HowToRegOutlined className="li-icon" />
-              Regi1ter
-            </li>
-          </Link>
-          <Link to="/login" className="link">
-            <li>
-              <LoginOutlined className="li-icon" />
-              Login
-            </li>
-          </Link>
-          <Link to="/hotel/4" className="link">
-            <li>
+          <Link to="/register" className="link flex items-center  ">
+            <li className="mr-5">
               <LogoutOutlined className="li-icon" />
-              Logout
+              Register
             </li>
+          </Link>
+          <Link to="/hotel/4" className="link flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#fff"
+              className="bi bi-box-arrow-left w-5 h-5"
+              viewBox="0 0 16 16"
+            >
+              {" "}
+              <path d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />{" "}
+              <path d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />{" "}
+            </svg>
+            <li>Logout</li>
           </Link>
         </ul>
 

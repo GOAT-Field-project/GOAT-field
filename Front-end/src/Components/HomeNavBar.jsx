@@ -25,7 +25,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import jwtDecode from "jwt-decode";
 const Container = styled.div`
   /* border: 3px solid green; */
   margin-bottom: 80px;
@@ -87,7 +87,7 @@ const LogoContainer = styled.div`
 
   span {
     /* border: 1px solid black; */
-    width: 175px;
+    width: 250px;
     font-size: 30px;
     font-weight: 600;
 
@@ -239,7 +239,7 @@ const SecondNavContainer = styled.nav`
 
   /* For Mobile Phone etc */
   @media screen and (max-width: 675px) {
-    background-color: #00224f;
+    background-color: #186f67;
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
@@ -484,6 +484,41 @@ const LocationContainer = styled.div`
   background-color: white;
   border: 2px solid #000000;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 0px 0px 0px 0px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  padding: 0px 5px;
+  color: #424d5f;
+
+  @media screen and (max-width: 950px) {
+    border: 2px solid #000000;
+    height: 60px;
+    padding: 0px 2px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    width: 85%;
+    padding: 5px 4px;
+    font-size: 15px;
+    cursor: pointer;
+
+    @media screen and (max-width: 950px) {
+      font-size: 13px;
+      padding: 0px;
+    }
+  }
+`;
+const LocationContainer2 = styled.div`
+  background-color: white;
+  border-left: 2px black solid;
+  border-top: 2px black solid;
+  border-bottom: 2px black solid;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 10px 0px 0px 10px;
   display: flex;
   flex: 1;
@@ -697,6 +732,30 @@ const SearchBtnContainer = styled(LocationContainer)`
 `;
 
 const HomeNavbar = () => {
+  const token = localStorage.getItem("token");
+  let username = "";
+  let role = "";
+
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      username = decodedToken.username;
+      role = decodedToken.role;
+      // Use the extracted username and role variables as needed
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      // Handle the error (e.g., show an error message, redirect the user, etc.)
+    }
+  } else {
+    console.error("No token found in localStorage");
+    // Handle the case where there is no token (e.g., show an error message, redirect the user, etc.)
+  }
+
+  // Use the username and role variables outside the if statement
+  console.log("Username:", username);
+  console.log("Role:", role);
+  // Use the extracted username and role variables as needed
+
   const [openMenu, setOpenMenu] = useState(false);
 
   const [stadiumName, setStadiumName] = useState(
@@ -709,8 +768,6 @@ const HomeNavbar = () => {
     sessionStorage.setItem("stadiumName", value);
     setStadiumName(value);
   };
-  const token = localStorage.getItem("token");
-  console.log(token);
 
   const handleCityChange = (event) => {
     const value = event.target.value;
@@ -740,16 +797,18 @@ const HomeNavbar = () => {
         <Wrapper>
           <NavContainer>
             <LogoContainer>
-              <span>GOAT FIELD</span>
+              <span>🐐GOAT FIELD</span>
             </LogoContainer>
 
             <BtnContainer>
-              {!token ? (
-                <Link to="/signup">
-                  <Button>Register</Button>
+              {token && role == "serviceProvider" ? (
+                <Link to="/providerprofile">
+                  <p className="mr-8">{username}</p>
                 </Link>
               ) : (
-                <div className=" m-8">Hello</div>
+                <Link to="/userprofile" className=" m-8 ">
+                  {username}
+                </Link>
               )}
 
               {token == null ? (
@@ -785,91 +844,87 @@ const HomeNavbar = () => {
 
           <SecondNavContainer openMenu={openMenu}>
             <ul>
-              <Link to="/" className="link">
+              <Link to="/" className="link flex items-center">
                 <li className="active">Home</li>
               </Link>
-              {/* <Link to="/hotels" className="link">
-                                <li>
-                                    <ConnectingAirportsOutlined className="li-icon" />
-                                    Flights
-                                </li>
-                            </Link> */}
+              <Link to="/reservationlist" className="link flex items-center ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#fff"
+                  className="bi bi-plus-circle-fill w-5 h-5"
+                  viewBox="0 0 16 16"
+                >
+                  {" "}
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />{" "}
+                </svg>
 
-              <Link to="/reservationlist" className="link">
-                <li>
-                  <DirectionsCarOutlined className="li-icon" />
-                  Reservation
-                </li>
+                <li>Reservation</li>
               </Link>
-              <Link to="/contactus" className="link">
-                <li>
-                  <AttractionsOutlined className="li-icon" />
-                  About us
-                </li>
+              <Link to="/aboutus" className="link flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#fff"
+                  className="bi bi-people-fill w-5 h-5"
+                  viewBox="0 0 16 16"
+                >
+                  {" "}
+                  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />{" "}
+                  <path d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />{" "}
+                  <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />{" "}
+                </svg>
+                <li>About us</li>
               </Link>
-              <Link to="/aboutus" className="link">
-                <li>
-                  <AirportShuttleOutlined className="li-icon" />
-                  Contact us
-                </li>
-              </Link>
-            </ul>
+              <Link to="/contactus" className="link flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="#fff"
+                  className="w-5 h-5"
+                >
+                  {" "}
+                  <g>
+                    {" "}
+                    <path fill="none" d="M0 0h24v24H0z  w-5 h-5" />{" "}
+                    <path d="M22 20.007a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V19h18V7.3l-8 7.2-10-9V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v16.007zM4.434 5L12 11.81 19.566 5H4.434zM0 15h8v2H0v-2zm0-5h5v2H0v-2z" />{" "}
+                  </g>{" "}
+                </svg>
 
-            {/* For Mobile Start */}
-
-            <h3>Hello, Satya Thakur</h3>
-
-            <ul className="hidden-ul">
-              <Link to="/hotels" className="link">
-                <li>
-                  <SearchOutlined className="li-icon" />
-                  Search Hotels
-                </li>
+                <li className="ml-2">Contact us</li>
               </Link>
-              <Link to="/register" className="link">
-                <li className="active">
-                  <NightShelterOutlined className="li-icon" />
-                  List Your Property
-                </li>
-              </Link>
-              <Link to="/hotel/3" className="link">
-                <li>
-                  <CurrencyExchangeOutlined className="li-icon" />
-                  Currency Exchange
-                </li>
-              </Link>
-              <Link to="/hotels" className="link">
-                <li>
-                  <TranslateOutlined className="li-icon" />
-                  Language
-                </li>
-              </Link>
-              <Link to="/hotel/5" className="link">
+              {/* <Link to="/hotel/5" className="link flex items-center">
                 <li>
                   <HelpOutlineOutlined className="li-icon" />
                   Help
                 </li>
-              </Link>
+              </Link> */}
             </ul>
-
             <ul className="hidden-ul">
-              <Link to="/register" className="link">
-                <li>
-                  <HowToRegOutlined className="li-icon" />
+              <Link to="/register" className="link flex items-center  ">
+                <li className="mr-5">
+                  <LogoutOutlined className="li-icon" />
                   Register
                 </li>
               </Link>
-              <Link to="/login" className="link">
-                <li>
-                  <LoginOutlined className="li-icon" />
-                  Login
-                </li>
-              </Link>
-              <Link to="/hotel/4" className="link">
-                <li>
-                  <LogoutOutlined className="li-icon" />
-                  Logout
-                </li>
+              <Link to="/hotel/4" className="link flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#fff"
+                  className="bi bi-box-arrow-left w-5 h-5"
+                  viewBox="0 0 16 16"
+                >
+                  {" "}
+                  <path d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />{" "}
+                  <path d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />{" "}
+                </svg>
+                <li>Logout</li>
               </Link>
             </ul>
 
@@ -877,19 +932,18 @@ const HomeNavbar = () => {
           </SecondNavContainer>
 
           <OfferContainer>
-            <h2> Available until next month 2023</h2>
             <h1>
               Save your money <br /> WITH 🐐 FIELD
             </h1>
-            <Link to="/hotels">
+            <Link to="/reservationlist">
               <OfferButton>Explore Reservation</OfferButton>
             </Link>
           </OfferContainer>
         </Wrapper>
 
         <SearchContainer>
-          <LocationContainer>
-            <LocationOnOutlined className="search-icon" />
+          <LocationContainer2 >
+            <LocationOnOutlined className="search-icon " />
             <input
               type="text"
               name="place"
@@ -897,10 +951,10 @@ const HomeNavbar = () => {
               value={stadiumName}
               onChange={handleStadiumNameChange}
             />
-          </LocationContainer>
+          </LocationContainer2>
           <LocationContainer>
-            <LocationOnOutlined className="search-icon" />
-            <select name="place" value={city} onChange={handleCityChange}>
+            <LocationOnOutlined className="search-icon " />
+            <select className="rounded p-3 border-0 " name="place" value={city} onChange={handleCityChange}>
               <option value="">Select City</option>
               <option value="Amman">Amman</option>
               <option value="Zarqa">Zarqa</option>
@@ -909,6 +963,7 @@ const HomeNavbar = () => {
               <option value="Jerash">Jerash</option>
               <option value="Madaba">Madaba</option>
             </select>
+
           </LocationContainer>
           <SearchBtnContainer>
             <Link to="/reservationlist" className="search-btn-link">

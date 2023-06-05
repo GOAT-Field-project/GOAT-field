@@ -18,10 +18,10 @@ CREATE TABLE pitch (
   images BYTEA[],
   description TEXT,
   location TEXT,
-  provider_id VARCHAR(255),
-  deleted boolean DEFAULT false
-
-
+  provider_id UUID,
+  user_name VARCHAR(255),
+  deleted BOOLEAN DEFAULT false,
+  FOREIGN KEY (provider_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE bookings (
@@ -31,6 +31,7 @@ CREATE TABLE bookings (
   name VARCHAR,
   phone VARCHAR,
   user_id UUID REFERENCES users(user_id),
+  id REFERENCES pitch(id)
   deleted boolean DEFAULT false
 );
 

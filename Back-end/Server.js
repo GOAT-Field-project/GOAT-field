@@ -212,6 +212,9 @@ app.get("/getdata", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
+
+
+
 app.get("/getdatas", (req, res) => {
   const query = "SELECT * FROM pitch;";
 
@@ -232,6 +235,11 @@ app.get("/getdatas", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
+
+
+
+
+
 
 app.delete("/deletepitch/:id", (req, res) => {
   const pitchId = req.params.id;
@@ -270,8 +278,8 @@ app.get('/get-user-data', async (req, res) => {
 
 app.use(authorization);
 app.post("/bookings", (req, res) => {
-  const { date, time, name, phone } = req.body;
-console.log(userId);
+
+  const { date, time, name, phone, pitch_id } = req.body;
   try {
     const userId = req.user_id; // Access the userId from req.userId
  
@@ -294,10 +302,10 @@ console.log(userId);
           } else {
             // Insert the new booking into the table, associating it with the user ID
             const query =
-              "INSERT INTO bookings (date, time, name, phone, user_id) VALUES ($1, $2, $3, $4, $5)";
+              "INSERT INTO bookings (date, time, name, phone, pitch_id, user_id) VALUES ($1, $2, $3, $4, $5, $6)";
             pool.query(
               query,
-              [date, time, name, phone || null, userId],
+              [date, time, name, phone, pitch_id || null, userId],
               (error, result) => {
                 if (error) {
                   console.error(
@@ -321,4 +329,21 @@ console.log(userId);
     console.error("Error verifying token:", error); // Log the token verification error
     return res.status(401).json({ message: "Invalid token" });
   }
+});
+app.get("/history", (req, res) => {
+  const userId = req.user_id; // Access the userId from req.userId
+
+  const query =
+    "SELECT * FROM bookings b JOIN pitch p ON b.pitch_id = p.id WHERE b.user_id = $1";
+  pool
+    .query(query, [userId])
+    .then((result) => {
+      const bookings = result.rows;
+      res.json(bookings);
+    })
+    .catch((error) => {
+      console.error("Error retrieving data:", error);
+      const errorMessage = "Error retrieving data";
+      res.status(500).json({ error: errorMessage });
+    });
 });

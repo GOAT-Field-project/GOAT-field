@@ -13,8 +13,9 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
+
 export default function Profilehome() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const { username: initialUsername, email: initialEmail } = decodedToken;
 
@@ -53,6 +54,7 @@ export default function Profilehome() {
   };
   const [user, setUser] = useState(null);
 
+
   useEffect(() => {
     const config = {
       headers: {
@@ -75,11 +77,21 @@ export default function Profilehome() {
   }, []);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+  const { username, email, role } = decodedToken; // Extract the relevant data from the decoded token
 
   return (
     <>
       <div className="h-screen flex justify-center items-center">
-        <div className="custom-width" style={{ maxWidth: "700px", width: "100%", marginLeft: "auto", marginRight: "auto" }}>
+
+        <div
+          className="custom-width"
+          style={{
+            maxWidth: "700px",
+            width: "100%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
           <div className="bg-white shadow-xl rounded-lg p-6">
             <div className="photo-wrapper">
               <FaUser className="w-32 h-32 rounded-full mx-auto text-gray-500" />
@@ -97,12 +109,14 @@ export default function Profilehome() {
                     <tbody>
                       <tr>
                         <td className="px-2 py-2">Address: Zarqa/120</td>
+
                       </tr>
                       <tr>
                         <td className="px-2 py-2">Phone : +977 9955221114</td>
                       </tr>
                       <tr>
                         <td className="px-2 py-2">Email: {user?.user_email}</td>
+
                       </tr>
                     </tbody>
                   </table>
@@ -118,6 +132,7 @@ export default function Profilehome() {
                       </tr>
                       <tr>
                         <td className="px-2 py-2">City : Zarqa</td>
+
                       </tr>
                     </tbody>
                   </table>
@@ -233,6 +248,16 @@ export default function Profilehome() {
               </Dialog>
             </Fragment>
             
+
+                <a
+                  className="text-2xl text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium flex items-center justify-center"
+                  href="#asd"
+                  style={{ color: "#54B435" }}
+                >
+                  {decodedToken && decodedToken.role == "user"
+                    ? "Your Reservations 🡫"
+                    : ""}
+                </a>
               </div>
             </div>
           </div>
@@ -244,6 +269,8 @@ export default function Profilehome() {
   </svg>
 </button>
 
+
+      <br id="asd" />
     </>
   );
 }

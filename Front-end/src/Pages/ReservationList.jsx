@@ -51,22 +51,15 @@ const SideContainer = styled.aside`
   }
 `;
 
-const HotelListContainer = styled.main`
-  /* border: 1px solid black; */
-  flex: 3;
 
-  @media screen and (max-width: 925px) {
-    flex: 1;
-  }
-`;
 
 const HotelList = () => {
   return (
     <>
       <Navbar />
-      <Container>
-        <MainContainer>
-          <Wrapper>
+      <div>
+        <div>
+          <div>
             <SideContainer>
               <div id="sticky-container">
                 {/* <Sidebar /> */}
@@ -74,12 +67,12 @@ const HotelList = () => {
                 {/* <Map /> */}
               </div>
             </SideContainer>
-            <HotelListContainer>
+            <div>
               <SearchedHotelsList />
-            </HotelListContainer>
-          </Wrapper>
-        </MainContainer>
-      </Container>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

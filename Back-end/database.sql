@@ -31,6 +31,7 @@ CREATE TABLE bookings (
   name VARCHAR,
   phone VARCHAR,
   user_id UUID REFERENCES users(user_id),
+  id REFERENCES pitch(id)
   deleted boolean DEFAULT false
 );
 

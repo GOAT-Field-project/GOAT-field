@@ -25,9 +25,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-
-
+import jwtDecode from "jwt-decode";
 const Container = styled.div`
   /* border: 3px solid green; */
   margin-bottom: 80px;
@@ -130,7 +128,6 @@ const BtnContainer = styled.div`
     margin-right: 20px;
     cursor: pointer;
   }
-
 `;
 
 const Button = styled.button`
@@ -666,7 +663,6 @@ const Quantity = styled.span`
   }
 `;
 
-
 const SearchBtnContainer = styled(LocationContainer)`
   border-left: none;
   display: flex;
@@ -701,6 +697,30 @@ const SearchBtnContainer = styled(LocationContainer)`
 `;
 
 const HomeNavbar = () => {
+  const token = localStorage.getItem("token");
+  let username = "";
+  let role = "";
+
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      username = decodedToken.username;
+      role = decodedToken.role;
+      // Use the extracted username and role variables as needed
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      // Handle the error (e.g., show an error message, redirect the user, etc.)
+    }
+  } else {
+    console.error("No token found in localStorage");
+    // Handle the case where there is no token (e.g., show an error message, redirect the user, etc.)
+  }
+
+  // Use the username and role variables outside the if statement
+  console.log("Username:", username);
+  console.log("Role:", role);
+  // Use the extracted username and role variables as needed
+
   const [openMenu, setOpenMenu] = useState(false);
 
   const [stadiumName, setStadiumName] = useState(
@@ -713,8 +733,6 @@ const HomeNavbar = () => {
     sessionStorage.setItem("stadiumName", value);
     setStadiumName(value);
   };
-  const token = localStorage.getItem("token");
-  console.log(token);
 
   const handleCityChange = (event) => {
     const value = event.target.value;
@@ -728,7 +746,6 @@ const HomeNavbar = () => {
     console.log("Stadium Name:", storedStadiumName);
     console.log("City:", storedCity);
   };
-
 
   return (
     <Container>
@@ -749,12 +766,14 @@ const HomeNavbar = () => {
             </LogoContainer>
 
             <BtnContainer>
-              {!token ? (
-                <Link to="/signup">
-                  <Button>Register</Button>
+              {token && role == "serviceProvider" ? (
+                <Link to="/providerprofile">
+                  <p className="mr-8">{username}</p>
                 </Link>
               ) : (
-                <div className=" m-8">Hello</div>
+                <Link to="/userprofile" className=" m-8 ">
+                  {username}
+                </Link>
               )}
 
               {token == null ? (
@@ -829,7 +848,7 @@ const HomeNavbar = () => {
 
             {/* For Mobile Start */}
 
-            <h3>Hello, Satya Thakur</h3>
+            {/* <h3>Hello, {username}</h3> */}
 
             <ul className="hidden-ul">
               <Link to="/hotels" className="link">

@@ -17,7 +17,7 @@ app.use(cors());
 
 const port = 5151;
 const pool = require("./db");
-const  {getItem}  = require("./utils/jwtGenerator");
+const { getItem } = require("./utils/jwtGenerator");
 
 pool.connect().then(() => {
   app.listen(port, () => {
@@ -82,13 +82,11 @@ app.get("/getbookings/:selectedDate", (req, res) => {
   );
 });
 
-
-
 app.post("/senddata", upload.array("images", 3), (req, res) => {
   const files = req.files;
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-const userId = getItem(token).user_id;
+  const userId = getItem(token).user_id;
 
   const { name, price, size, details, description, location } = req.body;
 
@@ -99,9 +97,18 @@ const userId = getItem(token).user_id;
   const imageDatas = files.map((file) => file.buffer);
 
   // Insert data into the database
-  const query = 'INSERT INTO pitch (name, price, size, details, images, description, location,provider_id) VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING *;';
-  const values = [name, price, size, details, imageDatas, description, location,userId];
-
+  const query =
+    "INSERT INTO pitch (name, price, size, details, images, description, location,provider_id) VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING *;";
+  const values = [
+    name,
+    price,
+    size,
+    details,
+    imageDatas,
+    description,
+    location,
+    userId,
+  ];
 
   pool
     .query(query, values)
@@ -116,14 +123,13 @@ const userId = getItem(token).user_id;
     });
 });
 
+app.get("/getdata", (req, res) => {
+  const user_id = req["query"].user_id;
 
-app.get('/getdata', (req, res) => {
-  const user_id = req['query'].user_id;
- 
-
-  const query = 'SELECT * FROM pitch where provider_id = $1 ' ;
-  const value =[user_id]
-  pool.query(query,value)
+  const query = "SELECT * FROM pitch where provider_id = $1 ";
+  const value = [user_id];
+  pool
+    .query(query, value)
 
     .then((result) => {
       const pitches = result.rows.map((pitch) => {
@@ -141,10 +147,37 @@ app.get('/getdata', (req, res) => {
     });
 });
 
+
+
+app.get("/getdatas", (req, res) => {
+  const query = "SELECT * FROM pitch;";
+
+  pool
+    .query(query)
+    .then((result) => {
+      const pitches = result.rows.map((pitch) => {
+        const base64ImageDatas = pitch.images.map((imageData) =>
+          Buffer.from(imageData).toString("base64")
+        );
+        return { ...pitch, images: base64ImageDatas };
+      });
+      res.json(pitches);
+    })
+    .catch((error) => {
+      console.error("Error retrieving data:", error);
+      const errorMessage = "Error retrieving data";
+      res.status(500).json({ error: errorMessage });
+    });
+});
+
+
+
+
+
+
 app.delete("/deletepitch/:id", (req, res) => {
   const pitchId = req.params.id;
-  const query = 'DELETE FROM pitch WHERE id = $1;';
-
+  const query = "DELETE FROM pitch WHERE id = $1;";
 
   pool
     .query(query, [pitchId])
@@ -161,8 +194,7 @@ app.delete("/deletepitch/:id", (req, res) => {
 
 app.use(authorization);
 app.post("/bookings", (req, res) => {
-  const { date, time, name, phone } = req.body;
-
+  const { date, time, name, phone, pitch_id } = req.body;
   try {
     const userId = req.user_id; // Access the userId from req.userId
     console.log(userId);
@@ -185,10 +217,10 @@ app.post("/bookings", (req, res) => {
           } else {
             // Insert the new booking into the table, associating it with the user ID
             const query =
-              "INSERT INTO bookings (date, time, name, phone, user_id) VALUES ($1, $2, $3, $4, $5)";
+              "INSERT INTO bookings (date, time, name, phone, pitch_id, user_id) VALUES ($1, $2, $3, $4, $5, $6)";
             pool.query(
               query,
-              [date, time, name, phone || null, userId],
+              [date, time, name, phone, pitch_id || null, userId],
               (error, result) => {
                 if (error) {
                   console.error(
@@ -213,12 +245,20 @@ app.post("/bookings", (req, res) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 });
+app.get("/history", (req, res) => {
+  const userId = req.user_id; // Access the userId from req.userId
 
-
-
-
-
-
-
-
-
+  const query =
+    "SELECT * FROM bookings b JOIN pitch p ON b.pitch_id = p.id WHERE b.user_id = $1";
+  pool
+    .query(query, [userId])
+    .then((result) => {
+      const bookings = result.rows;
+      res.json(bookings);
+    })
+    .catch((error) => {
+      console.error("Error retrieving data:", error);
+      const errorMessage = "Error retrieving data";
+      res.status(500).json({ error: errorMessage });
+    });
+});

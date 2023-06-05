@@ -248,13 +248,15 @@ export default function Profilehome() {
               </Dialog>
             </Fragment>
             
-
+            <br/>
+            <br/>
                 <a
                   className="text-2xl text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium flex items-center justify-center"
                   href="#asd"
                   style={{ color: "#54B435" }}
                 >
                   {decodedToken && decodedToken.role == "user"
+                 
                     ? "Your Reservations 🡫"
                     : ""}
                 </a>

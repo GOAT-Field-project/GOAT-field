@@ -7,7 +7,7 @@ import Signup from "./Pages/Signup";
 import RequiredAuth from "./customHooks/RequiredAuth";
 import RservationDetails from "./Pages/RservationDetails";
 import ReservationList from "./Pages/ReservationList";
-
+import NotFound from "./Pages/NotFound404";
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
 import FAQs from "./Pages/FAQs";
@@ -15,7 +15,6 @@ import Footer from "./Layout/Footer";
 import Checkout from "./Pages/Checkout";
 import Providerprofile from "./Pages/Providerprofile";
 import Userprofile from "./Pages/Userprofile";
-import Navbar from "./Layout/Navbar";
 function App() {
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -50,6 +49,7 @@ function App() {
               <Route path="/providerprofile" element={<Providerprofile />} />
               <Route path="/userprofile" element={<Userprofile />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </BrowserRouter>{" "}

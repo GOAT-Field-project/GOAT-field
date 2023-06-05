@@ -192,13 +192,14 @@ const FeaturedCities = () => {
       <p>These popular destinations have a lot to offer</p>
       <CardContainer className="gap-y-10 gap-x-1">
         {featuredCityData.slice(0, 6).map((city) => (
-          <div key={city.id} className="2xl:w-1/4 xl:w-1/3 lg:w-1/3 w-2/3 min-w-fit">
-            <a href="#" className="block rounded-lg p-4 shadow-sm shadow-gray-300">
+          <div key={city.id} style={{ width: "380px" }} >
+            <a href="#" style={{ height: "450px" }} className="block rounded-lg p-4 shadow-sm shadow-gray-300">
 
               <img
                 style={{
+                  width: "100%",
                   objectFit: "contain",
-                  height: "200px" // Set the desired height for the image
+                  height: "220px" // Set the desired height for the image
                 }}
                 src={`data:image/jpeg;base64,${city.images[0]}`}
                 alt={`Image 1`}
@@ -216,7 +217,9 @@ const FeaturedCities = () => {
                   <br />
                   <div>
                     <dt className="sr-only">Price</dt>
-                    <dd className="text-sm text-gray-500">DEtails:{city.description}</dd>
+
+                    <dd style={{ width: "20vw" }} className="text-sm text-gray-500">DEtails:{city.details}</dd>
+
                   </div>
                 </dl>
                 <div className="mt-6 flex items-center gap-8 text-xs">

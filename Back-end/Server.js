@@ -25,6 +25,37 @@ pool.connect().then(() => {
   });
 });
 
+app.get("/countusers", async (req, res) => {
+  try {
+
+    const usersnum = await pool.query("SELECT COUNT(*) FROM users")
+    res.json(usersnum.rows[0])
+
+  } catch (err) {
+    console.error(err.message);
+  }
+})
+app.get("/countfields", async (req, res) => {
+  try {
+
+    const usersnum = await pool.query("SELECT COUNT(*) FROM pitch")
+    res.json(usersnum.rows[0])
+
+  } catch (err) {
+    console.error(err.message);
+  }
+})
+app.get("/countreservations", async (req, res) => {
+  try {
+
+    const usersnum = await pool.query("SELECT COUNT(*) FROM bookings")
+    res.json(usersnum.rows[0])
+
+  } catch (err) {
+    console.error(err.message);
+  }
+})
+
 app.post("/pay", async (req, res) => {
   try {
     const { email, card_number, expiration_date, security_code, name_on_card } =

@@ -10,7 +10,7 @@ import ReservationList from "./Pages/ReservationList";
 
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
-
+import FAQs from "./Pages/FAQs";
 import Footer from "./Layout/Footer";
 import Checkout from "./Pages/Checkout";
 import Providerprofile from "./Pages/Providerprofile";
@@ -35,6 +35,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />{" "}
             <Route path="/signup" element={<Signup />} />
+            <Route path="/FAQs" element={<FAQs />} />
             <Route
               path="/rservationdetails/:id"
               element={<RservationDetails />}

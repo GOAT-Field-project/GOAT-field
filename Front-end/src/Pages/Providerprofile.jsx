@@ -1,7 +1,5 @@
 import { FaUser, FaCog, FaFutbol  } from 'react-icons/fa';
-
 import { FiLogOut } from 'react-icons/fi';
-
 import  { useState } from "react";
 import Profilesettings from "../Components/homepage/Profilesettings";
 import Profilehome from "../Components/homepage/profilehome";
@@ -57,16 +55,11 @@ export default function Providerprofile() {
       aria-label="Sidebar"
     >
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-        <a href="https://flowbite.com/" className="flex items-center pl-2.5 mb-5">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-6 mr-3 sm:h-7"
-            alt="Flowbite Logo"
-          />
+         
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-          GOAT Field
+          🐐 GOAT Field
           </span>
-        </a>
+       <br/><br/>
         <ul className="space-y-2 font-medium">
           <li>
             <a
@@ -79,17 +72,7 @@ export default function Providerprofile() {
               <span className="ml-3">Porfile</span>
             </a>
           </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleLinkClick("profile")} >
-              <FaCog className="w-6 h-6" style={{ color: '#54B435' }} />
-
-              <span className="flex-1 ml-3 whitespace-nowrap">Settings</span>
-            
-            </a>
-          </li>
+   
           <li>
           <a
             href="#"
@@ -97,7 +80,7 @@ export default function Providerprofile() {
             onClick={() => handleLinkClick("add")} >
             <FaFutbol className="w-6 h-6" style={{ color: '#54B435' }} />
 
-            <span className="flex-1 ml-3 whitespace-nowrap">Football Pitch</span>
+            <span className="flex-1 ml-3 whitespace-nowrap">Football Field</span>
             <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
             
             </span>

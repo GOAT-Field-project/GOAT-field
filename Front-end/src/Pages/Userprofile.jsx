@@ -1,8 +1,7 @@
 import { FaUser, FaCog } from "react-icons/fa";
-
+import { Link } from 'react-router-dom';
 import { FiLogOut } from "react-icons/fi";
-import { useState, useEffect } from "react";
-import Profilesettings from "../Components/homepage/Profilesettings";
+import { useState } from "react";
 import Profilehome from "../Components/homepage/profilehome";
 import UserReservation from "../Components/homepage/UserReservations";
 import { useNavigate } from "react-router-dom";
@@ -56,19 +55,10 @@ export default function Userprofile() {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <a
-            href="https://flowbite.com/"
-            className="flex items-center pl-2.5 mb-5"
-          >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-6 mr-3 sm:h-7"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              GOAT Field
-            </span>
-          </a>
+        <Link to="/" className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+        🐐 GOAT Field
+      </Link>
+      <br/><br/>
           <ul className="space-y-2 font-medium">
             <li>
               <a
@@ -81,17 +71,7 @@ export default function Userprofile() {
                 <span className="ml-3">Porfile</span>
               </a>
             </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                onClick={() => handleLinkClick("profile")}
-              >
-                <FaCog className="w-6 h-6" style={{ color: "#54B435" }} />
-
-                <span className="flex-1 ml-3 whitespace-nowrap">Settings</span>
-              </a>
-            </li>
+     
 
             <li>
               <a

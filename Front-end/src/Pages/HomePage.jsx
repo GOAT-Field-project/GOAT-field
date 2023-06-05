@@ -1,21 +1,8 @@
-// import Hero from "../Components/homepage/Hero";
-// export default function HomePage() {
-//   return (
-//     <>
-
-
-
-//     </>
-//   );
-// }
-
-
 import styled from "styled-components";
 import Offers from "../components/Offers";
-import FeaturedCities from "../components/FeaturedCities";
+import FeaturedCities from "../Components/PopularSection";
 import HomeNavbar from "../Components/HomeNavBar";
-import CitySlider from "../Components/CitySlider";
-import Navbar from "../Layout/Navbar";
+import GoatStats from "../Components/GoatStats";
 
 const Container = styled.div`
   /* border: 1px solid blue; */
@@ -33,13 +20,13 @@ const Container = styled.div`
 const Home = () => {
   return (
     <>
-    <div className="bg-white">
-      <HomeNavbar />
-      <Container >
-        <Offers />
-        <FeaturedCities />
-        <CitySlider />
-      </Container>
+      <div className="bg-white">
+        <HomeNavbar />
+        <Container >
+          <Offers />
+          <FeaturedCities />
+          <GoatStats />
+        </Container>
       </div>
     </>
   );

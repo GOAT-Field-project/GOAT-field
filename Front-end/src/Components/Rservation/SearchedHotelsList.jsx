@@ -21,23 +21,24 @@ const SearchedHotelsList = () => {
   console.log(selectedLocation);
   console.log(filteredPitches);
 
-  useEffect(() => {
-    // Fetch the data from the server
-    fetch("http://localhost:5151/getdatas")
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setPitches(data);
-          setFilteredPitches(data);
-        } else {
-          console.error("Invalid data format:", data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving data:", error);
-      });
-    sessionStorage.clear();
-  }, []);
+useEffect(() => {
+  // Fetch the data from the server
+  fetch("http://localhost:5151/getdatas")
+    .then((response) => response.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        const filteredData = data.filter((pitch) => pitch.deleted !== false);
+        setPitches(filteredData);
+        setFilteredPitches(filteredData);
+      } else {
+        console.error("Invalid data format:", data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error retrieving data:", error);
+    });
+  sessionStorage.clear();
+}, []);
 
   //  const handleSortByAndOpenList = (e) => {
   //    const selectedSortBy = e.target.value;

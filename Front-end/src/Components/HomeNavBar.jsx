@@ -87,7 +87,7 @@ const LogoContainer = styled.div`
 
   span {
     /* border: 1px solid black; */
-    width: 175px;
+    width: 250px;
     font-size: 30px;
     font-weight: 600;
 
@@ -484,6 +484,41 @@ const LocationContainer = styled.div`
   background-color: white;
   border: 2px solid #000000;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 0px 0px 0px 0px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  padding: 0px 5px;
+  color: #424d5f;
+
+  @media screen and (max-width: 950px) {
+    border: 2px solid #000000;
+    height: 60px;
+    padding: 0px 2px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    width: 85%;
+    padding: 5px 4px;
+    font-size: 15px;
+    cursor: pointer;
+
+    @media screen and (max-width: 950px) {
+      font-size: 13px;
+      padding: 0px;
+    }
+  }
+`;
+const LocationContainer2 = styled.div`
+  background-color: white;
+  border-left: 2px black solid;
+  border-top: 2px black solid;
+  border-bottom: 2px black solid;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 10px 0px 0px 10px;
   display: flex;
   flex: 1;
@@ -740,7 +775,7 @@ const HomeNavbar = () => {
         <Wrapper>
           <NavContainer>
             <LogoContainer>
-              <span>GOAT FIELD</span>
+              <span>🐐GOAT FIELD</span>
             </LogoContainer>
 
             <BtnContainer>
@@ -801,13 +836,13 @@ const HomeNavbar = () => {
                   Reservation
                 </li>
               </Link>
-              <Link to="/contactus" className="link">
+              <Link to="/aboutus" className="link">
                 <li>
                   <AttractionsOutlined className="li-icon" />
                   About us
                 </li>
               </Link>
-              <Link to="/aboutus" className="link">
+              <Link to="/contactus" className="link">
                 <li>
                   <AirportShuttleOutlined className="li-icon" />
                   Contact us
@@ -877,19 +912,18 @@ const HomeNavbar = () => {
           </SecondNavContainer>
 
           <OfferContainer>
-            <h2> Available until next month 2023</h2>
             <h1>
               Save your money <br /> WITH 🐐 FIELD
             </h1>
-            <Link to="/hotels">
+            <Link to="/reservationlist">
               <OfferButton>Explore Reservation</OfferButton>
             </Link>
           </OfferContainer>
         </Wrapper>
 
         <SearchContainer>
-          <LocationContainer>
-            <LocationOnOutlined className="search-icon" />
+          <LocationContainer2 >
+            <LocationOnOutlined className="search-icon " />
             <input
               type="text"
               name="place"
@@ -897,10 +931,10 @@ const HomeNavbar = () => {
               value={stadiumName}
               onChange={handleStadiumNameChange}
             />
-          </LocationContainer>
+          </LocationContainer2>
           <LocationContainer>
-            <LocationOnOutlined className="search-icon" />
-            <select name="place" value={city} onChange={handleCityChange}>
+            <LocationOnOutlined className="search-icon " />
+            <select className="rounded p-3 border-0 " name="place" value={city} onChange={handleCityChange}>
               <option value="">Select City</option>
               <option value="Amman">Amman</option>
               <option value="Zarqa">Zarqa</option>
@@ -909,6 +943,7 @@ const HomeNavbar = () => {
               <option value="Jerash">Jerash</option>
               <option value="Madaba">Madaba</option>
             </select>
+
           </LocationContainer>
           <SearchBtnContainer>
             <Link to="/reservationlist" className="search-btn-link">

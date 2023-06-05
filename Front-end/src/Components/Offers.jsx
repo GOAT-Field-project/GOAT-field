@@ -1,30 +1,12 @@
 import { GppMaybeOutlined } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import offer from '../../public/images/soccer-field-drawn-blackboard.jpg'
-
+import { Link } from "react-router-dom";
 const Container = styled.div`
   /* border: 1px solid black; */
 `;
 
-const CovidInfo = styled.div`
-  border: 1px solid lightgray;
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  color: gray;
 
-  @media screen and (max-width: 950px) {
-    padding: 10px;
-  }
-
-  p {
-    font-size: 15px;
-
-    @media screen and (max-width: 426px) {
-      font-size: 13px;
-    }
-  }
-`;
 
 const IconContainer = styled.div`
   background-color: #fff0e0;
@@ -182,15 +164,7 @@ const Button = styled.button`
 const Offers = () => {
   return (
     <Container>
-      <CovidInfo>
-        <IconContainer>
-          <GppMaybeOutlined className="icon" />
-        </IconContainer>
-        <p>
-          Get the advice you need. Check the latest COVID-19 restrictions before
-          you travel.
-        </p>
-      </CovidInfo>
+
 
       <OfferInfo>
         <h1>Offers</h1>
@@ -200,25 +174,30 @@ const Offers = () => {
           <Card>
             <img src="https://img.freepik.com/free-photo/soccer-plan-chalk-board-with-formation-tactic_93675-131783.jpg?w=1380&t=st=1685558813~exp=1685559413~hmac=3676dbaa06a6351785f67bf0d476fd6bd053737bbccfb7fb03b89ca44fcb0d59" alt="flight" />
             <TextContainer>
-              <h2>Fly away to your dream holiday</h2>
-              <span>Get inspired, compare and book flights.</span>
-              <Button type="button">Serach for flights</Button>
+              <h2>Help your team  </h2>
+              <span>Get inspired, compare and book football fields.</span>
+              <Link to="reservationlist">
+                <Button type="button" className="rounded">Search for pitchs</Button>
+              </Link>
             </TextContainer>
           </Card>
 
           <Card>
             <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="girl" />
             <TextContainer>
-              <h2>Escape for a while</h2>
-              <span>Enjoy the freedom of an extended stay on My Booking</span>
-              <Button type="button" className="bigBtn">
-                Discover extended stays
-              </Button>
+              <h2>make it your match day</h2>
+              <span>and enjoy the fair comptition</span>
+              <Link to="reservationlist">
+
+                <Button type="button" className="bigBtn rounded">
+                  Discover New Pitchs
+                </Button>
+              </Link>
             </TextContainer>
           </Card>
         </CardContainer>
       </OfferInfo>
-    </Container>
+    </Container >
   );
 };
 

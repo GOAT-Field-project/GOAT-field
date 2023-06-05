@@ -1,11 +1,13 @@
 import { FaUser, FaCog } from "react-icons/fa";
 
 import { FiLogOut } from "react-icons/fi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Profilesettings from "../Components/homepage/Profilesettings";
 import Profilehome from "../Components/homepage/profilehome";
 import UserReservation from "../Components/homepage/UserReservations";
+import { useNavigate } from "react-router-dom";
 export default function Userprofile() {
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("home");
   const renderContent = () => {
     if (activeLink === "home") {
@@ -98,7 +100,17 @@ export default function Userprofile() {
               >
                 <FiLogOut className="w-7 h-7" style={{ color: "#54B435" }} />
 
-                <span className="flex-1 ml-3 whitespace-nowrap">Log out</span>
+                <button
+                  className="ml-2 whitespace-nowrap"
+                  onClick={() => {
+                    navigate("/");
+
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                >
+                  Log out
+                </button>
               </a>
             </li>
           </ul>

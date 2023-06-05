@@ -1,21 +1,24 @@
-import { FaUser } from 'react-icons/fa';
-import jwtDecode from 'jwt-decode';
-import { BiEdit } from 'react-icons/bi';
+import { FaUser } from "react-icons/fa";
+import jwtDecode from "jwt-decode";
+import { BiEdit } from "react-icons/bi";
 
 export default function Profilehome() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
 
-  console.log(decodedToken);
-
-  const { username, email} = decodedToken; // Extract the relevant data from the decoded token
+  const { username, email, role } = decodedToken; // Extract the relevant data from the decoded token
 
   return (
     <>
       <div className="h-screen flex justify-center items-center">
         <div
           className="custom-width"
-          style={{ maxWidth: "700px", width: "100%", marginLeft: "auto", marginRight: "auto" }}
+          style={{
+            maxWidth: "700px",
+            width: "100%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
         >
           <div className="bg-white shadow-xl rounded-lg p-6">
             <div className="photo-wrapper">
@@ -33,13 +36,15 @@ export default function Profilehome() {
                   <table className="text-lg my-4">
                     <tbody>
                       <tr>
-                        <td className="px-2 py-2">Address: Zarqa/120</td> {/* Insert the city here */}
+                        <td className="px-2 py-2">Address: Zarqa/120</td>{" "}
+                        {/* Insert the city here */}
                       </tr>
                       <tr>
                         <td className="px-2 py-2">Phone: +977 9955221114</td>
                       </tr>
                       <tr>
-                        <td className="px-2 py-2">Email: {email}</td> {/* Insert the email here */}
+                        <td className="px-2 py-2">Email: {email}</td>{" "}
+                        {/* Insert the email here */}
                       </tr>
                     </tbody>
                   </table>
@@ -48,13 +53,16 @@ export default function Profilehome() {
                   <table className="text-lg my-4" id="datas">
                     <tbody>
                       <tr>
-                        <td className="px-2 py-2">First Name: {username}</td> {/* Insert the first name here */}
+                        <td className="px-2 py-2">First Name: {username}</td>{" "}
+                        {/* Insert the first name here */}
                       </tr>
                       <tr>
-                        <td className="px-2 py-2">Last Name: {username}</td> {/* Insert the last name here */}
+                        <td className="px-2 py-2">Last Name: {username}</td>{" "}
+                        {/* Insert the last name here */}
                       </tr>
                       <tr>
-                        <td className="px-2 py-2">City : Zarqa</td> {/* Insert the city here */}
+                        <td className="px-2 py-2">City : Zarqa</td>{" "}
+                        {/* Insert the city here */}
                       </tr>
                     </tbody>
                   </table>
@@ -63,17 +71,19 @@ export default function Profilehome() {
               <div className="text-center mt-6">
                 <a
                   className="text-2xl text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium flex items-center justify-center"
-                  href="#"
+                  href="#asd"
                   style={{ color: "#54B435" }}
                 >
-                  Edit profile
-                  <BiEdit className="ml-1 mt-2" style={{ color: '#54B435' }} />
+                  {decodedToken && decodedToken.role == "user"
+                    ? "Your Reservations 🡫"
+                    : ""}
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <br id="asd" />
     </>
   );
 }

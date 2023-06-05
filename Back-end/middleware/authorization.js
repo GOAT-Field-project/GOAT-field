@@ -14,8 +14,9 @@ module.exports = function (req, res, next) {
   // Verify token
   try {
     const decodedToken = jwt.verify(token, process.env.jwtSecret); // Verify the JWT token
-    const userId = decodedToken.user; // Extract the user ID from the token payload
+    const userId = decodedToken.user_id; // Extract the user ID from the token payload
     req.user_id = userId; // Assign the userId to req.userId
+    console.log(userId);
 
     next();
   } catch (err) {

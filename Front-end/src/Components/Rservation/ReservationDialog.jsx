@@ -11,7 +11,8 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function ReservationDialog() {
+export default function ReservationDialog({ id }) {
+  console.log(id);
   const navigate = useNavigate();
   const [availableTimes, setAvailableTimes] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,6 +21,7 @@ export default function ReservationDialog() {
     time: "",
     name: "",
     phone: "",
+    pitch_id: id,
   });
   const [open, setOpen] = React.useState(false);
 
@@ -110,7 +112,11 @@ export default function ReservationDialog() {
 
   return (
     <div>
-      <Button variant="outlined" className="btn bg-[#54B435] text-[#54B435]" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        className="btn bg-[#54B435] text-[#54B435]"
+        onClick={handleClickOpen}
+      >
         Book Now
       </Button>
       <Dialog open={open} onClose={handleClose}>

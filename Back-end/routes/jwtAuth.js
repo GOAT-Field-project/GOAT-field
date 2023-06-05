@@ -87,22 +87,7 @@ router.get("/is-verify", authorization, async (req, res) => {
 });
 
 
-router.put("/profile", authorization, async (req, res) => {
-  try {
-    const { username, email } = req.body;
-    const userId = req.user.id; // Access the user ID from the authorization middleware
 
-    // Update the user profile in the database
-    const updatedUser = await pool.query(
-      "UPDATE users SET user_name = $1, user_email = $2 WHERE user_id = $3 RETURNING *",
-      [username, email, userId]
-    );
 
-    res.json(updatedUser.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
 
 module.exports = router;

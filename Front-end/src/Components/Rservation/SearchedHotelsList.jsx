@@ -177,14 +177,17 @@ const SearchedHotelsList = () => {
                 <p className=" font-sans text-base tracking-normal">
                   {data.description}
                 </p>
+
+                <span className="font-bold mt-3">Per two hours :</span>
                 <div className="flex flex-col md:flex-row md:items-end">
-                  <p className="mt-6 text-4xl font-black">
+
+                  <p className=" text-4xl font-black">
                     {data.price} JD
                   </p>
                   {/* <span className="ml-2 text-xs uppercase">258 Sales</span> */}
                 </div>
 
-                <div className="mt-8 flex flex-col sm:flex-row">
+                <div className="mt-4 flex flex-col sm:flex-row">
                   <button className="mr-2 mb-4 flex cursor-pointer items-center justify-center rounded-md bg-emerald-400 py-2 px-8 text-center text-white transition duration-150 ease-in-out hover:translate-y-1 hover:bg-emerald-500">
 
                     <Link to={"/rservationdetails/" + data.id}>

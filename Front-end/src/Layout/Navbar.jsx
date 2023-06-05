@@ -469,6 +469,7 @@ const Navbar = () => {
             <li className="ml-2">Contact us</li>
           </Link>
           {/* <Link to="/hotel/5" className="link flex items-center">
+
                 <li>
                   <HelpOutlineOutlined className="li-icon" />
                   Help
@@ -499,9 +500,7 @@ const Navbar = () => {
           </Link>
         </ul>
 
-        {/* For Mobile End */}
-      </SecondNavContainer>
-    </Wrapper>
+
   );
 };
 

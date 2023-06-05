@@ -2,9 +2,28 @@ import { useRef } from 'react';
 // import emailjs from '@emailjs/browser';
 import emailjs from 'emailjs-com';
 import Navbar from '../Layout/Navbar';
-
+import { useEffect, useState } from 'react';
+import axios from 'axios'
 const ContactUs = () => {
+
+    const [contactUs, setContactUs] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5151/contactUs')
+            .then((response) => {
+                setContactUs(response.data);
+                console.log(response.data)
+            })
+            .catch((error) => console.log(error.message))
+    }, []);
+
+
+    console.log(contactUs)
+
     const form = useRef();
+
+
+
 
     const sendEmail = (e) => {
         e.preventDefault();
@@ -18,7 +37,7 @@ const ContactUs = () => {
     };
     return (
         <>
-        <Navbar/>
+            <Navbar />
             <section className="">
 
                 {/* Jumbotron */}
@@ -72,7 +91,7 @@ const ContactUs = () => {
                                             />
                                         </svg>
                                         <p className="mt-6 text-lg font-medium text-gray-900">
-                                            <a href="tel:+962790012079">+962 790012079</a>
+                                            <a href="tel:+962790012079">{contactUs.phone_number}</a>
                                         </p>
                                     </div>
                                 </div>
@@ -83,7 +102,7 @@ const ContactUs = () => {
                                             <path fill='#2E594A' d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
                                         <p className="mt-6 text-lg font-medium text-gray-900">
-                                            <a href="mailto:OWNER@GOAT.com">OWNER@GOAT.com</a>
+                                            <a href="mailto:OWNER@GOAT.com">{contactUs.email}</a>
                                         </p>
                                     </div>
                                 </div>
@@ -95,7 +114,7 @@ const ContactUs = () => {
                                             <path fill='#2E594A' d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
                                         <p className="mt-6 text-lg font-medium leading-relaxed text-gray-900">
-                                            <a href="https://goo.gl/maps/5xLRKXYoJmdNnYtw6?coh=178573&entry=tt" target="_blank" rel="noopener noreferrer">
+                                            <a href={contactUs.location_link} target="_blank" rel="noopener noreferrer">
                                                 Our Location
                                             </a>
                                         </p>

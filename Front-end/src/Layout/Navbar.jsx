@@ -363,6 +363,7 @@ const Navbar = () => {
   });
 
   return (
+    
     <Wrapper className="bg-[#161616]">
       <NavContainer>
         <LogoContainer>
@@ -499,7 +500,9 @@ const Navbar = () => {
             <li>Logout</li>
           </Link>
         </ul>
+        </SecondNavContainer>
 
+        </Wrapper>
 
   );
 };

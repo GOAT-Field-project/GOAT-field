@@ -128,7 +128,7 @@ export default function ReservationDialog({ id, price }) {
         <DialogTitle>Book now</DialogTitle>
         <DialogContent>
           <DialogContentText className="text-3xl text-center mb-6">
-            Football Pitch Reservation
+            Football Field Reservation
           </DialogContentText>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">

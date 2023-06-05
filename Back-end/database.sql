@@ -31,8 +31,8 @@ CREATE TABLE bookings (
   name VARCHAR,
   phone VARCHAR,
   user_id UUID REFERENCES users(user_id),
-  id REFERENCES pitch(id)
-  deleted boolean DEFAULT false
+  pitch_id INTEGER REFERENCES pitch(id),
+  deleted BOOLEAN DEFAULT false
 );
 
 -- ! This is from Mais, for payment info

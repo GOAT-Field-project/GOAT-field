@@ -11,8 +11,9 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function ReservationDialog({ id }) {
+export default function ReservationDialog({ id, price }) {
   console.log(id);
+  console.log(price);
   const navigate = useNavigate();
   const [availableTimes, setAvailableTimes] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,6 +23,7 @@ export default function ReservationDialog({ id }) {
     name: "",
     phone: "",
     pitch_id: id,
+    price: price,
   });
   const [open, setOpen] = React.useState(false);
 
@@ -109,6 +111,9 @@ export default function ReservationDialog({ id }) {
   const handleClose = () => {
     setOpen(false);
   };
+  // Get today's date
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to midnight
 
   return (
     <div>
@@ -123,7 +128,7 @@ export default function ReservationDialog({ id }) {
         <DialogTitle>Book now</DialogTitle>
         <DialogContent>
           <DialogContentText className="text-3xl text-center mb-6">
-            Football Pitch Reservation
+            Football Field Reservation
           </DialogContentText>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -133,6 +138,7 @@ export default function ReservationDialog({ id }) {
               <DatePicker
                 selected={formData.date}
                 onChange={handleDateChange}
+                minDate={today} // Set the minimum selectable date
                 dateFormat="dd-MM-yyyy"
                 placeholderText="Select date"
                 required

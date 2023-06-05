@@ -24,7 +24,10 @@ const Hotel = () => {
   const url = window.location.href;
   const id = parseInt(url.split("/").pop(), 10);
   const pitch = pitches.find((pitch) => pitch.id === id);
-
+  let price;
+  if (pitch) {
+    price = pitch.price;
+  }
   return (
     <>
       <Navbar />
@@ -196,7 +199,7 @@ const Hotel = () => {
                         {pitch.size}
                       </span>
                     </div>
-                    <ReservationDialog id={id} />
+                    <ReservationDialog id={id} price={price} />
                   </fieldset>
                 </form>
               </div>

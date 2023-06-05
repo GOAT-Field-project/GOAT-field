@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
-
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
@@ -154,6 +153,73 @@ app.post("/senddata", upload.array("images", 3), (req, res) => {
     });
 });
 
+app.put("/updatedata/:id", upload.array("images", 3), (req, res) => {
+  const pitchId = req.params.id; // Retrieve the pitch ID from the request parameters
+  const files = req.files;
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const userId = getItem(token).user_id;
+
+  const { name, price, size, details, description, location } = req.body;
+
+  if (!files || files.length === 0) {
+    return res.status(400).send("No images provided");
+  }
+
+  // Process the files as needed
+
+  // Update data in the database
+  const query = `
+    UPDATE pitch 
+    SET name = $1, price = $2, size = $3, details = $4, images = $5, description = $6, location = $7
+    WHERE id = $8 AND provider_id = $9
+    RETURNING *;
+  `;
+  const imageDatas = files.map((file) => file.buffer);
+  const values = [
+    name,
+    price,
+    size,
+    details,
+    imageDatas,
+    description,
+    location,
+    pitchId,
+    userId,
+  ];
+
+  pool
+    .query(query, values)
+    .then((result) => {
+      const updatedPitch = result.rows[0];
+      console.log("Data updated");
+      res.send(updatedPitch); // Send the updated pitch data to the client
+    })
+    .catch((error) => {
+      console.error("Error updating data:", error);
+      res.status(500).send("Error updating data");
+    });
+});
+
+
+app.put("/api/update", async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const userId = req.query.user_id; // Access the user ID from the authorization middleware
+
+    // Update the user profile in the database
+    const updatedUser = await pool.query(
+      "UPDATE users SET user_name = $1, user_email = $2 WHERE user_id = $3 RETURNING *",
+      [username, email, userId]
+    );
+
+    res.json(updatedUser.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 app.get("/getdata", (req, res) => {
   const user_id = req["query"].user_id;
 
@@ -222,13 +288,32 @@ app.delete("/deletepitch/:id", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
+app.get('/get-user-data', async (req, res) => {
+  try {
+    const userId = req.query.user_id;
+    
+    const user = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
+    
+    if (user.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    const userData = user.rows[0];
+    
+    res.json(userData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 app.use(authorization);
 app.post("/bookings", (req, res) => {
+
   const { date, time, name, phone, pitch_id } = req.body;
   try {
     const userId = req.user_id; // Access the userId from req.userId
-    console.log(userId);
+ 
     // Check if the desired date and time slot is available
     pool.query(
       "SELECT * FROM bookings WHERE date = $1 AND time = $2",

@@ -2,7 +2,8 @@ import Navbar from "../Layout/Navbar";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -12,6 +13,8 @@ const Checkout = () => {
   const [email, setEmail] = useState("");
   const { formData } = useParams();
   const [selectedPitch, setSelectedPitch] = useState(null); // State to hold the selected pitch
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
@@ -33,6 +36,7 @@ const Checkout = () => {
   }, []);
   // Parse the formData parameter back into an object
   const parsedFormData = JSON.parse(decodeURIComponent(formData));
+  console.log(parsedFormData);
   useEffect(() => {
     // Fetch the data from the server
     axios
@@ -69,6 +73,14 @@ const Checkout = () => {
       }
     }
   };
+  function handleMessage() {
+    Swal.fire(
+      "Booking succeed",
+      "You can view your bookings in your profile",
+      "success"
+    );
+    navigate("/");
+  }
 
   const handleCardNumberChange = (e) => {
     const value = e.target.value;
@@ -237,6 +249,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 className="relative px-5 py-2 font-medium text-white group w-full mt-20"
+                onClick={handleMessage}
               >
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-green-500 group-hover:bg-green-700 group-hover:skew-x-12"></span>
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
@@ -286,20 +299,20 @@ const Checkout = () => {
               )}
             </ul>
             <br />
-            <div className="flex gap-10">
-              <div>Name: </div>
+            <div className="flex gap-4 text-white">
+              <div className=" font-bold">Name: </div>
               <div>{parsedFormData.name}</div>
             </div>
-            <div className="flex gap-10">
-              <div>Date: </div>
+            <div className="flex gap-4 mt-2 text-white">
+              <div className=" font-bold">Date: </div>
               <div>{parsedFormData.date}</div>
             </div>
-            <div className="flex gap-10">
-              <div>Time: </div>
+            <div className="flex gap-4 mt-2 text-white ">
+              <div className=" font-bold">Time: </div>
               <div>{parsedFormData.time}</div>
             </div>
-            <div className="flex gap-10">
-              <div>Contact no: </div>
+            <div className="flex gap-4 mt-2 text-white">
+              <div className=" font-bold">Contact no: </div>
               <div>{parsedFormData.phone}</div>
             </div>
 
@@ -307,35 +320,20 @@ const Checkout = () => {
             <div className="space-y-2">
               <p className="flex justify-between text-lg font-bold text-white">
                 <span>Total price:</span>
-                <span>$510.00</span>
-              </p>
-              <p className="flex justify-between text-sm font-medium text-white">
-                <span>Vat: 10%</span>
-                <span>$55.00</span>
+                <span>{parsedFormData.price} JD</span>
               </p>
             </div>
           </div>
           <div className="relative mt-10 text-white">
             <h3 className="mb-5 text-lg font-bold">Support</h3>
             <p className="text-sm font-semibold">
-              +01 653 235 211{" "}
-              <span className="font-light">(International)</span>
+              +962 7853 6541 <span className="font-light">(International)</span>
             </p>
             <p className="mt-1 text-sm font-semibold">
-              support@nanohair.com <span className="font-light">(Email)</span>
+              support@GOAT.com <span className="font-light">(Email)</span>
             </p>
             <p className="mt-2 text-xs font-medium">
               Call us now for payment related issues
-            </p>
-          </div>
-          <div className="relative mt-10 flex">
-            <p className="flex flex-col">
-              <span className="text-sm font-bold text-white">
-                Money Back Guarantee
-              </span>
-              <span className="text-xs font-medium text-white">
-                within 30 days of purchase
-              </span>
             </p>
           </div>
         </div>

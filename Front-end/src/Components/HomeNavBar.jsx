@@ -1,26 +1,10 @@
 import hero from "../../public/videos/goathero3.mp4";
 import {
-  AirportShuttleOutlined,
-  AttractionsOutlined,
-  BedOutlined,
-  CalendarMonthOutlined,
-  ConnectingAirportsOutlined,
-  CurrencyExchangeOutlined,
-  DirectionsCarOutlined,
-  HelpOutlineOutlined,
-  HotelOutlined,
-  HowToRegOutlined,
   LocationOnOutlined,
-  LoginOutlined,
   LogoutOutlined,
-  NightShelterOutlined,
-  PersonOutlineOutlined,
-  SearchOutlined,
-  TranslateOutlined,
+
 } from "@mui/icons-material";
 import styled from "styled-components";
-import { DateRange } from "react-date-range";
-import { format } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
@@ -549,155 +533,6 @@ const LocationContainer2 = styled.div`
   }
 `;
 
-const DateContainer = styled(LocationContainer)`
-  position: relative;
-  border-left: none;
-  border-radius: 0px;
-
-  .calendar-span {
-    /* border: 1px solid black; */
-    font-size: 14px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    @media screen and (max-width: 950px) {
-      font-size: 12px;
-    }
-  }
-
-  .date-range {
-    box-shadow: 0px 0px 3px -2px black;
-    border: 1px solid #cbcbcb;
-    border-radius: 3px;
-    position: absolute;
-    top: 60px;
-    left: -5px;
-    z-index: 12;
-
-    @media screen and (max-width: 950px) {
-      top: 50px;
-      left: -3px;
-    }
-  }
-`;
-
-// const PersonContainer = styled(LocationContainer)`
-//   position: relative;
-//   border-left: none;
-//   border-radius: 0px;
-
-//   .person-span {
-//     /* border: 1px solid black; */
-//     font-size: 14px;
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     align-items: center;
-//     cursor: pointer;
-
-//     @media screen and (max-width: 950px) {
-//       font-size: 12px;
-//     }
-//   }
-// `;
-
-const PersonQuantityContainer = styled.div`
-  box-shadow: 0px 0px 3px -2px black;
-  border: 1px solid #cbcbcb;
-  border-radius: 3px;
-  position: absolute;
-  top: 60px;
-  left: -2px;
-  z-index: 13;
-  background-color: white;
-  padding: 10px 5px;
-
-  @media screen and (max-width: 950px) {
-    top: 50px;
-    padding: 5px;
-  }
-`;
-
-const QuantityItem = styled.div`
-  width: 280px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  @media screen and (max-width: 950px) {
-    width: 215px;
-    font-size: 13px;
-  }
-`;
-
-const QuantityBtnContainer = styled.div`
-  /* border: 1px solid black; */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const CounterBtn = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 26px;
-  width: 40px;
-  font-size: 20px;
-  border-radius: 20px;
-  background-color: #3d91ff;
-  color: white;
-  border: 1px solid #347ede;
-  cursor: pointer;
-
-  @media screen and (max-width: 950px) {
-    height: 21px;
-    width: 35px;
-    font-size: 17px;
-  }
-
-  &:disabled {
-    cursor: default;
-
-    &:hover {
-      background-color: #3d91ff;
-      color: white;
-    }
-  }
-
-  &:hover {
-    background-color: white;
-    color: #3d91ff;
-  }
-`;
-
-const Quantity = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 45px;
-  width: 45px;
-  font-size: 20px;
-  font-weight: 600;
-  border: 1px solid #3d91ff;
-  border-radius: 50%;
-  margin: 0px 10px;
-  background-color: white;
-  color: #3d91ff;
-  cursor: default;
-
-  @media screen and (max-width: 950px) {
-    height: 35px;
-    width: 35px;
-    font-size: 18px;
-  }
-`;
-
 const SearchBtnContainer = styled(LocationContainer)`
   border-left: none;
   display: flex;
@@ -896,6 +731,25 @@ const HomeNavbar = () => {
                 </svg>
 
                 <li className="ml-2">Contact us</li>
+              </Link>
+              <Link to="/FAQs" className="link flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="#fff"
+                  className="w-5 h-5"
+                >
+                  {" "}
+                  <g>
+                    {" "}
+                    <path fill="none" d="M0 0h24v24H0z  w-5 h-5" />{" "}
+                    <path d="M22 20.007a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V19h18V7.3l-8 7.2-10-9V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v16.007zM4.434 5L12 11.81 19.566 5H4.434zM0 15h8v2H0v-2zm0-5h5v2H0v-2z" />{" "}
+                  </g>{" "}
+                </svg>
+
+                <li className="ml-2">FAQs</li>
               </Link>
               {/* <Link to="/hotel/5" className="link flex items-center">
                 <li>

@@ -1,34 +1,7 @@
 import styled from "styled-components";
-// import Map from "../components/Map";
 import SearchedHotelsList from "../Components/Rservation/SearchedHotelsList.jsx";
-import HomeNavbar from "../Components/HomeNavBar";
 import Navbar from "../Layout/Navbar";
-// import Sidebar from "../Components/Rservation/Sidebar";
 
-const Container = styled.div`
-  /* border: 3px solid red; */
-`;
-
-const MainContainer = styled.div`
-  margin: 0px 150px;
-
-  @media screen and (max-width: 1200px) {
-    margin: 0px 30px;
-  }
-
-  @media screen and (max-width: 675px) {
-    margin: 0px 20px;
-  }
-`;
-
-const Wrapper = styled.div`
-  /* border: 1px solid red; */
-  display: flex;
-
-  @media screen and (max-width: 925px) {
-    flex-direction: column;
-  }
-`;
 
 const SideContainer = styled.aside`
   /* border: 1px solid blue; */

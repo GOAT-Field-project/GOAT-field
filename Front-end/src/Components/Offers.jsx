@@ -1,6 +1,5 @@
 import { GppMaybeOutlined } from "@mui/icons-material";
 import styled from "@emotion/styled";
-import offer from '../../public/images/soccer-field-drawn-blackboard.jpg'
 import { Link } from "react-router-dom";
 const Container = styled.div`
   /* border: 1px solid black; */

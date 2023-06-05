@@ -837,7 +837,14 @@ const HomeNavbar = () => {
                   Contact us
                 </li>
               </Link>
+              <Link to="/FAQs" className="link">
+                <li>
+                  <AirportShuttleOutlined className="li-icon" />
+                  FAQs
+                </li>
+              </Link>
             </ul>
+          
 
             {/* For Mobile Start */}
 

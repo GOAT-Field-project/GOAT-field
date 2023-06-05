@@ -434,87 +434,97 @@ const Navbar = () => {
                   Hotels
                 </li>
               </Link> */}
-          <Link to="/reservationlist" className="link">
-            <li>
-              <DirectionsCarOutlined className="li-icon" />
-              Reservation
-            </li>
-          </Link>
-          <Link to="/AboutUs" className="link">
-            <li>
-              <AttractionsOutlined className="li-icon" />
-              About us
-            </li>
-          </Link>
-          <Link to="/contactus" className="link">
-            <li>
-              <AirportShuttleOutlined className="li-icon" />
-              Contact us
-            </li>
-          </Link>
-        </ul>
 
-        {/* For Mobile Start */}
+              <Link to="/reservationlist" className="link">
+                <li>
+                  <DirectionsCarOutlined className="li-icon" />
+                  Reservation
+                </li>
+              </Link>
+              <Link to="/AboutUs" className="link">
+                <li>
+                  <AttractionsOutlined className="li-icon" />
+                  About us
+                </li>
+              </Link>
+              <Link to="/contactus" className="link">
+                <li>
+                  <AirportShuttleOutlined className="li-icon" />
+                  Contact us
+                </li>
+              </Link>
+              <Link to="/FAQs" className="link">
+                <li>
+                  <AirportShuttleOutlined className="li-icon" />
+                  FAQs
+                </li>
+              </Link>
+            </ul>
 
-        <h3>Hello, {(token && username) || ""}</h3>
+            {/* For Mobile Start */}
 
-        <ul className="hidden-ul">
-          <Link to="/hotels" className="link">
-            <li>
-              <SearchOutlined className="li-icon" />
-              Search Hotels
-            </li>
-          </Link>
-          <Link to="/register" className="link">
-            <li className="active">
-              <NightShelterOutlined className="li-icon" />
-              List Your Property
-            </li>
-          </Link>
-          <Link to="/hotel/3" className="link">
-            <li>
-              <CurrencyExchangeOutlined className="li-icon" />
-              Currency Exchange
-            </li>
-          </Link>
-          <Link to="/hotels" className="link">
-            <li>
-              <TranslateOutlined className="li-icon" />
-              Language
-            </li>
-          </Link>
-          <Link to="/hotel/5" className="link">
-            <li>
-              <HelpOutlineOutlined className="li-icon" />
-              Help
-            </li>
-          </Link>
-        </ul>
+            <h3>Hello, Satya Thakur</h3>
 
-        <ul className="hidden-ul">
-          <Link to="/register" className="link">
-            <li>
-              <HowToRegOutlined className="li-icon" />
-              Regi1ter
-            </li>
-          </Link>
-          <Link to="/login" className="link">
-            <li>
-              <LoginOutlined className="li-icon" />
-              Login
-            </li>
-          </Link>
-          <Link to="/hotel/4" className="link">
-            <li>
-              <LogoutOutlined className="li-icon" />
-              Logout
-            </li>
-          </Link>
-        </ul>
+            <ul className="hidden-ul">
+              <Link to="/hotels" className="link">
+                <li>
+                  <SearchOutlined className="li-icon" />
+                  Search Hotels
+                </li>
+              </Link>
+              <Link to="/register" className="link">
+                <li className="active">
+                  <NightShelterOutlined className="li-icon" />
+                  List Your Property
+                </li>
+              </Link>
+              <Link to="/hotel/3" className="link">
+                <li>
+                  <CurrencyExchangeOutlined className="li-icon" />
+                  Currency Exchange
+                </li>
+              </Link>
+              <Link to="/hotels" className="link">
+                <li>
+                  <TranslateOutlined className="li-icon" />
+                  Language
+                </li>
+              </Link>
+              <Link to="/hotel/5" className="link">
+                <li>
+                  <HelpOutlineOutlined className="li-icon" />
+                  Help
+                </li>
+              </Link>
+            </ul>
 
-        {/* For Mobile End */}
-      </SecondNavContainer>
-    </Wrapper>
+            <ul className="hidden-ul">
+              <Link to="/register" className="link">
+                <li>
+                  <HowToRegOutlined className="li-icon" />
+                  Register
+                </li>
+              </Link>
+              <Link to="/login" className="link">
+                <li>
+                  <LoginOutlined className="li-icon" />
+                  Login
+                </li>
+              </Link>
+              <Link to="/hotel/4" className="link">
+                <li>
+                  <LogoutOutlined className="li-icon" />
+                  Logout
+                </li>
+              </Link>
+            </ul>
+
+            {/* For Mobile End */}
+          </SecondNavContainer>
+
+
+        </Wrapper>
+
   );
 };
 

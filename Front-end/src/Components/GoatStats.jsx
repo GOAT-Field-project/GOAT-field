@@ -42,9 +42,7 @@ const GoatStats = () => {
           </h2>
 
           <p className="mt-4 text-gray-500 sm:text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dolores
-            laborum labore provident impedit esse recusandae facere libero harum
-            sequi.
+            those are some stats about our GOAT field website
           </p>
         </div>
 
@@ -64,7 +62,7 @@ const GoatStats = () => {
 
             <div className="flex flex-col px-4 py-8 text-center">
               <dt className="order-last text-lg font-medium text-gray-500">
-                Our Pitchs
+                Our Fields
               </dt>
 
               <dd className="text-4xl font-extrabold text-[#54B435] md:text-5xl">{fieldnum.count}</dd>
@@ -72,7 +70,7 @@ const GoatStats = () => {
 
             <div className="flex flex-col px-4 py-8 text-center">
               <dt className="order-last text-lg font-medium text-gray-500">
-                Users Numbers
+                Users Number
               </dt>
 
               <dd className="text-4xl font-extrabold text-[#54B435] md:text-5xl">{usersnum.count}</dd>

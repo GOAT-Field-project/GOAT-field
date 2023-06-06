@@ -99,43 +99,50 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payInfo = {
-      card_number: cardNumber.replace(/\s/g, ""), // Remove whitespace from cardNumber
+      card_number: cardNumber.replace(/\s/g, ""),
       expiration_date: expirationDate,
       security_code: securityCode,
       name_on_card: nameOnCard,
       email: email,
     };
+
     try {
       const response = await axios.post("http://localhost:5151/pay", payInfo);
       console.log("Payment successful", response.data);
+
+      try {
+        const token = localStorage.getItem("token");
+        console.log("Token:", token);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        await axios.post(
+          "http://localhost:5151/bookings",
+          parsedFormData,
+          config
+        );
+        console.log("Form data submitted successfully!");
+
+        handleMessage(); // Call the handleMessage function after API calls are completed
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          console.error("Error submitting form data:", error.response.data);
+          setErrorMessage("The selected date and time are already booked.");
+        } else {
+          console.error("Error submitting form data:", error);
+        }
+      }
     } catch (error) {
       console.error("Payment failed", error);
     }
-    try {
-      const token = localStorage.getItem("token");
-      console.log("Token:", token); // Retrieve the JWT token from localStorage
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      await axios.post(
-        "http://localhost:5151/bookings",
-        parsedFormData,
-        config
-      );
-      console.log("Form data submitted successfully!");
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        console.error("Error submitting form data:", error.response.data);
-        setErrorMessage("The selected date and time are already booked.");
-      } else {
-        console.error("Error submitting form data:", error);
-      }
-    }
   };
-
+  const a = 2;
+  const b = 3;
+  const c = a + b;
+  console.log(c);
   return (
     <div className="relative mx-auto w-full bg-white">
       <Navbar />
@@ -249,7 +256,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 className="relative px-5 py-2 font-medium text-white group w-full mt-20"
-                onClick={handleMessage}
+                // onClick={handleMessage}
               >
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-green-500 group-hover:bg-green-700 group-hover:skew-x-12"></span>
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
@@ -319,8 +326,20 @@ const Checkout = () => {
             <div className="my-5 h-0.5 w-full bg-white bg-opacity-30" />
             <div className="space-y-2">
               <p className="flex justify-between text-lg font-bold text-white">
-                <span>Total price:</span>
+                <span>Fee:</span>
+                <span>20%</span>
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p className="flex justify-between text-lg font-bold text-white">
+                <span>Booking price:</span>
                 <span>{parsedFormData.price} JD</span>
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p className="flex justify-between text-lg font-bold text-white">
+                <span>Total price:</span>
+                {parseInt(parsedFormData.price) + parsedFormData.price * 0.2} JD
               </p>
             </div>
           </div>

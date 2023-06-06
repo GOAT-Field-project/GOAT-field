@@ -40,20 +40,20 @@ const Hotel = () => {
                 <img
                   src={`data:image/jpeg;base64,${pitch.images[0]}`}
                   alt="Field 1"
-                  className="aspect-square w-full rounded-xl object-cover h-96"
+                  className="aspect-square w-full rounded-xl object-cover h-80"
                 />
 
                 <div className="grid grid-cols-2 gap-4 lg:mt-4">
                   <img
                     src={`data:image/jpeg;base64,${pitch.images[1]}`}
                     alt={`Field 2 `}
-                    className="aspect-square w-full rounded-xl object-cover h-56"
+                    className="aspect-square w-full rounded-xl object-cover h-48"
                   />
 
                   <img
                     src={`data:image/jpeg;base64,${pitch.images[2]}`}
                     alt={`Field 3`}
-                    className="aspect-square w-full rounded-xl object-cover h-56"
+                    className="aspect-square w-full rounded-xl object-cover h-48"
                   />
                 </div>
               </div>
@@ -195,7 +195,7 @@ const Hotel = () => {
                         Size
                       </legend>
 
-                      <span className="border inline-block  rounded-lg p-2 my-2  hover:bg-green-500 hover:text-white  hover:font-medium hover:drop-shadow-lg">
+                      <span className="border inline-block  rounded-lg p-2 my-2  hover:bg-[#54B435] hover:text-white  hover:font-medium hover:drop-shadow-lg">
                         {pitch.size}
                       </span>
                     </div>

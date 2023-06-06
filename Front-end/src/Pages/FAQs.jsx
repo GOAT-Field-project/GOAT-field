@@ -37,7 +37,7 @@ const FAQs = () => {
                         <div className=" ">
                             <p className="flex justify-center items-center font-medium text-base leading-6 md:leading-4 text-gray-800">
                                 {" "}
-                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-gray-800">Q1.</span>How can I book a football pitch on your website?
+                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-[#54b435]">Q1.</span>How can I book a football pitch on your website?
                             </p>
                         </div>
                         <button aria-label="toggler" className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800" onClick={() => setOpen(!open)}>
@@ -60,7 +60,7 @@ const FAQs = () => {
                         <div className="">
                             <p className="flex justify-center items-center font-medium text-base leading-6 lg:leading-4 text-gray-800">
                                 {" "}
-                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-gray-800">Q2.</span> What are the rental rates for your football pitches?
+                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-[#54b435]">Q2.</span> What are the rental rates for your football pitches?
                             </p>
                         </div>
                         <button aria-label="toggler" className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800" onClick={() => setOpen2(!open2)}>
@@ -83,7 +83,7 @@ const FAQs = () => {
                         <div className="">
                             <p className="flex justify-center items-center font-medium text-base leading-6 lg:leading-4 text-gray-800">
                                 {" "}
-                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-gray-800">Q3.</span>
+                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-[#54b435]">Q3.</span>
                                 Are there any discounts available for long-term bookings?
 
                             </p>
@@ -108,7 +108,7 @@ const FAQs = () => {
                         <div className="">
                             <p className="flex justify-center items-center font-medium text-base leading-6 lg:leading-4 text-gray-800">
                                 {" "}
-                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-gray-800">Q4.</span>
+                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-[#54b435]">Q4.</span>
                                 Can I cancel or reschedule my booking? What is the cancellation policy?
 
                             </p>
@@ -133,7 +133,7 @@ const FAQs = () => {
                         <div className="">
                             <p className="flex justify-center items-center font-medium text-base leading-6 lg:leading-4 text-gray-800">
                                 {" "}
-                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-gray-800">Q5.</span>
+                                <span className="  lg:mr-6 mr-4 lg:text-2xl md:text-xl text-lg leading-6 md:leading-5 lg:leading-4 font-semibold text-[#54b435]">Q5.</span>
                                 Are there any additional amenities or services provided with the football pitch rental, such as changing rooms or equipment rental?
 
                             </p>

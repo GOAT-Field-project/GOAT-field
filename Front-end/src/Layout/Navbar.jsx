@@ -356,11 +356,6 @@ const Navbar = () => {
   // Use the extracted username and role variables as needed
 
   const [openMenu, setOpenMenu] = useState(false);
-  const [options, setOptions] = useState({
-    adult: 2,
-    children: 1,
-    room: 1,
-  });
 
   return (
 
@@ -434,7 +429,7 @@ const Navbar = () => {
 
             <li>Reservation</li>
           </Link>
-          {/* <Link to="/aboutus" className="link flex items-center gap-2">
+          <Link to="/aboutus" className="link flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -449,7 +444,7 @@ const Navbar = () => {
               <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />{" "}
             </svg>
             <li>About us</li>
-          </Link> */}
+          </Link>
           <Link to="/contactus" className="link flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"

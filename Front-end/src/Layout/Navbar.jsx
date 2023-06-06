@@ -364,7 +364,7 @@ const Navbar = () => {
 
   return (
 
-    <Wrapper className="bg-[#161616]">
+    <Wrapper className="bg-[#161616] ">
       <NavContainer>
         <LogoContainer>
           <span>🐐GOAT FIELD</span>
@@ -434,7 +434,7 @@ const Navbar = () => {
 
             <li>Reservation</li>
           </Link>
-          <Link to="/aboutus" className="link flex items-center gap-2">
+          {/* <Link to="/aboutus" className="link flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -449,7 +449,7 @@ const Navbar = () => {
               <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />{" "}
             </svg>
             <li>About us</li>
-          </Link>
+          </Link> */}
           <Link to="/contactus" className="link flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -469,7 +469,7 @@ const Navbar = () => {
 
             <li className="ml-2">Contact us</li>
           </Link>
-          <Link to="/contactus" className="link flex items-center">
+          <Link to="/faqs" className="link flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -486,7 +486,7 @@ const Navbar = () => {
               </g>{" "}
             </svg>
 
-            <li className="ml-2">Contact us</li>
+            <li className="ml-2">FAQS</li>
           </Link>
           {/* <Link to="/hotel/5" className="link flex items-center">
 

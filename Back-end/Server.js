@@ -291,15 +291,15 @@ app.delete("/deletepitch/:id", (req, res) => {
 app.get('/get-user-data', async (req, res) => {
   try {
     const userId = req.query.user_id;
-    
+
     const user = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
-    
+
     if (user.rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
+
     const userData = user.rows[0];
-    
+
     res.json(userData);
   } catch (err) {
     console.error(err.message);
@@ -313,7 +313,7 @@ app.post("/bookings", (req, res) => {
   const { date, time, name, phone, pitch_id } = req.body;
   try {
     const userId = req.user_id; // Access the userId from req.userId
- 
+
     // Check if the desired date and time slot is available
     pool.query(
       "SELECT * FROM bookings WHERE date = $1 AND time = $2",

@@ -40,6 +40,7 @@ const SearchedHotelsList = () => {
     sessionStorage.clear();
   }, []);
 
+
   //  const handleSortByAndOpenList = (e) => {
   //    const selectedSortBy = e.target.value;
   //    setSortBy(selectedSortBy);

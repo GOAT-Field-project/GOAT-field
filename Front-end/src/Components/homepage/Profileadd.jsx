@@ -168,8 +168,15 @@ const [pischanged, setPisChanged] = useState(false);
   const hideModal = () => {
     setIsModalOpen(false);
   };
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const [openState, setOpenState] = useState({});
+
+  const handleOpen = (pitchId) => {
+    
+    setOpenState((prevState) => ({
+      ...prevState,
+      [pitchId]: !prevState[pitchId] || false,
+    }));
+  };
 
 
 
@@ -294,7 +301,17 @@ const [pischanged, setPisChanged] = useState(false);
             </button>
           </div>
         </form>
-      </section>  
+      </section> 
+      
+      
+       <br />
+      <br />
+      <br />
+      <br />
+      <h1 className=" text-4xl text-center text-black">My Fields</h1>
+      <br />
+      <hr />
+     
 
       <div className="min-h-screen bg-white flex justify-center items-center py-20">
       <div className="md:px-4 md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 space-y-4 md:space-y-0">
@@ -313,7 +330,7 @@ const [pischanged, setPisChanged] = useState(false);
                 alt={`Image 1`}
               />
               <p className="absolute top-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg">
-                $ {pitch.price}
+                {pitch.price} JD
               </p>
             </div>
             <h1 className="mt-4 text-gray-800 text-2xl font-bold cursor-pointer">
@@ -369,12 +386,12 @@ const [pischanged, setPisChanged] = useState(false);
 
             <Fragment>
             
-            <button onClick={handleOpen}  className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
+            <button    onClick={() => handleOpen(pitch.id)} className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
             <BiEdit className="h-5 w-5 mr-2" />
             Update
           </button>
          
-            <Dialog open={open} handler={handleOpen}>
+            <Dialog open={openState[pitch.id]} handler={() => handleOpen(pitch.id)}>
             <DialogHeader style={{ marginBottom: "-100px" }}  > Update Field </DialogHeader>
             <DialogBody divider style={{ marginTop: "20px", border: "none" }}>
               <div style={{ maxHeight: "550px", overflow: "auto" }}>
@@ -491,12 +508,12 @@ const [pischanged, setPisChanged] = useState(false);
                
                   variant="text"
                   color="red"
-                  onClick={handleOpen}
+                  onClick={() => handleOpen(pitch.id)}
                   className="mr-1"
                 >
                   <span>Cancel</span>
                 </Button>
-                <Button  type="submit"  variant="gradient" color="green" onClick={handleOpen}>
+                <Button  type="submit"  variant="gradient" color="green" onClick={() => handleOpen(pitch.id)}>
                   <span>Update</span>
                 </Button>
               </DialogFooter>

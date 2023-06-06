@@ -364,7 +364,7 @@ const Navbar = () => {
 
   return (
 
-    <Wrapper className="bg-[#161616] ">
+    <Wrapper className="bg-[#161616]">
       <NavContainer>
         <LogoContainer>
           <span>🐐GOAT FIELD</span>
@@ -469,7 +469,8 @@ const Navbar = () => {
 
             <li className="ml-2">Contact us</li>
           </Link>
-          <Link to="/faqs" className="link flex items-center">
+
+          <Link to="/FAQs" className="link flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -487,6 +488,7 @@ const Navbar = () => {
             </svg>
 
             <li className="ml-2">FAQS</li>
+
           </Link>
           {/* <Link to="/hotel/5" className="link flex items-center">
 
@@ -520,9 +522,7 @@ const Navbar = () => {
           </Link>
         </ul>
       </SecondNavContainer>
-
     </Wrapper>
-
   );
 };
 

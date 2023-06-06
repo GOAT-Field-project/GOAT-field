@@ -1,11 +1,20 @@
 import { FaUser, FaCog, FaFutbol  } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import  { useState } from "react";
 import Profilesettings from "../Components/homepage/Profilesettings";
 import Profilehome from "../Components/homepage/profilehome";
 import Profileadd from "../Components/homepage/Profileadd";
 
 export default function Providerprofile() {
+  const navigate = useNavigate(); // Access the navigate function
+
+  function handleLogout() {
+    // Clear local storage
+    localStorage.clear();
+    navigate("/");
+  }
     const [activeLink, setActiveLink] = useState("home");
     const renderContent = () => {
         if (activeLink === "home") {
@@ -56,9 +65,9 @@ export default function Providerprofile() {
     >
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
          
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-          🐐 GOAT Field
-          </span>
+      <Link to="/" className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+      🐐 GOAT Field
+    </Link>
        <br/><br/>
         <ul className="space-y-2 font-medium">
           <li>
@@ -89,6 +98,7 @@ export default function Providerprofile() {
 
           <li>
             <a
+            onClick={handleLogout}
               href="#"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
             >

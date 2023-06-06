@@ -139,10 +139,12 @@ const Checkout = () => {
       console.error("Payment failed", error);
     }
   };
-  const a = 2;
-  const b = 3;
-  const c = a + b;
-  console.log(c);
+  const dateStr = parsedFormData.date;
+  const datePart = dateStr.slice(0, 10); // Extract correct format
+  const modifiedDate = new Date(datePart);
+  modifiedDate.setDate(modifiedDate.getDate() + 1);
+  const modifiedDateStr = modifiedDate.toISOString().slice(0, 10);
+
   return (
     <div className="relative mx-auto w-full bg-white">
       <Navbar />
@@ -269,7 +271,7 @@ const Checkout = () => {
         </div>
         <div className="relative col-span-full flex flex-col order-1 py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
           <h2 className="sr-only">Order summary</h2>
-          <div >
+          <div>
             <img
               src="https://media.discordapp.net/attachments/1084354501642813450/1114238674373185587/payment.png?width=1193&height=671"
               alt=""
@@ -312,7 +314,7 @@ const Checkout = () => {
             </div>
             <div className="flex gap-4 mt-2 text-white">
               <div className=" font-bold">Date: </div>
-              <div>{parsedFormData.date}</div>
+              <div>{modifiedDateStr}</div>
             </div>
             <div className="flex gap-4 mt-2 text-white ">
               <div className=" font-bold">Time: </div>

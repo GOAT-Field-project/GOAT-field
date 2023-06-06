@@ -116,25 +116,24 @@ export default function ReservationDialog({ id, price }) {
   today.setHours(0, 0, 0, 0); // Set time to midnight
 
   return (
-    <div >
+    <div>
       <div
         className="btn bg-[#54B435] border-0 text-white"
         onClick={handleClickOpen}
       >
         Book Now
       </div>
-      <Dialog open={open}   onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle className="text-bold">Book now</DialogTitle>
-        <DialogContent className="w-[40vw]" >
-          <DialogContentText className="text-3xl text-center mb-6">
-          </DialogContentText>
+        <DialogContent className="w-[35vw]">
+          <DialogContentText className="text-3xl text-center mb-6"></DialogContentText>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block mb-2 font-bold" htmlFor="date">
                 Date:
               </label>
               <DatePicker
-              className="w-full rounded border-gray-300"
+                className="w-full rounded border-gray-300"
                 selected={formData.date}
                 onChange={handleDateChange}
                 minDate={today} // Set the minimum selectable date
@@ -193,16 +192,20 @@ export default function ReservationDialog({ id, price }) {
                 type="submit"
                 value="Book Now"
               />
-               <DialogActions>
-          <div className="btn text-white hover:bg-red-600" onClick={handleClose}>Cancel</div>
-        </DialogActions>
+              <DialogActions>
+                <div
+                  className="btn text-white hover:bg-red-600"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </div>
+              </DialogActions>
             </div>
             {errorMessage && (
               <small className="mt-2 text-red-600">{errorMessage}</small>
             )}
           </form>
         </DialogContent>
-       
       </Dialog>
     </div>
   );

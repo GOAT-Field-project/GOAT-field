@@ -99,51 +99,60 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payInfo = {
-      card_number: cardNumber.replace(/\s/g, ""), // Remove whitespace from cardNumber
+      card_number: cardNumber.replace(/\s/g, ""),
       expiration_date: expirationDate,
       security_code: securityCode,
       name_on_card: nameOnCard,
       email: email,
     };
+
     try {
       const response = await axios.post("http://localhost:5151/pay", payInfo);
       console.log("Payment successful", response.data);
+
+      try {
+        const token = localStorage.getItem("token");
+        console.log("Token:", token);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        await axios.post(
+          "http://localhost:5151/bookings",
+          parsedFormData,
+          config
+        );
+        console.log("Form data submitted successfully!");
+
+        handleMessage(); // Call the handleMessage function after API calls are completed
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          console.error("Error submitting form data:", error.response.data);
+          setErrorMessage("The selected date and time are already booked.");
+        } else {
+          console.error("Error submitting form data:", error);
+        }
+      }
     } catch (error) {
       console.error("Payment failed", error);
     }
-    try {
-      const token = localStorage.getItem("token");
-      console.log("Token:", token); // Retrieve the JWT token from localStorage
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      await axios.post(
-        "http://localhost:5151/bookings",
-        parsedFormData,
-        config
-      );
-      console.log("Form data submitted successfully!");
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        console.error("Error submitting form data:", error.response.data);
-        setErrorMessage("The selected date and time are already booked.");
-      } else {
-        console.error("Error submitting form data:", error);
-      }
-    }
   };
+  const dateStr = parsedFormData.date;
+  const datePart = dateStr.slice(0, 10); // Extract correct format
+  const modifiedDate = new Date(datePart);
+  modifiedDate.setDate(modifiedDate.getDate() + 1);
+  const modifiedDateStr = modifiedDate.toISOString().slice(0, 10);
 
   return (
     <div className="relative mx-auto w-full bg-white">
       <Navbar />
       <div className="grid min-h-screen grid-cols-10">
-        <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
+        <div className="col-span-full py-6 px-4 sm:py-12 order-2 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">
             <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
-              Secure Checkout
+              Secure Payment
               <span className="mt-2 block h-1 w-10 bg-[#54B435] sm:w-20" />
             </h1>
             <form
@@ -249,18 +258,18 @@ const Checkout = () => {
               <button
                 type="submit"
                 className="relative px-5 py-2 font-medium text-white group w-full mt-20"
-                onClick={handleMessage}
+                // onClick={handleMessage}
               >
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-green-500 group-hover:bg-green-700 group-hover:skew-x-12"></span>
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
                 <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-green-600 -rotate-12"></span>
                 <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-green-400 -rotate-12"></span>
-                <span className="relative">Pay Now</span>
+                <span className="relative">Confirm Payment</span>
               </button>
             </form>
           </div>
         </div>
-        <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
+        <div className="relative col-span-full flex flex-col order-1 py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
           <h2 className="sr-only">Order summary</h2>
           <div>
             <img
@@ -305,7 +314,7 @@ const Checkout = () => {
             </div>
             <div className="flex gap-4 mt-2 text-white">
               <div className=" font-bold">Date: </div>
-              <div>{parsedFormData.date}</div>
+              <div>{modifiedDateStr}</div>
             </div>
             <div className="flex gap-4 mt-2 text-white ">
               <div className=" font-bold">Time: </div>
@@ -319,8 +328,20 @@ const Checkout = () => {
             <div className="my-5 h-0.5 w-full bg-white bg-opacity-30" />
             <div className="space-y-2">
               <p className="flex justify-between text-lg font-bold text-white">
-                <span>Total price:</span>
+                <span>Fee:</span>
+                <span>20%</span>
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p className="flex justify-between text-lg font-bold text-white">
+                <span>Booking price:</span>
                 <span>{parsedFormData.price} JD</span>
+              </p>
+            </div>
+            <div className="space-y-2">
+              <p className="flex justify-between text-lg font-bold text-white">
+                <span>Total price:</span>
+                {parseInt(parsedFormData.price) + parsedFormData.price * 0.2} JD
               </p>
             </div>
           </div>

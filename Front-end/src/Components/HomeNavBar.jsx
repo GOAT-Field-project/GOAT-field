@@ -324,8 +324,7 @@ const SecondNavContainer = styled.nav`
       }
 
       &.active {
-        border: 1px solid white;
-        border-radius: 30px;
+ 
 
         /* For Mobile Phone */
         @media screen and (max-width: 675px) {

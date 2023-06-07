@@ -27,8 +27,9 @@ const SearchedHotelsList = () => {
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setPitches(data);
-          setFilteredPitches(data);
+          const filteredData = data.filter((pitch) => pitch.deleted !== false);
+          setPitches(filteredData);
+          setFilteredPitches(filteredData);
         } else {
           console.error("Invalid data format:", data);
         }
@@ -38,6 +39,7 @@ const SearchedHotelsList = () => {
       });
     sessionStorage.clear();
   }, []);
+
 
   //  const handleSortByAndOpenList = (e) => {
   //    const selectedSortBy = e.target.value;

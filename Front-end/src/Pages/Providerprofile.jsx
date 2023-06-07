@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCog, FaFutbol } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+
 import Profilesettings from "../Components/homepage/Profilesettings";
 import Profilehome from "../Components/homepage/profilehome";
 import Profileadd from "../Components/homepage/Profileadd";
@@ -32,6 +33,7 @@ export default function Providerprofile() {
   }
 
   return (
+
     <>
       <button
         data-drawer-target="logo-sidebar"
@@ -121,6 +123,7 @@ export default function Providerprofile() {
                 <span className="flex-1 ml-3 whitespace-nowrap">
                   Log out
                 </span>
+
               </a>
             </li>
           </ul>
@@ -143,4 +146,5 @@ export default function Providerprofile() {
       <br />
     </>
   );
+
 }

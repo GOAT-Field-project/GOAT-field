@@ -321,7 +321,7 @@ app.get("/get-user-data", (req, res) => {
       console.error("Error retrieving data:", error);
       const errorMessage = "Error retrieving data";
       res.status(500).json({ error: errorMessage });
-    });
+   
 });
 
 
@@ -333,7 +333,7 @@ app.post("/bookings", (req, res) => {
   const { date, time, name, phone, pitch_id } = req.body;
   try {
     const userId = req.user_id; // Access the userId from req.userId
- 
+
     // Check if the desired date and time slot is available
     pool.query(
       "SELECT * FROM bookings WHERE date = $1 AND time = $2",

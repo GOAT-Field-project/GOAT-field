@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Offers from "../components/Offers";
 import FeaturedCities from "../Components/PopularSection";
 import HomeNavbar from "../Components/HomeNavBar";
 import GoatStats from "../Components/GoatStats";
+import Offers from "../Components/Offers";
 
 const Container = styled.div`
   /* border: 1px solid blue; */

@@ -56,8 +56,8 @@ const PopularSection = () => {
   }, []);
   return (
     <Container>
-      <h1>Popular destinations</h1>
-      <p>These popular destinations have a lot to offer</p>
+      <h1>Popular Fields</h1>
+      <p>These popular Fields have a lot to offer</p>
       <CardContainer className="gap-y-10 gap-x-1">
         {featuredCityData.slice(0, 6).map((city) => (
           <div key={city.id} className="2xl:w-1/4 xl:w-1/3 lg:w-1/3 w-2/3 min-w-fit">

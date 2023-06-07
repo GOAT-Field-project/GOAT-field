@@ -321,7 +321,7 @@ app.get("/get-user-data", (req, res) => {
       console.error("Error retrieving data:", error);
       const errorMessage = "Error retrieving data";
       res.status(500).json({ error: errorMessage });
-   
+    }); 
 });
 
 

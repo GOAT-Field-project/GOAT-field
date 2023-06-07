@@ -788,8 +788,9 @@ const HomeNavbar = () => {
             <h1>
               Save your money <br /> WITH 🐐 FIELD
             </h1>
+            <p className="mb-5 text-[#eee] text-lg">make it your match day and enjoy the fair comptition</p>
             <Link to="/reservationlist">
-              <OfferButton>Explore Reservation</OfferButton>
+              <OfferButton>FIND YOUR FIELD NOW</OfferButton>
             </Link>
           </OfferContainer>
         </Wrapper>
@@ -800,7 +801,7 @@ const HomeNavbar = () => {
             <input
               type="text"
               name="place"
-              placeholder="Stadium name"
+              placeholder="Enter Your Field name ..."
               value={stadiumName}
               onChange={handleStadiumNameChange}
             />
@@ -808,7 +809,7 @@ const HomeNavbar = () => {
           <LocationContainer>
             <LocationOnOutlined className="search-icon " />
             <select className="rounded p-3 border-0 " name="place" value={city} onChange={handleCityChange}>
-              <option value="">Select City</option>
+              <option value="">Select Your City...</option>
               <option value="Amman">Amman</option>
               <option value="Zarqa">Zarqa</option>
               <option value="Irbid">Irbid</option>

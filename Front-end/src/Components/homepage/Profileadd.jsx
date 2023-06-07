@@ -28,7 +28,7 @@ const [pischanged, setPisChanged] = useState(false);
   const [location, setLocation] = useState('');
   const [pitches, setPitches] = useState([]);
 
-  
+
   // File change handler
   const handleFileChange = (event) => {
     setSelectedFiles(Array.from(event.target.files));
@@ -37,6 +37,7 @@ const [pischanged, setPisChanged] = useState(false);
   // Form submit handler
   const handleSubmit = (event) => {
     event.preventDefault();
+    
 
     // Create FormData object
     const formData = new FormData();
@@ -49,6 +50,7 @@ const [pischanged, setPisChanged] = useState(false);
     formData.append('details', details);
     formData.append('description', description);
     formData.append('location', location);
+    
     const token = localStorage.getItem("token");
     const config = {
       headers: {
@@ -184,8 +186,8 @@ const [pischanged, setPisChanged] = useState(false);
     <>
    
 
-      <section className="max-w-md p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 mt-20">
-        <h1 className="text-xl font-bold text-black capitalize dark:text-white">
+    <section className="max-w-2xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 mt-20">
+    <h1 className="text-xl font-bold text-black capitalize dark:text-white">
           Add Field
         </h1>
         <form className="mt-4" onSubmit={handleSubmit}>

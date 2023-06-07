@@ -1,28 +1,24 @@
-import { FaUser, FaCog, FaFutbol } from 'react-icons/fa';
-import { FiLogOut } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser, FaCog, FaFutbol } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+
 import Profilesettings from "../Components/homepage/Profilesettings";
 import Profilehome from "../Components/homepage/profilehome";
 import Profileadd from "../Components/homepage/Profileadd";
+import { AiFillHome } from "react-icons/ai";
+import { IoHelpCircleOutline } from "react-icons/io5";
 
 export default function Providerprofile() {
-  const navigate = useNavigate(); // Access the navigate function
-
-  function handleLogout() {
-    // Clear local storage
-    localStorage.clear();
-    navigate("/");
-  }
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("home");
+
   const renderContent = () => {
     if (activeLink === "home") {
       return <Profilehome />;
     } else if (activeLink === "profile") {
       return <Profilesettings goBack={() => handleLinkClick("home")} />;
-    }
-    else if (activeLink === "add") {
+    } else if (activeLink === "add") {
       return <Profileadd />;
     }
   };
@@ -31,7 +27,10 @@ export default function Providerprofile() {
     setActiveLink(link);
   };
 
-
+  function handleLogout() {
+    localStorage.clear();
+    navigate("/");
+  }
 
   return (
 
@@ -59,61 +58,93 @@ export default function Providerprofile() {
         </svg>
       </button>
       <aside
-        id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
+      id="logo-sidebar"
+      className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      style={{ backgroundColor: "#161616", color: "white" }}
+      aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-
-          <Link to="/" className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-            🐐 GOAT Field
-          </Link>
-          <br /><br />
+        <div className="h-full px-2 py-2 overflow-y-auto">
+        <Link to="/" className="self-center text-2xl font-semibold whitespace-nowrap">
+        🐐 GOAT Field
+      </Link>
+          <br />
+          <br />
           <ul className="space-y-2 font-medium">
+
+          <Link
+          to="/"
+          className="flex items-center p-2 rounded-lg hover:bg-black -100 dark:hover:bg-black-700"
+          onClick={() => handleLinkClick("home")}
+        >
+          <AiFillHome className="w-5 h-5" style={{ color: "#54B435" }} />
+          <span className="ml-3">Home</span>
+        </Link>
+
             <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                onClick={() => handleLinkClick("home")} >
-
-                <FaUser className="w-5 h-5" style={{ color: '#54B435' }} />
-
-                <span className="ml-3">Porfile</span>
+                className="flex items-center p-2 rounded-lg hover:bg-black -100 dark:hover:bg-black-700"
+                onClick={() => handleLinkClick("home")}
+              >
+                <FaUser className="w-5 h-5" style={{ color: "#54B435" }} />
+                <span className="ml-3">Profile</span>
               </a>
             </li>
-
             <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                onClick={() => handleLinkClick("add")} >
-                <FaFutbol className="w-6 h-6" style={{ color: '#54B435' }} />
-
-                <span className="flex-1 ml-3 whitespace-nowrap">Football Field</span>
-                <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
-
+                className="flex items-center p-2 rounded-lg hover:bg-black -100 dark:hover:bg-black-700"
+                onClick={() => handleLinkClick("add")}
+              >
+                <FaFutbol className="w-6 h-6" style={{ color: "#54B435" }} />
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Football Field
                 </span>
+                <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300"></span>
               </a>
             </li>
-
             <li>
+            <li>
+            <Link
+            to = "/FAQs"
+              className="flex items-center p-2 rounded-lg hover:bg-black -100 dark:hover:bg-black-700"
+              onClick={() => handleLinkClick("home")}
+            >
+              <IoHelpCircleOutline className="w-7 h-7" style={{ color: "#54B435" }} />
+              <span className="ml-3">Help</span>
+              </Link>
+          </li>
               <a
                 onClick={handleLogout}
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 rounded-lg hover:bg-black -100 dark:hover:bg-black-700"
               >
-                <FiLogOut className="w-7 h-7" style={{ color: '#54B435' }} />
+                <FiLogOut className="w-7 h-7" style={{ color: "#54B435" }} />
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Log out
+                </span>
 
-                <span className="flex-1 ml-3 whitespace-nowrap">Log out</span>
               </a>
             </li>
           </ul>
         </div>
       </aside>
-      <div className="p-4 sm:ml-64">
-        {renderContent()}
-      </div>
+      <div className="p-4 sm:ml-64">{renderContent()}</div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br /> <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </>
+  );
 
-  )
 }

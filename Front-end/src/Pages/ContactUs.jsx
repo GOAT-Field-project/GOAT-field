@@ -6,19 +6,44 @@ import { useEffect, useState } from 'react';
 import axios from 'axios'
 const ContactUs = () => {
 
-    const [contactUs, setContactUs] = useState([]);
+    // const [contactUs, setContactUs] = useState([]);
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:5151/contact')
+    //         .then((response) => {
+    //             setContactUs(response.data);
+    //             console.log(response.data)
+    //         })
+    //         .catch((error) => console.log(error.message))
+    // }, []);
+
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [location, setLocation] = useState("");
 
     useEffect(() => {
-        axios.get('http://localhost:5151/contactUs')
-            .then((response) => {
-                setContactUs(response.data);
-                console.log(response.data)
-            })
-            .catch((error) => console.log(error.message))
+        getContactInfo();
     }, []);
+    const getContactInfo = async () => {
+        try {
+            const response = await axios.get('http://localhost:8181/getContact');
+            const jsonData = response.data;
+            console.log(jsonData);
+            if (jsonData.length > 0) {
+                const { phone_number, email, location_link } = jsonData[0];
+                setPhone(phone_number);
+                setEmail(email);
+                setLocation(location_link);
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
 
 
-    console.log(contactUs)
+
+
+    // console.log(contactUs)
 
     const form = useRef();
 
@@ -91,7 +116,7 @@ const ContactUs = () => {
                                             />
                                         </svg>
                                         <p className="mt-6 text-lg font-medium text-gray-900">
-                                            <a href="tel:+962790012079">{contactUs.phone_number}</a>
+                                            <a href="tel:+962790012079">0782535119</a>
                                         </p>
                                     </div>
                                 </div>
@@ -102,7 +127,7 @@ const ContactUs = () => {
                                             <path fill='#2E594A' d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
                                         <p className="mt-6 text-lg font-medium text-gray-900">
-                                            <a href="mailto:OWNER@GOAT.com">{contactUs.email}</a>
+                                            <a href="mailto:OWNER@GOAT.com">owner@gmail.com</a>
                                         </p>
                                     </div>
                                 </div>
@@ -114,7 +139,7 @@ const ContactUs = () => {
                                             <path fill='#2E594A' d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
                                         <p className="mt-6 text-lg font-medium leading-relaxed text-gray-900">
-                                            <a href={contactUs.location_link} target="_blank" rel="noopener noreferrer">
+                                            <a href="https://goo.gl/maps/GfvFVdC48gJxbQuH6" target="_blank" rel="noopener noreferrer">
                                                 Our Location
                                             </a>
                                         </p>

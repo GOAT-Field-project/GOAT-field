@@ -110,10 +110,10 @@ const SearchedHotelsList = () => {
             className="px-4 py-2 border border-gray-300 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select Price Range</option>
-            <option value="0-50">$0 - $50</option>
-            <option value="50-100">$50 - $100</option>
-            <option value="100-200">$100 - $200</option>
-            <option value="200-300">$200 - $300</option>
+            <option value="0-50">0 JD - 50 JD</option>
+            <option value="50-100">50 JD - 100 JD</option>
+            <option value="100-200">100 JD - 200 JD</option>
+            <option value="200-300">200 JD - 300 JD</option>
           </select>
           <select
             value={selectedLocation}

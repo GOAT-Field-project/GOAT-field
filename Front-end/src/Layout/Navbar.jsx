@@ -59,7 +59,7 @@ const LogoContainer = styled.div`
     font-weight: 600;
 
     @media screen and (max-width: 950px) {
-      width: 145px;
+      width:200px;
       font-size: 25px;
     }
   }
@@ -147,13 +147,7 @@ const ImgAndHamburgerContainer = styled.div`
     display: none;
   }
 
-  img {
-    background-color: whitesmoke;
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    object-fit: cover;
-  }
+  
 
   .hamburger {
     /* border: 1px solid red; */
@@ -395,7 +389,6 @@ const Navbar = () => {
         {/* For Mobile Start */}
 
         <ImgAndHamburgerContainer>
-          <img src="/hotel-booking-app/images/boydp.jpg" alt="" />
           <div
             className={`hamburger ${openMenu && "close-hamburger"}`}
             onClick={() => setOpenMenu(!openMenu)}

@@ -92,7 +92,7 @@ const AboutUs = () => {
 
 
                             </p>
-                            
+
                         </div>
 
 
@@ -120,7 +120,7 @@ const AboutUs = () => {
                                         <div className=" w-full h-[20vh] relative mt-16 mb-32 sm:mb-24  ">
                                             <div className="rounded overflow-hidden h-[25vh] shadow-md bg-white">
                                                 <div className="absolute -mt-20 w-full flex justify-center"></div>
-                                                <div className="px-6 mt-16">
+                                                <div className="px-6 mt-10">
                                                     <div className="font-bold text-3xl text-center pb-1">{about.name}</div>
                                                     <p className="text-gray-800 text-sm text-center">{about.role}</p>
                                                     {/* <p className="text-center text-gray-600 text-base pt-3 font-normal">{about.description}</p> */}

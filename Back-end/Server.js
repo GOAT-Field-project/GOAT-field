@@ -27,29 +27,60 @@ pool.connect().then(() => {
 //! get about team data
 app.get('/getTeam', async (req, res) => {
   try {
-      const allTeamInfo = await pool.query("SELECT * FROM aboutus");
-      res.json(allTeamInfo.rows);
+    const allTeamInfo = await pool.query("SELECT * FROM aboutus");
+    res.json(allTeamInfo.rows);
   } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ error: 'Failed to fetch team data' });
+    console.log(error.message);
+    res.status(500).json({ error: 'Failed to fetch team data' });
+  }
+});
+
+// Get contact data
+app.get('/getContact', async (req, res) => {
+  try {
+    const allContactInfo = await pool.query('SELECT * FROM contactus');
+    res.json(allContactInfo.rows);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+// Update contact information
+app.put("/contactus00/:id", async function (req, res) {
+  try {
+    const { id } = req.params;
+    const { email, phone_number, location_link } = req.body;
+
+    const updatedContact = await pool.query(
+      "UPDATE contactus SET email = $1, phone_number = $2, location_link = $3 WHERE id = $4",
+      [email, phone_number, location_link, id]
+    );
+
+    res.json(updatedContact.rows);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // ! update about team data
 app.put('/editTeam/:id', async function (req, res) {
   try {
-      const { id } = req.params;
-      const { name, role, github, linkedin } = req.body;
+    const { id } = req.params;
+    const { name, role, github, linkedin } = req.body;
 
-      await pool.query(
-          "UPDATE aboutus SET name = $1, role = $2, github = $3, linkedin = $4 WHERE id = $5",
-          [name, role, github, linkedin, id]
-      );
+    await pool.query(
+      "UPDATE aboutus SET name = $1, role = $2, github = $3, linkedin = $4 WHERE id = $5",
+      [name, role, github, linkedin, id]
+    );
 
-      res.json({ message: 'Team data updated successfully' });
+    res.json({ message: 'Team data updated successfully' });
   } catch (err) {
-      console.log(err.message);
-      res.status(500).json({ error: 'Failed to update team data' });
+    console.log(err.message);
+    res.status(500).json({ error: 'Failed to update team data' });
   }
 });
 
@@ -350,7 +381,7 @@ app.get("/get-user-data", (req, res) => {
       console.error("Error retrieving data:", error);
       const errorMessage = "Error retrieving data";
       res.status(500).json({ error: errorMessage });
-    }); 
+    });
 });
 
 

@@ -324,8 +324,7 @@ const SecondNavContainer = styled.nav`
       }
 
       &.active {
-        border: 1px solid white;
-        border-radius: 30px;
+ 
 
         /* For Mobile Phone */
         @media screen and (max-width: 675px) {
@@ -697,7 +696,7 @@ const HomeNavbar = () => {
 
                 <li>Reservation</li>
               </Link>
-              {/* <Link to="/aboutus" className="link flex items-center gap-2">
+              <Link to="/aboutus" className="link flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -712,7 +711,7 @@ const HomeNavbar = () => {
                   <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />{" "}
                 </svg>
                 <li>About us</li>
-              </Link> */}
+              </Link>
               <Link to="/contactus" className="link flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -789,8 +788,9 @@ const HomeNavbar = () => {
             <h1>
               Save your money <br /> WITH 🐐 FIELD
             </h1>
+            <p className="mb-5 text-[#eee] text-lg">make it your match day and enjoy the fair comptition</p>
             <Link to="/reservationlist">
-              <OfferButton>Explore Reservation</OfferButton>
+              <OfferButton>FIND YOUR FIELD NOW</OfferButton>
             </Link>
           </OfferContainer>
         </Wrapper>
@@ -801,7 +801,7 @@ const HomeNavbar = () => {
             <input
               type="text"
               name="place"
-              placeholder="Stadium name"
+              placeholder="Enter Your Field name ..."
               value={stadiumName}
               onChange={handleStadiumNameChange}
             />
@@ -809,7 +809,7 @@ const HomeNavbar = () => {
           <LocationContainer>
             <LocationOnOutlined className="search-icon " />
             <select className="rounded p-3 border-0 " name="place" value={city} onChange={handleCityChange}>
-              <option value="">Select City</option>
+              <option value="">Select Your City...</option>
               <option value="Amman">Amman</option>
               <option value="Zarqa">Zarqa</option>
               <option value="Irbid">Irbid</option>

@@ -42,13 +42,13 @@ export default function Login() {
     const errors = {};
 
     if (!values.email.trim()) {
-      errors.email = "Email is required";
+      errors.email = "";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = "Invalid email address";
     }
 
     if (!values.password.trim()) {
-      errors.password = "Password is required";
+      errors.password = "";
     }
 
     return errors;

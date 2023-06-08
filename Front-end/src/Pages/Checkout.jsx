@@ -139,18 +139,20 @@ const Checkout = () => {
       console.error("Payment failed", error);
     }
   };
-  const a = 2;
-  const b = 3;
-  const c = a + b;
-  console.log(c);
+  const dateStr = parsedFormData.date;
+  const datePart = dateStr.slice(0, 10); // Extract correct format
+  const modifiedDate = new Date(datePart);
+  modifiedDate.setDate(modifiedDate.getDate() + 1);
+  const modifiedDateStr = modifiedDate.toISOString().slice(0, 10);
+
   return (
     <div className="relative mx-auto w-full bg-white">
       <Navbar />
       <div className="grid min-h-screen grid-cols-10">
-        <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24 mt-28">
+        <div className="col-span-full py-6 px-4 sm:py-12 order-2 lg:col-span-6 lg:py-24 mt-28">
           <div className="mx-auto w-full max-w-lg">
             <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
-              Secure Checkout
+              Secure Payment
               <span className="mt-2 block h-1 w-10 bg-[#54B435] sm:w-20" />
             </h1>
             <form
@@ -262,12 +264,12 @@ const Checkout = () => {
                 <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
                 <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-green-600 -rotate-12"></span>
                 <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-green-400 -rotate-12"></span>
-                <span className="relative">Pay Now</span>
+                <span className="relative">Confirm Payment</span>
               </button>
             </form>
           </div>
         </div>
-        <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
+        <div className="relative col-span-full flex flex-col order-1 py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
           <h2 className="sr-only">Order summary</h2>
           <div>
             <img
@@ -312,7 +314,7 @@ const Checkout = () => {
             </div>
             <div className="flex gap-4 mt-2 text-white">
               <div className=" font-bold">Date: </div>
-              <div>{parsedFormData.date}</div>
+              <div>{modifiedDateStr}</div>
             </div>
             <div className="flex gap-4 mt-2 text-white ">
               <div className=" font-bold">Time: </div>

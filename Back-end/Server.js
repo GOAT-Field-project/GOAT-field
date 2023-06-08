@@ -24,6 +24,35 @@ pool.connect().then(() => {
   });
 });
 
+//! get about team data
+app.get('/getTeam', async (req, res) => {
+  try {
+      const allTeamInfo = await pool.query("SELECT * FROM aboutus");
+      res.json(allTeamInfo.rows);
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: 'Failed to fetch team data' });
+  }
+});
+
+// ! update about team data
+app.put('/editTeam/:id', async function (req, res) {
+  try {
+      const { id } = req.params;
+      const { name, role, github, linkedin } = req.body;
+
+      await pool.query(
+          "UPDATE aboutus SET name = $1, role = $2, github = $3, linkedin = $4 WHERE id = $5",
+          [name, role, github, linkedin, id]
+      );
+
+      res.json({ message: 'Team data updated successfully' });
+  } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ error: 'Failed to update team data' });
+  }
+});
+
 app.get("/countusers", async (req, res) => {
   try {
 
@@ -202,15 +231,25 @@ app.put("/updatedata/:id", upload.array("images", 3), (req, res) => {
 });
 
 
-app.put("/api/update", async (req, res) => {
+app.put("/api/update", upload.array("images", 3), async (req, res) => {
   try {
     const { username, email } = req.body;
-    const userId = req.query.user_id; // Access the user ID from the authorization middleware
+    const userId = req.query.user_id;
+    const images = req.files; // Access the images property from req.files
+
+    if (!username) {
+      return res.status(400).json({ error: "Username is required" });
+    }
+
+    // Convert images to Buffer objects if they exist
+    const imageBuffers = images
+      ? images.map((image) => (image ? Buffer.from(image.buffer, "base64") : null))
+      : [];
 
     // Update the user profile in the database
     const updatedUser = await pool.query(
-      "UPDATE users SET user_name = $1, user_email = $2 WHERE user_id = $3 RETURNING *",
-      [username, email, userId]
+      "UPDATE users SET user_name = $1, user_email = $2, images = $3 WHERE user_id = $4 RETURNING *",
+      [username, email, imageBuffers, userId]
     );
 
     res.json(updatedUser.rows[0]);
@@ -219,6 +258,7 @@ app.put("/api/update", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 
 app.get("/getdata", (req, res) => {
   const user_id = req["query"].user_id;
@@ -288,24 +328,33 @@ app.delete("/deletepitch/:id", (req, res) => {
       res.status(500).json({ error: errorMessage });
     });
 });
-app.get('/get-user-data', async (req, res) => {
-  try {
-    const userId = req.query.user_id;
 
-    const user = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
 
-    if (user.rows.length === 0) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+app.get("/get-user-data", (req, res) => {
+  const userId = req.query.user_id;
 
-    const userData = user.rows[0];
+  const query = "SELECT * FROM users WHERE user_id = $1";
 
-    res.json(userData);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
+  pool
+    .query(query, [userId])
+    .then((result) => {
+      const user = result.rows.map((userData) => {
+        const base64ImageDatas = userData.images ? userData.images.map((imageData) =>
+          Buffer.from(imageData).toString("base64")
+        ) : [];
+        return { ...userData, images: base64ImageDatas };
+      });
+      res.json(user);
+    })
+    .catch((error) => {
+      console.error("Error retrieving data:", error);
+      const errorMessage = "Error retrieving data";
+      res.status(500).json({ error: errorMessage });
+    }); 
 });
+
+
+
 
 app.use(authorization);
 app.post("/bookings", (req, res) => {

@@ -176,7 +176,7 @@ const Offers = () => {
               <h2>Help your team  </h2>
               <span>Get inspired, compare and book football fields.</span>
               <Link to="reservationlist">
-                <Button type="button" className="rounded">Search for pitchs</Button>
+                <Button type="button" className="rounded">Search for Fields</Button>
               </Link>
             </TextContainer>
           </Card>
@@ -189,7 +189,7 @@ const Offers = () => {
               <Link to="reservationlist">
 
                 <Button type="button" className="bigBtn rounded">
-                  Discover New Pitchs
+                  Discover New Fields
                 </Button>
               </Link>
             </TextContainer>

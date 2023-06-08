@@ -24,6 +24,35 @@ pool.connect().then(() => {
   });
 });
 
+//! get about team data
+app.get('/getTeam', async (req, res) => {
+  try {
+      const allTeamInfo = await pool.query("SELECT * FROM aboutus");
+      res.json(allTeamInfo.rows);
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: 'Failed to fetch team data' });
+  }
+});
+
+// ! update about team data
+app.put('/editTeam/:id', async function (req, res) {
+  try {
+      const { id } = req.params;
+      const { name, role, github, linkedin } = req.body;
+
+      await pool.query(
+          "UPDATE aboutus SET name = $1, role = $2, github = $3, linkedin = $4 WHERE id = $5",
+          [name, role, github, linkedin, id]
+      );
+
+      res.json({ message: 'Team data updated successfully' });
+  } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ error: 'Failed to update team data' });
+  }
+});
+
 app.get("/countusers", async (req, res) => {
   try {
 

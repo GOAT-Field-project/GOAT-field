@@ -5,7 +5,8 @@ const pool = new Pool({
   password: "admin",
   host: "localhost",
   port: 5432,
-  database: "GOAT-Field",
+  database: "goat-data",
 });
+
 
 module.exports = pool;
